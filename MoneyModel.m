@@ -17,21 +17,32 @@
 #define kOnlyFinancialUnit
 #define kMaxDigits	(12)
 
-#define kExchangePrefKey	@"moneymodel.exchange.%@"
+#define kExchangePrefKey	@"moneymodel.exchange.decimal.%@"
 
 @implementation MoneyUnit
 @synthesize name,shortName,value,isFinancial;
-- (id)initWithName:(NSString*)n shortName:(NSString*)sn value:(double)v isFinancial:(bool)f {
+- (id)initWithName:(NSString*)n shortName:(NSString*)sn value:(NSString*)v isFinancial:(bool)f {
     if ((self = [super init]) != nil) {
         name = n;
         shortName = sn;
-        value = v;
+        value = [[NSDecimalNumber decimalNumberWithString:v] retain];
+        isFinancial = f;
+    }
+    return self;
+}
+
+- (id)initWithName:(NSString*)n shortName:(NSString*)sn decimal:(NSDecimalNumber*)v isFinancial:(bool)f {
+    if ((self = [super init]) != nil) {
+        name = n;
+        shortName = sn;
+        value = [v retain];
         isFinancial = f;
     }
     return self;
 }
 
 - (void)dealloc {
+    [value release];
     [name release];
     [shortName release];
     [super dealloc];
@@ -39,7 +50,7 @@
 
 // this method is required for copy attribute of property.
 - (id)copyWithZone:(NSZone *)zone {
-    id newInstance = [[[self class] allocWithZone:zone] initWithName:name shortName:shortName value:value isFinancial:isFinancial];
+    id newInstance = [[[self class] allocWithZone:zone] initWithName:name shortName:shortName decimal:value isFinancial:isFinancial];
     return newInstance;
 }
 
@@ -51,28 +62,28 @@ typedef struct {
     NSString *name;
     NSString *shortName;
     bool isFinancial;
-    double value;
+    NSString *value;
 } MoneyUnitInit;
 const MoneyUnitInit units[] = {
-    { @"", @"", YES,		1LL },
-    { @"十", @"十", NO,		10LL },
-    { @"百", @"百", NO,		100LL },
-    { @"千", @"千", YES,	1000LL },
-    { @"万", @"万", YES,	10000LL },
-    { @"十万", @"十万", NO,	100000LL },
-    { @"百万", @"百万", YES,	1000000LL },
-    { @"千万", @"千万", NO,	10000000LL },
-    { @"億", @"億", YES,	100000000LL },
-    { @"十億", @"十億", YES,	1000000000LL },
-    { @"百億", @"百億", NO,	10000000000LL },
-    { @"千億", @"千億", NO,	100000000000LL },
-    { @"兆", @"兆", YES,	1000000000000LL },
-    { @"十兆", @"十兆", NO,	10000000000000LL },
-    { @"百兆", @"百兆", NO,	100000000000000LL },
-    { @"千兆", @"千兆", YES,	1000000000000000LL },
-    { @"Million", @"M", YES,	1000000LL },
-    { @"Billion", @"B", YES,	1000000000LL },
-    { @"Trillion", @"T", YES,	1000000000000LL }
+    { @"", @"", YES,		@"1" },
+    { @"十", @"十", NO,		@"10" },
+    { @"百", @"百", NO,		@"100" },
+    { @"千", @"千", YES,	@"1000" },
+    { @"万", @"万", YES,	@"10000" },
+    { @"十万", @"十万", NO,	@"100000" },
+    { @"百万", @"百万", YES,	@"1000000" },
+    { @"千万", @"千万", NO,	@"10000000" },
+    { @"億", @"億", YES,	@"100000000" },
+    { @"十億", @"十億", YES,	@"1000000000" },
+    { @"百億", @"百億", NO,	@"10000000000" },
+    { @"千億", @"千億", NO,	@"100000000000" },
+    { @"兆", @"兆", YES,	@"1000000000000" },
+    { @"十兆", @"十兆", NO,	@"10000000000000" },
+    { @"百兆", @"百兆", NO,	@"100000000000000" },
+    { @"千兆", @"千兆", YES,	@"1000000000000000" },
+    { @"Million", @"M", YES,	@"1000000" },
+    { @"Billion", @"B", YES,	@"1000000000" },
+    { @"Trillion", @"T", YES,	@"1000000000000" }
 };
 
 - (id)init {
@@ -148,16 +159,17 @@ const MoneyUnitInit units[] = {
 
 @implementation MoneyCurrency
 @synthesize name,shortName;
-- (id)initWithName:(NSString*)n shortName:(NSString*)sn exchangeForDollar:(double)ex  {
+- (id)initWithName:(NSString*)n shortName:(NSString*)sn exchangeForDollar:(NSDecimalNumber*)ex  {
     if ((self = [super init]) != nil) {
         name = n;
         shortName = sn;
-        _exchangeForDollar = ex;
+        _exchangeForDollar = [ex retain];
     }
     return self;
 }
 
 - (void)dealloc {
+    [_exchangeForDollar release];
     [name release];
     [shortName release];
     [super dealloc];
@@ -168,19 +180,20 @@ const MoneyUnitInit units[] = {
     return newInstance;
 }
 
-- (void)setExchangeForDollar:(double)v {
-    _exchangeForDollar = v;
+- (void)setExchangeForDollar:(NSDecimalNumber *)v {
+    [_exchangeForDollar release];
+    _exchangeForDollar = [v retain];
 }
 
-- (double)exchangeForDollar {
-    double v = [[CurrencyExchange sharedManager] convert:1 From:@"USD" To:name];
-    if (v == 0) {
-        v = [[NSUserDefaults standardUserDefaults] floatForKey:[NSString stringWithFormat:kExchangePrefKey,name]];
-        if (v == 0) {
+- (NSDecimalNumber*)exchangeForDollar {
+    NSDecimalNumber *v = [[CurrencyExchange sharedManager] convert:[NSDecimalNumber decimalNumberWithString:@"1"] From:@"USD" To:name];
+    if (v == nil) {
+        v = (NSDecimalNumber*)[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:kExchangePrefKey,name]];
+        if (v == nil) {
             v = _exchangeForDollar;
         }
     } else {
-        [[NSUserDefaults standardUserDefaults] setFloat:(float)v
+        [[NSUserDefaults standardUserDefaults] setObject:v
                                   forKey:[NSString stringWithFormat:kExchangePrefKey,name]];
     }
     return v;
@@ -193,11 +206,11 @@ static MoneyCurrencyList *sharedMoneyCurrencyList = nil; // for singleton
 typedef struct {
     NSString *name;
     NSString *shortName;
-    double exchangeForDollar;
+    NSString *exchangeForDollar;
 } MoneyCurrencyInit;
 const MoneyCurrencyInit currencies[] = {
-    { @"JPY", @"円", 	100 },
-    { @"USD", @"＄", 	1 },
+    { @"JPY", @"円", 	@"100" },
+    { @"USD", @"＄", 	@"1" },
 };
 
 - (id)init {
@@ -207,7 +220,7 @@ const MoneyCurrencyInit currencies[] = {
         for (int i=0; i < sizeof(currencies)/sizeof(currencies[0]); i++) {
             MoneyCurrency *currency = [[MoneyCurrency alloc] initWithName:currencies[i].name
                                                              shortName:currencies[i].shortName
-                                                             exchangeForDollar:currencies[i].exchangeForDollar];
+                                                             exchangeForDollar:[NSDecimalNumber decimalNumberWithString:currencies[i].exchangeForDollar]];
             [_list addObject:currency];
             [currency release];
         }
@@ -287,13 +300,13 @@ const MoneyCurrencyInit currencies[] = {
 
 - (void)clear {
     [buf setString:@"0"];
-    value = 0;
+    value = nil;
 }
 
 - (void)appendText:(NSString*)s {
     BOOL isComma = ([s compare:@"."] == 0);
     BOOL isZero = ([s intValue] == 0);
-    if (value == 0 && isZero && !isComma) {
+    if (value == nil && isZero && !isComma) {
         return;
     }
     if ([buf length]+[s length] > kMaxDigits) {
@@ -302,21 +315,27 @@ const MoneyCurrencyInit currencies[] = {
     if (isComma && [buf rangeOfString:@"."].location != NSNotFound) {
         return;
     }
-    if(!isComma && value == 0 && buf.length == 1){
+    if(!isComma && value == nil && buf.length == 1){
         [buf setString:s];
     }else{
         [buf appendString:s];
     }
-    value = [buf doubleValue];
-    NSLog(@"value: %0.16f",value);
+    [value release];
+    value = [[NSDecimalNumber decimalNumberWithString:buf] retain];
+    //value = [buf doubleValue];
+    //NSLog(@"value: %0.16f",value);
 }
 
-- (void)setValue:(double)v {
-    value = v;
-}
+//- (void)setValue:(double)v {
+//    value = v;
+//}
 
-- (double)netValue {
-    return value*((unit == nil)? 1 : unit.value);
+- (NSDecimalNumber*)netValue {
+    if (unit != nil) {
+        return [value decimalNumberByMultiplyingBy:unit.value];
+    } else {
+        return value;
+    }
 }
 
 - (void)dealloc {

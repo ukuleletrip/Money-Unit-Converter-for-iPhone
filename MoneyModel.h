@@ -13,17 +13,15 @@
 #import <UIKit/UIKit.h>
 
 //typedef unsigned long long MoneyInteger;
-typedef double MoneyInteger;
-
 @interface MoneyUnit : NSObject<NSCopying> {
     NSString *name;
     NSString *shortName;
-    MoneyInteger value;
+    NSDecimalNumber *value;
     bool isFinancial;
 }
 @property (nonatomic, readonly, retain) NSString *name;
 @property (nonatomic, readonly, retain) NSString *shortName;
-@property (nonatomic, readonly) MoneyInteger value;
+@property (nonatomic, readonly) NSDecimalNumber *value;
 @property (nonatomic, readonly) bool isFinancial;
 @end
 
@@ -41,11 +39,11 @@ typedef double MoneyInteger;
     NSString *name;
     NSString *shortName;
 @private
-    double _exchangeForDollar;
+    NSDecimalNumber *_exchangeForDollar;
 }
 @property (nonatomic, readonly, retain) NSString *name;
 @property (nonatomic, readonly, retain) NSString *shortName;
-@property (nonatomic, readonly) double exchangeForDollar;
+@property (nonatomic, readonly) NSDecimalNumber *exchangeForDollar;
 @end
 
 @interface MoneyCurrencyList : NSObject {
@@ -59,7 +57,7 @@ typedef double MoneyInteger;
 @end
 
 @interface MoneyAccount : NSObject {
-    double value;
+    NSDecimalNumber *value;
     MoneyUnit *unit;
     MoneyCurrency *currency;
     NSMutableString *buf;
@@ -69,5 +67,5 @@ typedef double MoneyInteger;
 - (NSString*)text;
 - (void)appendText:(NSString*)s;
 - (void)clear;
-- (double)netValue;
+- (NSDecimalNumber*)netValue;
 @end

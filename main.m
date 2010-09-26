@@ -79,7 +79,7 @@
 }
 @end
 
-@interface MoneyUnitConverterController : UIViewController <UITableViewDataSource, UITableViewDelegate, MoneyTypePadViewDelegate> {
+@interface MoneyUnitConverterController : UIViewController <UITableViewDataSource, UITableViewDelegate, MoneyTypePadViewDelegate, NSDecimalNumberBehaviors> {
     MoneyDisplay *inputField;
     MoneyAccount *account;
     UITableView *resultTable;
@@ -98,6 +98,12 @@
 	return self;
 }
 
+- (NSString*) valueOf:(NSDecimalNumber*)decimal {
+    NSDictionary *dic= [[NSDictionary alloc] initWithObjectsAndKeys:@".",@"NSDecimalSeparator",nil];
+    return [[decimal decimalNumberByRoundingAccordingToBehavior:self] descriptionWithLocale:dic];
+
+}
+
 - (void)updateResultList {
     MoneyCurrencyList *currencyList = [MoneyCurrencyList sharedManager];
     MoneyUnitList *unitList = [MoneyUnitList sharedManager];
@@ -113,12 +119,12 @@
                 continue;
             }
             //double result = [account netValue]/unit.value*(currency.exchangeForDollar/account.currency.exchangeForDollar);
-            double result = [account netValue]*(currency.exchangeForDollar/account.currency.exchangeForDollar)/unit.value;
-            //result = floor(result*100)/100;
-            //result = floor(result);
-            if (unit != [account unit] && result < 10000 && result >= 1) {
-                //NSString *resultText = [[[[NSNumber numberWithDouble:result] stringValue] stringByAppendingString:unit.shortName] stringByAppendingString:currency.shortName];
-                NSString *resultText = [[[NSString stringWithFormat:(result == (long)result)? @"%.0f" : @"%.2f",result] stringByAppendingString:unit.shortName] stringByAppendingString:currency.shortName];
+            NSDecimalNumber *unitRate = [currency.exchangeForDollar decimalNumberByDividingBy:account.currency.exchangeForDollar];
+            NSDecimalNumber *result =
+                [[[account netValue] decimalNumberByMultiplyingBy:unitRate] decimalNumberByDividingBy:unit.value];
+            double resultDouble = [result doubleValue];
+            if (unit != [account unit] && resultDouble < 10000 && resultDouble >= 1) {
+                NSString *resultText = [[[self valueOf:result] stringByAppendingString:unit.shortName] stringByAppendingString:currency.shortName];
                 [resultInCurrency addObject:resultText];
             }
         }
@@ -131,6 +137,19 @@
         [resultInCurrency release];
     }
     [resultTable reloadData];
+}
+
+#pragma mark NSDecimalNumberBehaviors Methods
+- (NSRoundingMode)roundingMode {
+    return NSRoundPlain;
+}
+
+- (short)scale {
+    return 2;
+}
+
+- (NSDecimalNumber *)exceptionDuringOperation:(SEL)method error:(NSCalculationError)error leftOperand:(NSDecimalNumber *)leftOperand rightOperand:(NSDecimalNumber *)rightOperand {
+    return nil;
 }
 
 #pragma mark MoneyTypePadViewDelegate Methods
@@ -175,8 +194,9 @@
 	// The header for the section is the region name -- get this from the dictionary at the section index
 	MoneyResult *regionDic = [resultList objectAtIndex:section];
     if ([regionDic.currency.name compare:@"USD"] != NSOrderedSame) {
-        return [NSString stringWithFormat:@"%@ (%0.2fUSD)", 
-                         regionDic.currency.name, regionDic.currency.exchangeForDollar];
+        return [NSString stringWithFormat:@"%@ (%@USD)", 
+                         regionDic.currency.name,
+                         [self valueOf:regionDic.currency.exchangeForDollar]];
     }
 	return regionDic.currency.name;
 }
@@ -213,8 +233,6 @@
 	contentView.backgroundColor = [UIColor whiteColor];
 	self.view = contentView;
     [contentView release];
-
-    NSLog(@"sizeof long %d, sizeof long long %d\n", sizeof(long), sizeof(long long));
 
     MoneyTypePadView *typePad = [[MoneyTypePadView alloc] initWithFrame:CGRectMake(0,280,320,200)];
     typePad.delegate = self;

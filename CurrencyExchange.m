@@ -68,7 +68,7 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
         loader = nil;
     }
     if (result == YES) {
-        NSLog(@"loaded %d bytes", [xmlData length]);
+        //NSLog(@"loaded %d bytes", [xmlData length]);
         NSXMLParser *parser = [[NSXMLParser alloc] initWithData:xmlData];
         parser.delegate = self;
         [parser parse];
@@ -112,9 +112,8 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
     if ([elementName isEqualToString:@"Cube"] && [attributeDict count] >= 2) {
         NSString *currency = [attributeDict valueForKey:@"currency"];
         NSString *rate = [attributeDict valueForKey:@"rate"];
-        //[table setValue:[rate doubleValue] forKey:currency];
         [table setValue:rate forKey:currency];
-        NSLog(@"this is it! %@ %@", currency, rate);
+        //NSLog(@"this is it! %@ %@", currency, rate);
     }
 }
 
@@ -134,13 +133,13 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
     [self startLoadingXML];
 }
 
-- (double)convert:(double)value From:(NSString*)from To:(NSString*)to {
+- (NSDecimalNumber*)convert:(NSDecimalNumber*)value From:(NSString*)from To:(NSString*)to {
     NSString *fromValue = (NSString*)[table valueForKey:from];
     NSString *toValue = (NSString*)[table valueForKey:to];
     if (fromValue != nil && toValue != nil) {
-        return [toValue doubleValue]*value/[fromValue doubleValue];
+        return [[value decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:toValue]] decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:fromValue]];
     } else {
-        return 0;
+        return nil;
     }
 }
 

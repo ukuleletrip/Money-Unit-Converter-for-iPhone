@@ -12,7 +12,7 @@
 ***********************************************************************/
 #import <UIKit/UIKit.h>
 
-@interface CurrencyExchange : NSObject {
+@interface CurrencyExchange : NSObject <NSXMLParserDelegate> {
 @private
     NSURLConnection *loader;
     NSInteger networkingCount;
@@ -21,6 +21,6 @@
 }
 + (CurrencyExchange*)sharedManager;
 - (void)update;
-- (double)convert:(double)value From:(NSString*)from To:(NSString*)to;
+- (NSDecimalNumber*)convert:(NSDecimalNumber*)value From:(NSString*)from To:(NSString*)to;
 @end
 
