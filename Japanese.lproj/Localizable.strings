@@ -6,3 +6,18 @@
    Copyright 2010 __MyCompanyName__. All rights reserved.
  */
 "MainTitle" = "通貨単位変換";
+"Settings" = "設定";
+"USD" = "米ドル";
+"JPY" = "日本円";
+"EUR" = "欧州ユーロ";
+"CAD" = "カナダドル";
+"GBP" = "英ポンド";
+"AUD" = "豪ドル";
+"INR" = "インドルピー";
+"NZD" = "NZドル";
+"CHF" = "スイスフラン";
+"CNY" = "中国元";
+"HKD" = "香港ドル";
+"KRW" = "韓国ウォン";
+"PHP" = "フィリピンペソ";
+"TWD" = "台湾ドル";

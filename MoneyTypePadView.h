@@ -15,17 +15,27 @@
 @protocol MoneyTypePadViewDelegate;
 @class MoneyUnit;
 @class MoneyCurrency;
+@class PopupMenu;
 
-@interface MoneyTypePadView : UIView {
+@protocol PopupMenuDelegate <NSObject>
+@optional
+- (void)popupMenu:(PopupMenu*)popupMenu didItemSelected:(NSInteger)index;
+@end
+
+@interface MoneyTypePadView : UIView <UIPickerViewDelegate, UITableViewDataSource, PopupMenuDelegate> {
     UIImage *buttonBackground;
     UIImage *buttonBackgroundPressed;
     id <MoneyTypePadViewDelegate> delegate;
 @private
     UISegmentedControl *languageSelector;
-    UISegmentedControl *currencySelector;
+    UIButton *currencySelector;
     UISegmentedControl *jUnit1Selector;
     UISegmentedControl *jUnit2Selector;
-    UISegmentedControl *eUnitSelector;
+    UISegmentedControl *eUnit1Selector;
+    UISegmentedControl *eUnit2Selector;
+    PopupMenu *currencySelectMenu;
+    NSInteger currencyIndex;
+    NSTimer *timer;
 }
 @property (nonatomic, assign) id <MoneyTypePadViewDelegate> delegate;
 @property (nonatomic, readonly) MoneyCurrency *currency;

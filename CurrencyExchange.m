@@ -72,6 +72,9 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
         NSXMLParser *parser = [[NSXMLParser alloc] initWithData:xmlData];
         parser.delegate = self;
         [parser parse];
+
+        // add EUR virtually
+        [table setValue:@"1" forKey:@"EUR"];
     }
     [xmlData release];
     xmlData = nil;

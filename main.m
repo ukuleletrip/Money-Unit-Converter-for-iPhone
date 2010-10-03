@@ -2,7 +2,7 @@
 //  main.m
 //  MoneyUnitConverter
 //
-//  Created by 宮本 哲 on 09/12/28.
+//  Created by Ukulele Trip on 09/12/28.
 //  Copyright __MyCompanyName__ 2009. All rights reserved.
 //
 
@@ -37,7 +37,6 @@
 @end
 
 @interface MoneyDisplay : UILabel {
-
 }
 @end
 
@@ -79,67 +78,60 @@
 }
 @end
 
-@interface MoneyUnitConverterController : UIViewController <UITableViewDataSource, UITableViewDelegate, MoneyTypePadViewDelegate, NSDecimalNumberBehaviors> {
-    MoneyDisplay *inputField;
-    MoneyAccount *account;
-    UITableView *resultTable;
+@interface ResultRender : NSObject <NSDecimalNumberBehaviors> {
     NSMutableArray *resultList;
+    MoneyAccount *account;
+    MoneyCurrency *currentCurrency;
+    MoneyUnit *currentUnit;
 }
+@property(nonatomic, retain) NSMutableArray *resultList;
+@property(nonatomic, retain) MoneyAccount *account;
+@property(nonatomic, retain) MoneyCurrency *currentCurrency;
+@property(nonatomic, retain) MoneyUnit *currentUnit;
+- (void)update;
+- (void)startCurrency;
+- (void)endCurrency;
+- (BOOL)shouldCalc;
+- (void)setResult:(NSDecimalNumber*)result;
+- (NSString*)valueOf:(NSDecimalNumber*)decimal;
+- (NSInteger)numberOfSections;
+- (NSInteger)numberOfRowsInSection:(NSInteger)section;
+- (NSString*)titleForHeaderInSection:(NSInteger)section;
 @end
 
-@implementation MoneyUnitConverterController
+@implementation ResultRender
+@synthesize resultList, account, currentCurrency, currentUnit;
 - (id)init {
-	if (self = [super init]) {
-        self.title = NSLocalizedString(@"MainTitle", @"");
-		//self.title = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
-        account = [[MoneyAccount alloc] init];
-        resultList = [[NSMutableArray alloc] init];
-	}
-	return self;
+    if ((self = [super init]) != nil) {
+
+    }
+    return self;
 }
+
+- (void)dealloc {
+    [resultList release];
+    [account release];
+    [currentCurrency release];
+    [currentUnit release];
+    [super dealloc];
+}
+
+- (void)update {
+    [resultList removeAllObjects];
+}
+- (void)startCurrency {}
+- (void)endCurrency {}
+- (BOOL)shouldCalc { return NO; }
+- (void)setResult:(NSDecimalNumber*)result {}
+- (NSInteger)numberOfSections { return 0; }
+- (NSInteger)numberOfRowsInSection:(NSInteger)section { return 0; }
+- (NSString*)titleForHeaderInSection:(NSInteger)section { return nil; }
 
 - (NSString*) valueOf:(NSDecimalNumber*)decimal {
     NSDictionary *dic= [[NSDictionary alloc] initWithObjectsAndKeys:@".",@"NSDecimalSeparator",nil];
     return [[decimal decimalNumberByRoundingAccordingToBehavior:self] descriptionWithLocale:dic];
-
 }
 
-- (void)updateResultList {
-    MoneyCurrencyList *currencyList = [MoneyCurrencyList sharedManager];
-    MoneyUnitList *unitList = [MoneyUnitList sharedManager];
-
-    [resultList removeAllObjects];
-
-    for (int i=0; i < [currencyList count]; i++) {
-        MoneyCurrency *currency = [currencyList currencyAtIndex:i];
-        NSMutableArray *resultInCurrency = [[NSMutableArray alloc] init];
-        for (int j=0; j < [unitList count]; j++) {
-            MoneyUnit *unit = [unitList unitAtIndex:j];
-            if (!unit.isFinancial) {
-                continue;
-            }
-            //double result = [account netValue]/unit.value*(currency.exchangeForDollar/account.currency.exchangeForDollar);
-            NSDecimalNumber *unitRate = [currency.exchangeForDollar decimalNumberByDividingBy:account.currency.exchangeForDollar];
-            NSDecimalNumber *result =
-                [[[account netValue] decimalNumberByMultiplyingBy:unitRate] decimalNumberByDividingBy:unit.value];
-            double resultDouble = [result doubleValue];
-            if (unit != [account unit] && resultDouble < 10000 && resultDouble >= 1) {
-                NSString *resultText = [[[self valueOf:result] stringByAppendingString:unit.shortName] stringByAppendingString:currency.shortName];
-                [resultInCurrency addObject:resultText];
-            }
-        }
-        if ([resultInCurrency count] > 0) {
-            MoneyResult *resultDicInCurrency =
-                [[MoneyResult alloc] initWithCurrency:currency resultArray:resultInCurrency];
-            [resultList addObject:resultDicInCurrency];
-            [resultDicInCurrency release];
-        }
-        [resultInCurrency release];
-    }
-    [resultTable reloadData];
-}
-
-#pragma mark NSDecimalNumberBehaviors Methods
 - (NSRoundingMode)roundingMode {
     return NSRoundPlain;
 }
@@ -150,6 +142,118 @@
 
 - (NSDecimalNumber *)exceptionDuringOperation:(SEL)method error:(NSCalculationError)error leftOperand:(NSDecimalNumber *)leftOperand rightOperand:(NSDecimalNumber *)rightOperand {
     return nil;
+}
+@end
+
+@interface BasicRender : ResultRender {
+@private
+    NSMutableArray *resultInCurrency;
+}
+@end
+
+@implementation BasicRender
+- (void)startCurrency {
+    resultInCurrency = [[NSMutableArray alloc] init];
+}
+
+- (void)endCurrency {
+    if ([resultInCurrency count] > 0) {
+        MoneyResult *resultDicInCurrency =
+            [[MoneyResult alloc] initWithCurrency:currentCurrency resultArray:resultInCurrency];
+        [resultList addObject:resultDicInCurrency];
+        [resultDicInCurrency release];
+    }
+    [resultInCurrency release];
+}
+
+- (BOOL)shouldCalc {
+    return currentUnit.isFinancial;
+}
+
+- (void)setResult:(NSDecimalNumber*)result {
+    double resultDouble = [result doubleValue];
+    if ((currentCurrency != account.currency || currentUnit != account.unit) &&
+        resultDouble < 10000 && resultDouble >= 1) {
+        NSString *resultText = [[[self valueOf:result] stringByAppendingString:currentUnit.shortName] stringByAppendingString:currentCurrency.shortName];
+        [resultInCurrency addObject:resultText];
+    }
+}
+
+- (NSInteger)numberOfSections {
+    return [resultList count];
+}
+
+- (NSInteger)numberOfRowsInSection:(NSInteger)section {
+    return [((MoneyResult*)[resultList objectAtIndex:section]).results count];
+}
+
+- (NSString*)titleForHeaderInSection:(NSInteger)section {
+	// The header for the section is the region name -- get this from the dictionary at the section index
+	MoneyResult *regionDic = [resultList objectAtIndex:section];
+    if ([regionDic.currency.name compare:account.currency.name] != NSOrderedSame) {
+        NSDecimalNumber *unitRate = [regionDic.currency.exchangeForDollar decimalNumberByDividingBy:account.currency.exchangeForDollar];
+        return [NSString stringWithFormat:@"%@ (%@%@)", 
+                         regionDic.currency.longName,
+                         [self valueOf:unitRate],
+                         account.currency.shortName
+                ];
+    }
+	return regionDic.currency.longName;
+}
+
+@end
+
+@interface MoneyUnitConverterController : UIViewController <UITableViewDataSource, UITableViewDelegate, MoneyTypePadViewDelegate> {
+    MoneyDisplay *inputField;
+    MoneyAccount *account;
+    UITableView *resultTable;
+    NSMutableArray *resultList;
+    ResultRender *render;
+}
+@end
+
+@implementation MoneyUnitConverterController
+- (id)init {
+	if (self = [super init]) {
+        self.title = NSLocalizedString(@"MainTitle", @"");
+		//self.title = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
+        account = [[MoneyAccount alloc] init];
+        resultList = [[NSMutableArray alloc] init];
+
+        render = [[BasicRender alloc] init];
+        render.account = account;
+        render.resultList = resultList;
+	}
+	return self;
+}
+
+- (void)updateResultList {
+    MoneyCurrencyList *currencyList = [MoneyCurrencyList sharedManager];
+    MoneyUnitList *unitList = [MoneyUnitList sharedManager];
+
+    [render update];
+
+    for (int i=0; i < [currencyList count]; i++) {
+        MoneyCurrency *currency = [currencyList currencyAtIndex:i];
+        render.currentCurrency = currency;
+        [render startCurrency];
+        for (int j=0; j < [unitList count]; j++) {
+            MoneyUnit *unit = [unitList unitAtIndex:j];
+            render.currentUnit = unit;
+            if (![render shouldCalc]) {
+                continue;
+            }
+            NSDecimalNumber *unitRate =
+                [currency.exchangeForDollar 
+                         decimalNumberByDividingBy:account.currency.exchangeForDollar];
+            NSDecimalNumber *result =
+                [[[account netValue] decimalNumberByMultiplyingBy:unitRate]
+                    decimalNumberByDividingBy:unit.value];
+            [render setResult:result];
+        }
+        [render endCurrency];
+    }
+    [resultTable reloadData];
 }
 
 #pragma mark MoneyTypePadViewDelegate Methods
@@ -182,23 +286,16 @@
 
 // Only one section in this table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [resultList count];
+    return [render numberOfSections];
 }
 
 // Return how many rows in the table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [((MoneyResult*)[resultList objectAtIndex:section]).results count];
+    return [render numberOfRowsInSection:section];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	// The header for the section is the region name -- get this from the dictionary at the section index
-	MoneyResult *regionDic = [resultList objectAtIndex:section];
-    if ([regionDic.currency.name compare:@"USD"] != NSOrderedSame) {
-        return [NSString stringWithFormat:@"%@ (%@USD)", 
-                         regionDic.currency.name,
-                         [self valueOf:regionDic.currency.exchangeForDollar]];
-    }
-	return regionDic.currency.name;
+    return [render titleForHeaderInSection:section];
 }
 
 // Return a cell for the ith row
@@ -227,6 +324,10 @@
 	[resultTable deselectRowAtIndexPath:[resultTable indexPathForSelectedRow] animated:YES];
 }
 
+- (void)goSettings {
+
+}
+
 - (void)loadView {
 	CGRect apprect = [[UIScreen mainScreen] applicationFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:apprect];
@@ -234,7 +335,7 @@
 	self.view = contentView;
     [contentView release];
 
-    MoneyTypePadView *typePad = [[MoneyTypePadView alloc] initWithFrame:CGRectMake(0,280,320,200)];
+    MoneyTypePadView *typePad = [[MoneyTypePadView alloc] initWithFrame:CGRectMake(0,280,320,200-64)];
     typePad.delegate = self;
     account.currency = typePad.currency;
     account.unit = typePad.unit;
@@ -264,6 +365,12 @@
     resultTable.rowHeight = 28;
     [resultTable reloadData];
     [contentView addSubview:resultTable];
+
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc]
+                                                  initWithTitle:NSLocalizedString(@"Settings", nil)
+                                                  style:UIBarButtonItemStylePlain
+                                                  target:self
+                                                  action:@selector(goSettings)] autorelease];
 }
 
 // Allow the view to respond to iPhone Orientation changes
@@ -273,6 +380,7 @@
 
 -(void) dealloc {
 	// add any further clean-up here
+    [render release];
     [resultList release];
     [resultTable release];
     [account release];

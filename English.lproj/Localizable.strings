@@ -6,3 +6,19 @@
    Copyright 2010 __MyCompanyName__. All rights reserved.
  */
 "MainTitle" = "DenomMaster";
+"Settings" = "Settings";
+"USD" = "US Dollars";
+"JPY" = "Japan Yen";
+"EUR" = "Euro";
+"CAD" = "Canada Dollars";
+"GBP" = "UK Pounds";
+"AUD" = "Australia Dollars";
+"INR" = "India Rupees";
+"NZD" = "New Zealand Dollars";
+"CHF" = "Switzerland Francs";
+"CNY" = "China Yuan";
+"HKD" = "Hong Kong Dollars";
+"KRW" = "Korea Won";
+"PHP" = "Philippines Pesos";
+"TWD" = "Taiwan New Dollars";
+

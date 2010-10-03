@@ -44,6 +44,7 @@
 @property (nonatomic, readonly, retain) NSString *name;
 @property (nonatomic, readonly, retain) NSString *shortName;
 @property (nonatomic, readonly) NSDecimalNumber *exchangeForDollar;
+@property (nonatomic, readonly) NSString *longName;
 @end
 
 @interface MoneyCurrencyList : NSObject {

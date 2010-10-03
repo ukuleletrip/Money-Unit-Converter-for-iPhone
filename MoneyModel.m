@@ -81,9 +81,17 @@ const MoneyUnitInit units[] = {
     { @"十兆", @"十兆", NO,	@"10000000000000" },
     { @"百兆", @"百兆", NO,	@"100000000000000" },
     { @"千兆", @"千兆", YES,	@"1000000000000000" },
+    { @"Hundred", @"h", NO,		@"100" },
+    { @"Thousand", @"K", NO,	@"1000" },
     { @"Million", @"M", YES,	@"1000000" },
+    { @"Hundred Million", @"hM", YES,	@"100000000" },
+    { @"Thousand Million", @"KM", YES,	@"1000000000" },
     { @"Billion", @"B", YES,	@"1000000000" },
-    { @"Trillion", @"T", YES,	@"1000000000000" }
+    { @"Hundred Billion", @"hB", YES,	@"100000000000" },
+    { @"Thousand Billion", @"KB", YES,	@"1000000000000" },
+    { @"Trillion", @"T", YES,	@"1000000000000" },
+    { @"Hundred Trillion", @"hT", YES,	@"100000000000000" },
+    { @"Thousand Trillion", @"KT", YES,	@"1000000000000000" },
 };
 
 - (id)init {
@@ -159,6 +167,7 @@ const MoneyUnitInit units[] = {
 
 @implementation MoneyCurrency
 @synthesize name,shortName;
+@dynamic longName;
 - (id)initWithName:(NSString*)n shortName:(NSString*)sn exchangeForDollar:(NSDecimalNumber*)ex  {
     if ((self = [super init]) != nil) {
         name = n;
@@ -199,6 +208,10 @@ const MoneyUnitInit units[] = {
     return v;
 }
 
+- (NSString*)longName {
+    return NSLocalizedString(name, nil);
+}
+
 @end
 
 @implementation MoneyCurrencyList
@@ -211,6 +224,17 @@ typedef struct {
 const MoneyCurrencyInit currencies[] = {
     { @"JPY", @"円", 	@"100" },
     { @"USD", @"＄", 	@"1" },
+    { @"EUR", @"€", 	@"1.4" },
+    { @"AUD", @"＄", 	@"1" },
+    { @"GBP", @"£", 	@"1" },
+    { @"NZD", @"＄", 	@"1" },
+    { @"CAD", @"＄", 	@"1" },
+    { @"CHF", @"CHF", 	@"1" },
+    { @"HKD", @"＄", 	@"1" },
+    //{ @"TWD", @"＄", 	@"1" },
+    { @"INR", @"₨", 	@"1" },
+    { @"KRW", @"￦", 	@"1" },
+    { @"CNY", @"元", 	@"1" },
 };
 
 - (id)init {
