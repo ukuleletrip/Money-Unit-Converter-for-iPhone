@@ -78,7 +78,7 @@
 }
 @end
 
-@interface ResultRender : NSObject <NSDecimalNumberBehaviors> {
+@interface ResultRenderer : NSObject <NSDecimalNumberBehaviors> {
     NSMutableArray *resultList;
     MoneyAccount *account;
     MoneyCurrency *currentCurrency;
@@ -97,9 +97,10 @@
 - (NSInteger)numberOfSections;
 - (NSInteger)numberOfRowsInSection:(NSInteger)section;
 - (NSString*)titleForHeaderInSection:(NSInteger)section;
+- (NSString*)textForRow:(NSInteger)section row:(NSInteger)row;
 @end
 
-@implementation ResultRender
+@implementation ResultRenderer
 @synthesize resultList, account, currentCurrency, currentUnit;
 - (id)init {
     if ((self = [super init]) != nil) {
@@ -126,6 +127,7 @@
 - (NSInteger)numberOfSections { return 0; }
 - (NSInteger)numberOfRowsInSection:(NSInteger)section { return 0; }
 - (NSString*)titleForHeaderInSection:(NSInteger)section { return nil; }
+- (NSString*)textForRow:(NSInteger)section row:(NSInteger)row { return nil; }
 
 - (NSString*) valueOf:(NSDecimalNumber*)decimal {
     NSDictionary *dic= [[NSDictionary alloc] initWithObjectsAndKeys:@".",@"NSDecimalSeparator",nil];
@@ -145,13 +147,13 @@
 }
 @end
 
-@interface BasicRender : ResultRender {
+@interface BasicRenderer : ResultRenderer {
 @private
     NSMutableArray *resultInCurrency;
 }
 @end
 
-@implementation BasicRender
+@implementation BasicRenderer
 - (void)startCurrency {
     resultInCurrency = [[NSMutableArray alloc] init];
 }
@@ -201,14 +203,51 @@
 	return regionDic.currency.longName;
 }
 
+- (NSString*)textForRow:(NSInteger)section row:(NSInteger)row {
+    MoneyResult *resultDic = [resultList objectAtIndex:section];
+    return [resultDic.results objectAtIndex:row];
+}
 @end
+
+@interface ConvertRenderer : ResultRenderer {
+}
+@end
+
+@implementation ConvertRenderer
+- (BOOL)shouldCalc {
+    return currentUnit.isNatural;
+}
+
+- (void)setResult:(NSDecimalNumber*)result {
+    double resultDouble = [result doubleValue];
+    if ((currentCurrency != account.currency || currentUnit != account.unit) &&
+        ((currentUnit.isEnglish && resultDouble < 1000) ||
+         (!currentUnit.isEnglish && resultDouble < 10000)) && resultDouble >= 1) {
+        NSString *resultText = [[[self valueOf:result] stringByAppendingString:currentUnit.shortName] stringByAppendingString:currentCurrency.shortName];
+        [resultList addObject:resultText];
+    }
+}
+
+- (NSInteger)numberOfSections {
+    return 1;
+}
+
+- (NSInteger)numberOfRowsInSection:(NSInteger)section {
+    return [resultList count];
+}
+
+- (NSString*)textForRow:(NSInteger)section row:(NSInteger)row {
+    return [resultList objectAtIndex:row];
+}
+@end
+
 
 @interface MoneyUnitConverterController : UIViewController <UITableViewDataSource, UITableViewDelegate, MoneyTypePadViewDelegate> {
     MoneyDisplay *inputField;
     MoneyAccount *account;
     UITableView *resultTable;
     NSMutableArray *resultList;
-    ResultRender *render;
+    ResultRenderer *renderer;
 }
 @end
 
@@ -220,9 +259,10 @@
         account = [[MoneyAccount alloc] init];
         resultList = [[NSMutableArray alloc] init];
 
-        render = [[BasicRender alloc] init];
-        render.account = account;
-        render.resultList = resultList;
+        //renderer = [[BasicRenderer alloc] init];
+        renderer = [[ConvertRenderer alloc] init];
+        renderer.account = account;
+        renderer.resultList = resultList;
 	}
 	return self;
 }
@@ -231,16 +271,16 @@
     MoneyCurrencyList *currencyList = [MoneyCurrencyList sharedManager];
     MoneyUnitList *unitList = [MoneyUnitList sharedManager];
 
-    [render update];
+    [renderer update];
 
     for (int i=0; i < [currencyList count]; i++) {
         MoneyCurrency *currency = [currencyList currencyAtIndex:i];
-        render.currentCurrency = currency;
-        [render startCurrency];
+        renderer.currentCurrency = currency;
+        [renderer startCurrency];
         for (int j=0; j < [unitList count]; j++) {
             MoneyUnit *unit = [unitList unitAtIndex:j];
-            render.currentUnit = unit;
-            if (![render shouldCalc]) {
+            renderer.currentUnit = unit;
+            if (![renderer shouldCalc]) {
                 continue;
             }
             NSDecimalNumber *unitRate =
@@ -249,9 +289,9 @@
             NSDecimalNumber *result =
                 [[[account netValue] decimalNumberByMultiplyingBy:unitRate]
                     decimalNumberByDividingBy:unit.value];
-            [render setResult:result];
+            [renderer setResult:result];
         }
-        [render endCurrency];
+        [renderer endCurrency];
     }
     [resultTable reloadData];
 }
@@ -286,16 +326,16 @@
 
 // Only one section in this table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [render numberOfSections];
+    return [renderer numberOfSections];
 }
 
 // Return how many rows in the table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [render numberOfRowsInSection:section];
+    return [renderer numberOfRowsInSection:section];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return [render titleForHeaderInSection:section];
+    return [renderer titleForHeaderInSection:section];
 }
 
 // Return a cell for the ith row
@@ -303,14 +343,10 @@
 	// Use re-usable cells to minimize the memory load
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"any-cell"];
 	if (!cell) cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"any-cell"] autorelease];
-	
 	// Set up the cell's text
-    MoneyResult *resultDic = [resultList objectAtIndex:indexPath.section];
-    // [P]
-    cell.textLabel.text = [resultDic.results objectAtIndex:indexPath.row];
+    cell.textLabel.text = [renderer textForRow:indexPath.section row:indexPath.row];
     //cell.textAlignment = UITextAlignmentRight;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
-    //cell.textLabel.font = [UIFont systemFontOfSize:16];
 	return cell;
 }
 
@@ -319,8 +355,7 @@
 // Respond to user selection
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)newIndexPath {
     UIPasteboard *gpBoard = [UIPasteboard generalPasteboard];
-    MoneyResult *resultDic = [resultList objectAtIndex:newIndexPath.section];
-    gpBoard.string = [resultDic.results objectAtIndex:newIndexPath.row];
+    gpBoard.string = [renderer textForRow:newIndexPath.section row:newIndexPath.row];
 	[resultTable deselectRowAtIndexPath:[resultTable indexPathForSelectedRow] animated:YES];
 }
 
@@ -380,7 +415,7 @@
 
 -(void) dealloc {
 	// add any further clean-up here
-    [render release];
+    [renderer release];
     [resultList release];
     [resultTable release];
     [account release];

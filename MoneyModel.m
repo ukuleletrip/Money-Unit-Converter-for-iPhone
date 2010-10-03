@@ -19,24 +19,28 @@
 
 #define kExchangePrefKey	@"moneymodel.exchange.decimal.%@"
 
+#define FINANCIAL	(0x01)
+#define ENGLISH		(0x02)
+#define NATURAL		(0x04)
+
 @implementation MoneyUnit
-@synthesize name,shortName,value,isFinancial;
-- (id)initWithName:(NSString*)n shortName:(NSString*)sn value:(NSString*)v isFinancial:(bool)f {
+@synthesize name,shortName,value;
+- (id)initWithName:(NSString*)n shortName:(NSString*)sn value:(NSString*)v attribute:(int)a {
     if ((self = [super init]) != nil) {
         name = n;
         shortName = sn;
         value = [[NSDecimalNumber decimalNumberWithString:v] retain];
-        isFinancial = f;
+        attribute = a;
     }
     return self;
 }
 
-- (id)initWithName:(NSString*)n shortName:(NSString*)sn decimal:(NSDecimalNumber*)v isFinancial:(bool)f {
+- (id)initWithName:(NSString*)n shortName:(NSString*)sn decimal:(NSDecimalNumber*)v attribute:(int)a {
     if ((self = [super init]) != nil) {
         name = n;
         shortName = sn;
         value = [v retain];
-        isFinancial = f;
+        attribute = a;
     }
     return self;
 }
@@ -50,8 +54,20 @@
 
 // this method is required for copy attribute of property.
 - (id)copyWithZone:(NSZone *)zone {
-    id newInstance = [[[self class] allocWithZone:zone] initWithName:name shortName:shortName decimal:value isFinancial:isFinancial];
+    id newInstance = [[[self class] allocWithZone:zone] initWithName:name shortName:shortName decimal:value attribute:attribute];
     return newInstance;
+}
+
+- (BOOL)isFinancial {
+    return (attribute&FINANCIAL) != 0;
+}
+
+- (BOOL)isNatural {
+    return (attribute&NATURAL) != 0;
+}
+
+- (BOOL)isEnglish {
+    return (attribute&ENGLISH) != 0;
 }
 
 @end
@@ -61,37 +77,34 @@ static MoneyUnitList *sharedMoneyUnitList = nil; // for singleton
 typedef struct {
     NSString *name;
     NSString *shortName;
-    bool isFinancial;
+    int attribute;
     NSString *value;
 } MoneyUnitInit;
 const MoneyUnitInit units[] = {
-    { @"", @"", YES,		@"1" },
-    { @"十", @"十", NO,		@"10" },
-    { @"百", @"百", NO,		@"100" },
-    { @"千", @"千", YES,	@"1000" },
-    { @"万", @"万", YES,	@"10000" },
-    { @"十万", @"十万", NO,	@"100000" },
-    { @"百万", @"百万", YES,	@"1000000" },
-    { @"千万", @"千万", NO,	@"10000000" },
-    { @"億", @"億", YES,	@"100000000" },
-    { @"十億", @"十億", YES,	@"1000000000" },
-    { @"百億", @"百億", NO,	@"10000000000" },
-    { @"千億", @"千億", NO,	@"100000000000" },
-    { @"兆", @"兆", YES,	@"1000000000000" },
-    { @"十兆", @"十兆", NO,	@"10000000000000" },
-    { @"百兆", @"百兆", NO,	@"100000000000000" },
-    { @"千兆", @"千兆", YES,	@"1000000000000000" },
-    { @"Hundred", @"h", NO,		@"100" },
-    { @"Thousand", @"K", NO,	@"1000" },
-    { @"Million", @"M", YES,	@"1000000" },
-    { @"Hundred Million", @"hM", YES,	@"100000000" },
-    { @"Thousand Million", @"KM", YES,	@"1000000000" },
-    { @"Billion", @"B", YES,	@"1000000000" },
-    { @"Hundred Billion", @"hB", YES,	@"100000000000" },
-    { @"Thousand Billion", @"KB", YES,	@"1000000000000" },
-    { @"Trillion", @"T", YES,	@"1000000000000" },
-    { @"Hundred Trillion", @"hT", YES,	@"100000000000000" },
-    { @"Thousand Trillion", @"KT", YES,	@"1000000000000000" },
+    { @"", @"", FINANCIAL|NATURAL,		@"1" },
+    { @"十", @"十", 0,		@"10" },
+    { @"百", @"百", 0,		@"100" },
+    { @"千", @"千", FINANCIAL,	@"1000" },
+    { @"万", @"万", FINANCIAL|NATURAL,	@"10000" },
+    { @"十万", @"十万", 0,	@"100000" },
+    { @"百万", @"百万", FINANCIAL,	@"1000000" },
+    { @"千万", @"千万", 0,	@"10000000" },
+    { @"億", @"億", FINANCIAL|NATURAL,	@"100000000" },
+    { @"十億", @"十億", FINANCIAL,	@"1000000000" },
+    { @"百億", @"百億", 0,	@"10000000000" },
+    { @"千億", @"千億", 0,	@"100000000000" },
+    { @"兆", @"兆", FINANCIAL|NATURAL,	@"1000000000000" },
+    { @"十兆", @"十兆", 0,	@"10000000000000" },
+    { @"百兆", @"百兆", 0,	@"100000000000000" },
+    { @"千兆", @"千兆", FINANCIAL,	@"1000000000000000" },
+    { @"Hundred", @"h", ENGLISH,		@"100" },
+    { @"Thousand", @"K", ENGLISH|NATURAL,	@"1000" },
+    { @"Million", @"M", FINANCIAL|ENGLISH|NATURAL,	@"1000000" },
+    { @"Hundred Million", @"hM", FINANCIAL|ENGLISH,	@"100000000" },
+    { @"Billion", @"B", FINANCIAL|ENGLISH|NATURAL,	@"1000000000" },
+    { @"Hundred Billion", @"hB", FINANCIAL|ENGLISH,	@"100000000000" },
+    { @"Trillion", @"T", FINANCIAL|ENGLISH|NATURAL,	@"1000000000000" },
+    { @"Hundred Trillion", @"hT", FINANCIAL|ENGLISH,	@"100000000000000" },
 };
 
 - (id)init {
@@ -101,7 +114,7 @@ const MoneyUnitInit units[] = {
             MoneyUnit *unit = [[MoneyUnit alloc] initWithName:units[i].name
                                                  shortName:units[i].shortName 
                                                  value:units[i].value
-                                                 isFinancial:units[i].isFinancial];
+                                                 attribute:units[i].attribute];
             [_list addObject:unit];
             [unit release];
         }

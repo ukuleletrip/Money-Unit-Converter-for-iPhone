@@ -17,12 +17,14 @@
     NSString *name;
     NSString *shortName;
     NSDecimalNumber *value;
-    bool isFinancial;
+    int attribute;
 }
 @property (nonatomic, readonly, retain) NSString *name;
 @property (nonatomic, readonly, retain) NSString *shortName;
 @property (nonatomic, readonly) NSDecimalNumber *value;
-@property (nonatomic, readonly) bool isFinancial;
+@property (nonatomic, readonly) BOOL isFinancial;
+@property (nonatomic, readonly) BOOL isNatural;
+@property (nonatomic, readonly) BOOL isEnglish;
 @end
 
 @interface MoneyUnitList : NSObject {
