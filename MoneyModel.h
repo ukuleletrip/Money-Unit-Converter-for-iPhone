@@ -38,15 +38,17 @@
 @end
 
 @interface MoneyCurrency : NSObject<NSCopying> {
+@private
     NSString *name;
     NSString *shortName;
-@private
-    NSDecimalNumber *_exchangeForDollar;
+    UIImage *image;
+    NSString *imageName;
 }
 @property (nonatomic, readonly, retain) NSString *name;
 @property (nonatomic, readonly, retain) NSString *shortName;
 @property (nonatomic, readonly) NSDecimalNumber *exchangeForDollar;
 @property (nonatomic, readonly) NSString *longName;
+@property (nonatomic, readonly) UIImage *image;
 @end
 
 @interface MoneyCurrencyList : NSObject {

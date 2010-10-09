@@ -175,28 +175,18 @@ const ButtonTable buttons[] = {
 }
 
 - (MoneyCurrency*)currency {
-#if 1
     return [[MoneyCurrencyList sharedManager] currencyAtIndex:currencyIndex];
-#else
-    NSString *label = [currencySelector titleForSegmentAtIndex:currencySelector.selectedSegmentIndex];
-    return [[MoneyCurrencyList sharedManager] searchForShortName:label];
-#endif
 }
 
-#if 0
-- (void)changedCurrency:(id)sender {
-    MoneyCurrency *newCurrency = self.currency;
-    if (newCurrency != nil &&
-        [delegate respondsToSelector:@selector(moneyTypePadView:shouldChangeCurrency:)]) {
-        [[NSUserDefaults standardUserDefaults] setInteger:currencySelector.selectedSegmentIndex forKey:kCurrencyPrefKey];
-        [delegate moneyTypePadView:self shouldChangeCurrency:newCurrency];
-    }
+- (void)updateCurrencySelector {
+    [currencySelector setTitle:self.currency.longName forState:UIControlStateNormal];
+    [currencySelector setImage:self.currency.image forState:UIControlStateNormal];
 }
-#else
+
 - (void)changeCurrency:(NSInteger)newCurrencyIndex {
     currencyIndex = newCurrencyIndex;
     MoneyCurrency *newCurrency = self.currency;
-    [currencySelector setTitle:newCurrency.longName forState:UIControlStateNormal];
+    [self updateCurrencySelector];
     if (newCurrency != nil &&
         [delegate respondsToSelector:@selector(moneyTypePadView:shouldChangeCurrency:)]) {
         [[NSUserDefaults standardUserDefaults] setInteger:currencyIndex forKey:kCurrencyPrefKey];
@@ -231,7 +221,6 @@ const ButtonTable buttons[] = {
     [timer invalidate];
     [timer release];
 }
-#endif
 
 - (CGRect)logicalPosToRect:(int)column row:(int)row width:(int)width{
     return CGRectMake(kMarginX+column*(kButtonWidth+kButtonSpace),
@@ -239,7 +228,6 @@ const ButtonTable buttons[] = {
                       kButtonWidth+(kButtonWidth+kButtonSpace)*(width-1),kButtonHeight);
 }
 - (UIButton*)createButtonWithTitle:(NSString*)title column:(int)column row:(int)row width:(int)width{
-#if 1
     if (buttonBackground == nil) {
         buttonBackground = [[UIImage imageNamed:@"whiteButton.png"] retain];
     }
@@ -257,12 +245,6 @@ const ButtonTable buttons[] = {
     UIImage *newPressedImage = [buttonBackgroundPressed stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0];
     [btn setBackgroundImage:newPressedImage forState:UIControlStateHighlighted];
 
-#else
-    UIButton *btn = [[[UIButton buttonWithType:UIButtonTypeRoundedRect]
-                         initWithFrame:[self logicalPosToRect:column row:row width:width]] retain];
-    [btn setTitle:title forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-#endif
     btn.backgroundColor = [UIColor clearColor];
     return btn;
 }
@@ -280,8 +262,7 @@ const ButtonTable buttons[] = {
             [self addSubview:btn];
             [btn release];
         }
-#if 1
-        currencyIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kCurrencyPrefKey];
+
         currencySelector = [self createButtonWithTitle:self.currency.longName column:3 row:0 width:3];
         [currencySelector addTarget:self action:@selector(currencySelectorClicked:)
                           forControlEvents:UIControlEventTouchUpInside];
@@ -289,22 +270,16 @@ const ButtonTable buttons[] = {
                           forControlEvents:UIControlEventTouchDown];
         [currencySelector addTarget:self action:@selector(currencySelectorCanceled:)
                           forControlEvents:UIControlEventTouchUpOutside|UIControlEventTouchCancel];
-#else
-        currencySelector = 
-            [[UISegmentedControl alloc]
-                initWithItems:[NSArray arrayWithObjects:@"円", @"＄", nil]];
-        currencySelector.segmentedControlStyle = UISegmentedControlStyleBordered;
-        currencySelector.frame = [self logicalPosToRect:4 row:0 width:2];
-        currencySelector.selectedSegmentIndex =
-            [[NSUserDefaults standardUserDefaults] integerForKey:kCurrencyPrefKey];
-        [currencySelector addTarget:self action:@selector(changedCurrency:)
-                          forControlEvents:UIControlEventValueChanged];
-#endif
         [self addSubview:currencySelector];
+
+        currencyIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kCurrencyPrefKey];
+        [self updateCurrencySelector];
 
         languageSelector = 
             [[UISegmentedControl alloc]
-                initWithItems:[NSArray arrayWithObjects:@"日", @"英", nil]];
+                initWithItems:[NSArray arrayWithObjects:[UIImage imageNamed:@"Japan"],
+                                       [UIImage imageNamed:@"United-States"], nil]];
+        		//initWithItems:[NSArray arrayWithObjects:@"日", @"英", nil]];
         languageSelector.segmentedControlStyle = UISegmentedControlStyleBordered;
         languageSelector.frame = [self logicalPosToRect:4 row:1 width:2];
         languageSelector.selectedSegmentIndex = 
@@ -398,6 +373,7 @@ const ButtonTable buttons[] = {
     cell.textLabel.text = [currencyList currencyAtIndex:indexPath.row].longName;
     //cell.textLabel.font = [UIFont systemFontOfSize:16];
     cell.textLabel.textColor = [UIColor whiteColor];
+    cell.imageView.image = [currencyList currencyAtIndex:indexPath.row].image;
 	return cell;
 }
 

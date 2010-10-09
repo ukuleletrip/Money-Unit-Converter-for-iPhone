@@ -179,32 +179,35 @@ const MoneyUnitInit units[] = {
 @end
 
 @implementation MoneyCurrency
-@synthesize name,shortName;
+@synthesize name,shortName,image;
 @dynamic longName;
-- (id)initWithName:(NSString*)n shortName:(NSString*)sn exchangeForDollar:(NSDecimalNumber*)ex  {
+- (id)initWithName:(NSString*)n shortName:(NSString*)sn imageName:(NSString*)imgName  {
     if ((self = [super init]) != nil) {
         name = n;
         shortName = sn;
-        _exchangeForDollar = [ex retain];
+        imageName = imgName;
     }
     return self;
 }
 
 - (void)dealloc {
-    [_exchangeForDollar release];
     [name release];
     [shortName release];
+    [imageName release];
+    [image release];
     [super dealloc];
 }
 
-- (id)copyWithZone:(NSZone *)zone {
-    id newInstance = [[[self class] allocWithZone:zone] initWithName:name shortName:shortName exchangeForDollar:_exchangeForDollar];
-    return newInstance;
+- (UIImage*)image {
+    if (image == nil) {
+        image = [[UIImage imageNamed:imageName] retain];
+    }
+    return image;
 }
 
-- (void)setExchangeForDollar:(NSDecimalNumber *)v {
-    [_exchangeForDollar release];
-    _exchangeForDollar = [v retain];
+- (id)copyWithZone:(NSZone *)zone {
+    id newInstance = [[[self class] allocWithZone:zone] initWithName:name shortName:shortName imageName:imageName];
+    return newInstance;
 }
 
 - (NSDecimalNumber*)exchangeForDollar {
@@ -212,7 +215,7 @@ const MoneyUnitInit units[] = {
     if (v == nil) {
         v = (NSDecimalNumber*)[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:kExchangePrefKey,name]];
         if (v == nil) {
-            v = _exchangeForDollar;
+            v = [NSDecimalNumber decimalNumberWithString:@"0"];
         }
     } else {
         [[NSUserDefaults standardUserDefaults] setObject:v
@@ -232,22 +235,22 @@ static MoneyCurrencyList *sharedMoneyCurrencyList = nil; // for singleton
 typedef struct {
     NSString *name;
     NSString *shortName;
-    NSString *exchangeForDollar;
+    NSString *imageName;
 } MoneyCurrencyInit;
 const MoneyCurrencyInit currencies[] = {
-    { @"JPY", @"円", 	@"100" },
-    { @"USD", @"＄", 	@"1" },
-    { @"EUR", @"€", 	@"1.4" },
-    { @"AUD", @"＄", 	@"1" },
-    { @"GBP", @"£", 	@"1" },
-    { @"NZD", @"＄", 	@"1" },
-    { @"CAD", @"＄", 	@"1" },
-    { @"CHF", @"CHF", 	@"1" },
-    { @"HKD", @"＄", 	@"1" },
-    //{ @"TWD", @"＄", 	@"1" },
-    { @"INR", @"₨", 	@"1" },
-    { @"KRW", @"￦", 	@"1" },
-    { @"CNY", @"元", 	@"1" },
+    { @"JPY", @"円", 	@"Japan"			},
+    { @"USD", @"＄", 	@"United-States"	},
+    { @"EUR", @"€", 	@"European-Union"	},
+    { @"AUD", @"＄", 	@"Australia"		},
+    { @"GBP", @"£", 	@"United-Kindom"	},
+    { @"NZD", @"＄", 	@"New-Zealand"		},
+    { @"CAD", @"＄", 	@"Canada"			},
+    { @"CHF", @"CHF", 	@"Switzerland"		},
+    { @"HKD", @"＄", 	@"Hong-Kong"		},
+    //{ @"TWD", @"＄", 	@"
+    { @"INR", @"₨", 	@"India"			},
+    { @"KRW", @"￦", 	@"South-Korea"		},
+    { @"CNY", @"元", 	@"China"			}
 };
 
 - (id)init {
@@ -257,7 +260,7 @@ const MoneyCurrencyInit currencies[] = {
         for (int i=0; i < sizeof(currencies)/sizeof(currencies[0]); i++) {
             MoneyCurrency *currency = [[MoneyCurrency alloc] initWithName:currencies[i].name
                                                              shortName:currencies[i].shortName
-                                                             exchangeForDollar:[NSDecimalNumber decimalNumberWithString:currencies[i].exchangeForDollar]];
+                                                             imageName:currencies[i].imageName];
             [_list addObject:currency];
             [currency release];
         }

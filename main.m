@@ -98,6 +98,7 @@
 - (NSInteger)numberOfRowsInSection:(NSInteger)section;
 - (NSString*)titleForHeaderInSection:(NSInteger)section;
 - (NSString*)textForRow:(NSInteger)section row:(NSInteger)row;
+- (UIImage*)imageForRow:(NSInteger)section row:(NSInteger)row;
 @end
 
 @implementation ResultRenderer
@@ -128,6 +129,7 @@
 - (NSInteger)numberOfRowsInSection:(NSInteger)section { return 0; }
 - (NSString*)titleForHeaderInSection:(NSInteger)section { return nil; }
 - (NSString*)textForRow:(NSInteger)section row:(NSInteger)row { return nil; }
+- (UIImage*)imageForRow:(NSInteger)section row:(NSInteger)row { return nil; }
 
 - (NSString*) valueOf:(NSDecimalNumber*)decimal {
     NSDictionary *dic= [[NSDictionary alloc] initWithObjectsAndKeys:@".",@"NSDecimalSeparator",nil];
@@ -209,11 +211,37 @@
 }
 @end
 
+@interface ConvertRendererResult : NSObject {
+    NSString *text;
+    UIImage *image;
+}
+@property (nonatomic, retain) NSString *text;
+@property (nonatomic, retain) UIImage *image;
+@end
+
+@implementation ConvertRendererResult
+@synthesize text, image;
+@end
+
 @interface ConvertRenderer : ResultRenderer {
+@private
+    NSMutableString *currencyResult;
 }
 @end
 
 @implementation ConvertRenderer
+- (void)startCurrency {
+    currencyResult = [[NSMutableString alloc] initWithCapacity:100];
+}
+
+- (void)endCurrency {
+    ConvertRendererResult *result = [[ConvertRendererResult alloc] init];
+    result.text = currencyResult;
+    result.image = currentCurrency.image;
+    [resultList addObject:result];
+    [currencyResult release];
+}
+
 - (BOOL)shouldCalc {
     return currentUnit.isNatural;
 }
@@ -224,7 +252,8 @@
         ((currentUnit.isEnglish && resultDouble < 1000) ||
          (!currentUnit.isEnglish && resultDouble < 10000)) && resultDouble >= 1) {
         NSString *resultText = [[[self valueOf:result] stringByAppendingString:currentUnit.shortName] stringByAppendingString:currentCurrency.shortName];
-        [resultList addObject:resultText];
+        [currencyResult appendFormat:@" %@",resultText]; 
+        //[resultList addObject:resultText];
     }
 }
 
@@ -237,7 +266,11 @@
 }
 
 - (NSString*)textForRow:(NSInteger)section row:(NSInteger)row {
-    return [resultList objectAtIndex:row];
+    return ((ConvertRendererResult*)[resultList objectAtIndex:row]).text;
+}
+
+- (UIImage*)imageForRow:(NSInteger)section row:(NSInteger)row {
+    return ((ConvertRendererResult*)[resultList objectAtIndex:row]).image;
 }
 @end
 
@@ -347,6 +380,7 @@
     cell.textLabel.text = [renderer textForRow:indexPath.section row:indexPath.row];
     //cell.textAlignment = UITextAlignmentRight;
     cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.imageView.image = [renderer imageForRow:indexPath.section row:indexPath.row];
 	return cell;
 }
 

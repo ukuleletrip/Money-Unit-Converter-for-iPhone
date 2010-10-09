@@ -12,6 +12,18 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		601589BB111EF0D900F955DF /* UnitCalcBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 601589BA111EF0D900F955DF /* UnitCalcBack.png */; };
+		601C43D61260A2F000DF5482 /* Australia.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43CA1260A2F000DF5482 /* Australia.png */; };
+		601C43D71260A2F000DF5482 /* Canada.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43CB1260A2F000DF5482 /* Canada.png */; };
+		601C43D81260A2F000DF5482 /* China.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43CC1260A2F000DF5482 /* China.png */; };
+		601C43D91260A2F000DF5482 /* European-Union.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43CD1260A2F000DF5482 /* European-Union.png */; };
+		601C43DA1260A2F000DF5482 /* Hong-Kong.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43CE1260A2F000DF5482 /* Hong-Kong.png */; };
+		601C43DB1260A2F000DF5482 /* India.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43CF1260A2F000DF5482 /* India.png */; };
+		601C43DC1260A2F000DF5482 /* Japan.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43D01260A2F000DF5482 /* Japan.png */; };
+		601C43DD1260A2F000DF5482 /* New-Zealand.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43D11260A2F000DF5482 /* New-Zealand.png */; };
+		601C43DE1260A2F000DF5482 /* South-Korea.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43D21260A2F000DF5482 /* South-Korea.png */; };
+		601C43DF1260A2F000DF5482 /* Switzerland.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43D31260A2F000DF5482 /* Switzerland.png */; };
+		601C43E01260A2F000DF5482 /* United-Kindom.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43D41260A2F000DF5482 /* United-Kindom.png */; };
+		601C43E11260A2F000DF5482 /* United-States.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43D51260A2F000DF5482 /* United-States.png */; };
 		602439F711422FBA00B0DB34 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 602439F611422FBA00B0DB34 /* icon.png */; };
 		60243A0811423B0400B0DB34 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 60243A0711423B0400B0DB34 /* InfoPlist.strings */; };
 		60243A1111423C7900B0DB34 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 60243A1011423C7900B0DB34 /* Localizable.strings */; };
@@ -31,6 +43,18 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MoneyUnitConverter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoneyUnitConverter_Prefix.pch; sourceTree = "<group>"; };
 		601589BA111EF0D900F955DF /* UnitCalcBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnitCalcBack.png; sourceTree = "<group>"; };
+		601C43CA1260A2F000DF5482 /* Australia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Australia.png; sourceTree = "<group>"; };
+		601C43CB1260A2F000DF5482 /* Canada.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Canada.png; sourceTree = "<group>"; };
+		601C43CC1260A2F000DF5482 /* China.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = China.png; sourceTree = "<group>"; };
+		601C43CD1260A2F000DF5482 /* European-Union.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "European-Union.png"; sourceTree = "<group>"; };
+		601C43CE1260A2F000DF5482 /* Hong-Kong.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Hong-Kong.png"; sourceTree = "<group>"; };
+		601C43CF1260A2F000DF5482 /* India.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = India.png; sourceTree = "<group>"; };
+		601C43D01260A2F000DF5482 /* Japan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Japan.png; sourceTree = "<group>"; };
+		601C43D11260A2F000DF5482 /* New-Zealand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "New-Zealand.png"; sourceTree = "<group>"; };
+		601C43D21260A2F000DF5482 /* South-Korea.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "South-Korea.png"; sourceTree = "<group>"; };
+		601C43D31260A2F000DF5482 /* Switzerland.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Switzerland.png; sourceTree = "<group>"; };
+		601C43D41260A2F000DF5482 /* United-Kindom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "United-Kindom.png"; sourceTree = "<group>"; };
+		601C43D51260A2F000DF5482 /* United-States.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "United-States.png"; sourceTree = "<group>"; };
 		602439F611422FBA00B0DB34 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		60243A011142399E00B0DB34 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		60243A0911423B2900B0DB34 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -109,6 +133,18 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				601C43CA1260A2F000DF5482 /* Australia.png */,
+				601C43CB1260A2F000DF5482 /* Canada.png */,
+				601C43CC1260A2F000DF5482 /* China.png */,
+				601C43CD1260A2F000DF5482 /* European-Union.png */,
+				601C43CE1260A2F000DF5482 /* Hong-Kong.png */,
+				601C43CF1260A2F000DF5482 /* India.png */,
+				601C43D01260A2F000DF5482 /* Japan.png */,
+				601C43D11260A2F000DF5482 /* New-Zealand.png */,
+				601C43D21260A2F000DF5482 /* South-Korea.png */,
+				601C43D31260A2F000DF5482 /* Switzerland.png */,
+				601C43D41260A2F000DF5482 /* United-Kindom.png */,
+				601C43D51260A2F000DF5482 /* United-States.png */,
 				60D2741B10E9CD9B00F95EB7 /* blueButton.png */,
 				60D2741C10E9CD9B00F95EB7 /* whiteButton.png */,
 				8D1107310486CEB800E47090 /* MoneyUnitConverter-Info.plist */,
@@ -185,6 +221,18 @@
 				60243A0811423B0400B0DB34 /* InfoPlist.strings in Resources */,
 				60243A1111423C7900B0DB34 /* Localizable.strings in Resources */,
 				602A01B1114276B800BA767C /* Default.png in Resources */,
+				601C43D61260A2F000DF5482 /* Australia.png in Resources */,
+				601C43D71260A2F000DF5482 /* Canada.png in Resources */,
+				601C43D81260A2F000DF5482 /* China.png in Resources */,
+				601C43D91260A2F000DF5482 /* European-Union.png in Resources */,
+				601C43DA1260A2F000DF5482 /* Hong-Kong.png in Resources */,
+				601C43DB1260A2F000DF5482 /* India.png in Resources */,
+				601C43DC1260A2F000DF5482 /* Japan.png in Resources */,
+				601C43DD1260A2F000DF5482 /* New-Zealand.png in Resources */,
+				601C43DE1260A2F000DF5482 /* South-Korea.png in Resources */,
+				601C43DF1260A2F000DF5482 /* Switzerland.png in Resources */,
+				601C43E01260A2F000DF5482 /* United-Kindom.png in Resources */,
+				601C43E11260A2F000DF5482 /* United-States.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
