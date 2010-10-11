@@ -2,7 +2,7 @@
    Localizable.strings
    MoneyUnitConverter
 
-   Created by 宮本 哲 on 10/03/06.
+   Created by Ukulele Trip on 10/03/06.
    Copyright 2010 __MyCompanyName__. All rights reserved.
  */
 "MainTitle" = "DenomMaster";
@@ -21,4 +21,13 @@
 "KRW" = "Korea Won";
 "PHP" = "Philippines Pesos";
 "TWD" = "Taiwan New Dollars";
+"BGN" = "Bulgarian lev";
+"CZK" = "Czech koruna";
+"DKK" = "Danish krone";
+"EEK" = "Estonian kroon";
+"HUF" = "Hungarian forint";
+"LTL" = "Lithuanian litas";
+"LVL" = "Latvian lats";
+"IDR" = "Indonesian rupiah";
+
 

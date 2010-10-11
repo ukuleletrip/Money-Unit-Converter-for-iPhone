@@ -13,6 +13,12 @@
 #import <UIKit/UIKit.h>
 
 //typedef unsigned long long MoneyInteger;
+#define FINANCIAL	(0x01)
+#define ENGLISH		(0x02)
+#define NATURAL		(0x04)
+#define CMAX		(0x08)
+#define CMIN		(0x10)
+
 @interface MoneyUnit : NSObject<NSCopying> {
     NSString *name;
     NSString *shortName;
@@ -25,6 +31,9 @@
 @property (nonatomic, readonly) BOOL isFinancial;
 @property (nonatomic, readonly) BOOL isNatural;
 @property (nonatomic, readonly) BOOL isEnglish;
+@property (nonatomic, readonly) BOOL isMin;
+@property (nonatomic, readonly) BOOL isMax;
+@property (nonatomic, readonly, assign) int attribute;
 @end
 
 @interface MoneyUnitList : NSObject {
@@ -35,6 +44,7 @@
 - (MoneyUnit*)unitAtIndex:(NSUInteger)index;
 - (NSUInteger)count;
 - (MoneyUnit*)searchForShortName:(NSString*)sn;
+- (MoneyUnit*)searchForShortName:(NSString*)sn withAttribute:(int)attribute isValue:(int)value;
 @end
 
 @interface MoneyCurrency : NSObject<NSCopying> {

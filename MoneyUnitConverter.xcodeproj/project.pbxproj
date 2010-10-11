@@ -33,6 +33,16 @@
 		60D2741D10E9CD9B00F95EB7 /* blueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 60D2741B10E9CD9B00F95EB7 /* blueButton.png */; };
 		60D2741E10E9CD9B00F95EB7 /* whiteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 60D2741C10E9CD9B00F95EB7 /* whiteButton.png */; };
 		60D274BE10ED836F00F95EB7 /* MoneyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D274BD10ED836F00F95EB7 /* MoneyModel.m */; };
+		60F033C91262A379009E2DFD /* Bulgaria.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F033C81262A379009E2DFD /* Bulgaria.png */; };
+		60F033CB1262A476009E2DFD /* Czech-Republic.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F033CA1262A476009E2DFD /* Czech-Republic.png */; };
+		60F033CD1262A5A1009E2DFD /* Denmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F033CC1262A5A1009E2DFD /* Denmark.png */; };
+		60F033CF1262A63E009E2DFD /* Estonia.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F033CE1262A63E009E2DFD /* Estonia.png */; };
+		60F033D11262A6FB009E2DFD /* Hungary.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F033D01262A6FB009E2DFD /* Hungary.png */; };
+		60F033D31262A79F009E2DFD /* Lithuania.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F033D21262A79F009E2DFD /* Lithuania.png */; };
+		60F033D51262A804009E2DFD /* Latvia.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F033D41262A804009E2DFD /* Latvia.png */; };
+		60F033E11262AA57009E2DFD /* Indonesia.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F033E01262AA57009E2DFD /* Indonesia.png */; };
+		60F03512126330FE009E2DFD /* MoneyUnitConverterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F03511126330FE009E2DFD /* MoneyUnitConverterController.m */; };
+		60F0352812633BEA009E2DFD /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F0352712633BEA009E2DFD /* SettingsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +79,18 @@
 		60D2741C10E9CD9B00F95EB7 /* whiteButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteButton.png; sourceTree = "<group>"; };
 		60D274BC10ED836F00F95EB7 /* MoneyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoneyModel.h; sourceTree = "<group>"; };
 		60D274BD10ED836F00F95EB7 /* MoneyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoneyModel.m; sourceTree = "<group>"; };
+		60F033C81262A379009E2DFD /* Bulgaria.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bulgaria.png; sourceTree = "<group>"; };
+		60F033CA1262A476009E2DFD /* Czech-Republic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Czech-Republic.png"; sourceTree = "<group>"; };
+		60F033CC1262A5A1009E2DFD /* Denmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Denmark.png; sourceTree = "<group>"; };
+		60F033CE1262A63E009E2DFD /* Estonia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Estonia.png; sourceTree = "<group>"; };
+		60F033D01262A6FB009E2DFD /* Hungary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Hungary.png; sourceTree = "<group>"; };
+		60F033D21262A79F009E2DFD /* Lithuania.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lithuania.png; sourceTree = "<group>"; };
+		60F033D41262A804009E2DFD /* Latvia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Latvia.png; sourceTree = "<group>"; };
+		60F033E01262AA57009E2DFD /* Indonesia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Indonesia.png; sourceTree = "<group>"; };
+		60F03510126330FE009E2DFD /* MoneyUnitConverterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoneyUnitConverterController.h; sourceTree = "<group>"; };
+		60F03511126330FE009E2DFD /* MoneyUnitConverterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoneyUnitConverterController.m; sourceTree = "<group>"; };
+		60F0352612633BEA009E2DFD /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		60F0352712633BEA009E2DFD /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MoneyUnitConverter-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MoneyUnitConverter-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,6 +126,10 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				60F0352612633BEA009E2DFD /* SettingsViewController.h */,
+				60F0352712633BEA009E2DFD /* SettingsViewController.m */,
+				60F03510126330FE009E2DFD /* MoneyUnitConverterController.h */,
+				60F03511126330FE009E2DFD /* MoneyUnitConverterController.m */,
 				602439F611422FBA00B0DB34 /* icon.png */,
 				607C8A4D113AA04C00233C7E /* CurrencyExchange.m */,
 				607C8A4E113AA04D00233C7E /* CurrencyExchange.h */,
@@ -133,6 +159,14 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				60F033E01262AA57009E2DFD /* Indonesia.png */,
+				60F033D41262A804009E2DFD /* Latvia.png */,
+				60F033D21262A79F009E2DFD /* Lithuania.png */,
+				60F033D01262A6FB009E2DFD /* Hungary.png */,
+				60F033CE1262A63E009E2DFD /* Estonia.png */,
+				60F033CC1262A5A1009E2DFD /* Denmark.png */,
+				60F033CA1262A476009E2DFD /* Czech-Republic.png */,
+				60F033C81262A379009E2DFD /* Bulgaria.png */,
 				601C43CA1260A2F000DF5482 /* Australia.png */,
 				601C43CB1260A2F000DF5482 /* Canada.png */,
 				601C43CC1260A2F000DF5482 /* China.png */,
@@ -233,6 +267,14 @@
 				601C43DF1260A2F000DF5482 /* Switzerland.png in Resources */,
 				601C43E01260A2F000DF5482 /* United-Kindom.png in Resources */,
 				601C43E11260A2F000DF5482 /* United-States.png in Resources */,
+				60F033C91262A379009E2DFD /* Bulgaria.png in Resources */,
+				60F033CB1262A476009E2DFD /* Czech-Republic.png in Resources */,
+				60F033CD1262A5A1009E2DFD /* Denmark.png in Resources */,
+				60F033CF1262A63E009E2DFD /* Estonia.png in Resources */,
+				60F033D11262A6FB009E2DFD /* Hungary.png in Resources */,
+				60F033D31262A79F009E2DFD /* Lithuania.png in Resources */,
+				60F033D51262A804009E2DFD /* Latvia.png in Resources */,
+				60F033E11262AA57009E2DFD /* Indonesia.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +289,8 @@
 				60D2733C10E9B49C00F95EB7 /* MoneyTypePadView.m in Sources */,
 				60D274BE10ED836F00F95EB7 /* MoneyModel.m in Sources */,
 				607C8A4F113AA04D00233C7E /* CurrencyExchange.m in Sources */,
+				60F03512126330FE009E2DFD /* MoneyUnitConverterController.m in Sources */,
+				60F0352812633BEA009E2DFD /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -132,6 +132,8 @@ const ButtonTable buttons[] = {
 
 - (MoneyUnit*)unit {
     NSString *unitName = nil;
+    int attr = ENGLISH;
+    int value = 0;
     if (languageSelector.selectedSegmentIndex == 0) {
         // japanese 
         unitName = [[jUnit1Selector titleForSegmentAtIndex:jUnit1Selector.selectedSegmentIndex]
@@ -143,8 +145,9 @@ const ButtonTable buttons[] = {
         unitName = [[eUnit1Selector titleForSegmentAtIndex:eUnit1Selector.selectedSegmentIndex]
                        stringByAppendingString:
                            [eUnit2Selector titleForSegmentAtIndex:eUnit2Selector.selectedSegmentIndex]];
+        value = ENGLISH;
     }
-    return [[MoneyUnitList sharedManager] searchForShortName:unitName];
+    return [[MoneyUnitList sharedManager] searchForShortName:unitName withAttribute:attr isValue:value];
 }
 
 - (void)changedUnit:(id)sender {
@@ -245,6 +248,7 @@ const ButtonTable buttons[] = {
     UIImage *newPressedImage = [buttonBackgroundPressed stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0];
     [btn setBackgroundImage:newPressedImage forState:UIControlStateHighlighted];
 
+    btn.titleLabel.adjustsFontSizeToFitWidth = YES;
     btn.backgroundColor = [UIColor clearColor];
     return btn;
 }
@@ -310,9 +314,10 @@ const ButtonTable buttons[] = {
 
         eUnit1Selector = 
             [[UISegmentedControl alloc]
-                initWithItems:[NSArray arrayWithObjects:@"", @"h", @"K", nil]];
+                initWithItems:[NSArray arrayWithObjects:@"", @"h", nil]];
+        //initWithItems:[NSArray arrayWithObjects:@"", @"h", @"K", nil]];
         eUnit1Selector.segmentedControlStyle = UISegmentedControlStyleBordered;
-        eUnit1Selector.frame = [self logicalPosToRect:3 row:2 width:3];
+        eUnit1Selector.frame = [self logicalPosToRect:3 row:2 width:2];
         eUnit1Selector.selectedSegmentIndex = 0;
         [eUnit1Selector addTarget:self action:@selector(changedUnit:)
                           forControlEvents:UIControlEventValueChanged];
@@ -373,6 +378,7 @@ const ButtonTable buttons[] = {
     cell.textLabel.text = [currencyList currencyAtIndex:indexPath.row].longName;
     //cell.textLabel.font = [UIFont systemFontOfSize:16];
     cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.adjustsFontSizeToFitWidth = YES;
     cell.imageView.image = [currencyList currencyAtIndex:indexPath.row].image;
 	return cell;
 }

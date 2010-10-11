@@ -19,12 +19,8 @@
 
 #define kExchangePrefKey	@"moneymodel.exchange.decimal.%@"
 
-#define FINANCIAL	(0x01)
-#define ENGLISH		(0x02)
-#define NATURAL		(0x04)
-
 @implementation MoneyUnit
-@synthesize name,shortName,value;
+@synthesize name,shortName,value,attribute;
 - (id)initWithName:(NSString*)n shortName:(NSString*)sn value:(NSString*)v attribute:(int)a {
     if ((self = [super init]) != nil) {
         name = n;
@@ -70,6 +66,14 @@
     return (attribute&ENGLISH) != 0;
 }
 
+- (BOOL)isMin {
+    return (attribute&CMIN) != 0;
+}
+
+- (BOOL)isMax {
+    return (attribute&CMAX) != 0;
+}
+
 @end
 
 @implementation MoneyUnitList
@@ -81,7 +85,7 @@ typedef struct {
     NSString *value;
 } MoneyUnitInit;
 const MoneyUnitInit units[] = {
-    { @"", @"", FINANCIAL|NATURAL,		@"1" },
+    { @"", @"", FINANCIAL|NATURAL|CMIN,		@"1" },
     { @"十", @"十", 0,		@"10" },
     { @"百", @"百", 0,		@"100" },
     { @"千", @"千", FINANCIAL,	@"1000" },
@@ -97,14 +101,17 @@ const MoneyUnitInit units[] = {
     { @"十兆", @"十兆", 0,	@"10000000000000" },
     { @"百兆", @"百兆", 0,	@"100000000000000" },
     { @"千兆", @"千兆", FINANCIAL,	@"1000000000000000" },
+    { @"京", @"京", FINANCIAL|NATURAL|CMAX,	@"10000000000000000" },
+    { @"", @"", NATURAL|ENGLISH|CMIN,		@"1" },
     { @"Hundred", @"h", ENGLISH,		@"100" },
     { @"Thousand", @"K", ENGLISH|NATURAL,	@"1000" },
-    { @"Million", @"M", FINANCIAL|ENGLISH|NATURAL,	@"1000000" },
-    { @"Hundred Million", @"hM", FINANCIAL|ENGLISH,	@"100000000" },
-    { @"Billion", @"B", FINANCIAL|ENGLISH|NATURAL,	@"1000000000" },
-    { @"Hundred Billion", @"hB", FINANCIAL|ENGLISH,	@"100000000000" },
-    { @"Trillion", @"T", FINANCIAL|ENGLISH|NATURAL,	@"1000000000000" },
-    { @"Hundred Trillion", @"hT", FINANCIAL|ENGLISH,	@"100000000000000" },
+    { @"Million", @"M", ENGLISH|NATURAL,	@"1000000" },
+    { @"Hundred Million", @"hM", ENGLISH,	@"100000000" },
+    { @"Billion", @"B", ENGLISH|NATURAL,	@"1000000000" },
+    { @"Hundred Billion", @"hB", ENGLISH,	@"100000000000" },
+    { @"Trillion", @"T", ENGLISH|NATURAL,	@"1000000000000" },
+    { @"Hundred Trillion", @"hT", ENGLISH,	@"100000000000000" },
+    { @"Quadrillion", @"Q", ENGLISH|NATURAL|CMAX, @"1000000000000000" },
 };
 
 - (id)init {
@@ -139,6 +146,17 @@ const MoneyUnitInit units[] = {
     for (int i=0; i < _list.count; i++) {
         MoneyUnit *unit = [_list objectAtIndex:i];
         if ([unit.shortName compare:sn] == NSOrderedSame) {
+            return unit;
+        }
+    }
+    return nil;
+}
+
+- (MoneyUnit*)searchForShortName:(NSString*)sn withAttribute:(int)attribute isValue:(int)value {
+    for (int i=0; i < _list.count; i++) {
+        MoneyUnit *unit = [_list objectAtIndex:i];
+        if ((unit.attribute&attribute) == value &&
+            [unit.shortName compare:sn] == NSOrderedSame) {
             return unit;
         }
     }
@@ -239,18 +257,25 @@ typedef struct {
 } MoneyCurrencyInit;
 const MoneyCurrencyInit currencies[] = {
     { @"JPY", @"円", 	@"Japan"			},
-    { @"USD", @"＄", 	@"United-States"	},
+    { @"USD", @"$", 	@"United-States"	},
     { @"EUR", @"€", 	@"European-Union"	},
-    { @"AUD", @"＄", 	@"Australia"		},
+    { @"AUD", @"$", 	@"Australia"		},
     { @"GBP", @"£", 	@"United-Kindom"	},
-    { @"NZD", @"＄", 	@"New-Zealand"		},
-    { @"CAD", @"＄", 	@"Canada"			},
+    { @"NZD", @"$", 	@"New-Zealand"		},
+    { @"CAD", @"$", 	@"Canada"			},
     { @"CHF", @"CHF", 	@"Switzerland"		},
-    { @"HKD", @"＄", 	@"Hong-Kong"		},
-    //{ @"TWD", @"＄", 	@"
+    { @"HKD", @"$", 	@"Hong-Kong"		},
     { @"INR", @"₨", 	@"India"			},
     { @"KRW", @"￦", 	@"South-Korea"		},
-    { @"CNY", @"元", 	@"China"			}
+    { @"CNY", @"元", 	@"China"			},
+    { @"BGN", @"лв",	@"Bulgaria"			},
+    { @"CZK", @"Kč",	@"Czech-Republic"	},
+    { @"DKK", @"kr",	@"Denmark"			},
+    { @"EEK", @"krooni",@"Estonia"			},
+    { @"HUF", @"Ft",	@"Hungary"			},
+    { @"LTL", @"Lt",	@"Lithuania"		},
+    { @"LVL", @"Ls",	@"Latvia"			},
+    { @"IDR", @"Rp",	@"Indonesia"		},
 };
 
 - (id)init {

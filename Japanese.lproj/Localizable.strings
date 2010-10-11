@@ -2,17 +2,19 @@
    Localizable.strings
    MoneyUnitConverter
 
-   Created by 宮本 哲 on 10/03/06.
+   Created by Ukulele Trip on 10/03/06.
    Copyright 2010 __MyCompanyName__. All rights reserved.
  */
 "MainTitle" = "通貨単位変換";
 "Settings" = "設定";
-"USD" = "米ドル";
+"Currency" = "通貨単位";
+"Account" = "財務単位";
+"USD" = "アメリカドル";
 "JPY" = "日本円";
 "EUR" = "欧州ユーロ";
 "CAD" = "カナダドル";
-"GBP" = "英ポンド";
-"AUD" = "豪ドル";
+"GBP" = "イギリスポンド";
+"AUD" = "オーストラリアドル";
 "INR" = "インドルピー";
 "NZD" = "NZドル";
 "CHF" = "スイスフラン";
@@ -21,3 +23,14 @@
 "KRW" = "韓国ウォン";
 "PHP" = "フィリピンペソ";
 "TWD" = "台湾ドル";
+"BGN" = "ブルガリアレフ";
+"CZK" = "チェココルナ";
+"DKK" = "デンマーククローネ";
+"EEK" = "エストニアクローン";
+"HUF" = "ハンガリーフォリント";
+"LTL" = "リトアニアリタス";
+"LVL" = "ラトビアラッツ";
+"IDR" = "インドネシアルピア";
+
+
+
