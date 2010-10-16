@@ -15,7 +15,9 @@
 #import "MoneyTypePadView.h"
 #import "MoneyModel.h"
 #import "SettingsViewController.h"
-#import <QuartzCore/QuartzCore.h>
+#import "AdMobInterstitialDelegateProtocol.h"
+#import "AdMobInterstitialAd.h"
+#import "AdMobView.h"
 
 #define kModePrefKey	@"main.accountmode"
 
@@ -352,6 +354,44 @@ typedef struct {
 	return self;
 }
 
+#pragma mark AdMobDelegate Methods
+- (NSString*)publisherIdForAd:(AdMobView *)adMobView {
+    return @"a14cb910f223f6a";
+}
+
+- (UIViewController*)currentViewControllerForAd:(AdMobView *)adMobView {
+    return self;
+}
+
+- (NSArray*)testDevices {
+    return [NSArray arrayWithObjects:ADMOB_SIMULATOR_ID,                             // Simulator
+                    @"85ba7295761afdc470f8f572b74a9fea293a5c71",
+                    nil];
+}
+
+// Sent when an ad request loaded an ad; this is a good opportunity to attach
+// the ad view to the hierachy.
+- (void)didReceiveAd:(AdMobView *)adMobView {
+    //NSLog(@"AdMob: Did receive ad");
+
+    // get the view frame
+    CGRect frame = self.view.frame;
+
+    // put the ad at the bottom of the screen
+    adView.frame = CGRectMake(0, frame.size.height - 48, frame.size.width, 48);
+    [self.view addSubview:adView];
+}
+
+// Sent when an ad request failed to load an ad
+- (void)didFailToReceiveAd:(AdMobView *)adMobView {
+    NSLog(@"AdMob: Did fail to receive ad");
+    [adView removeFromSuperview];  // Not necessary since never added to a view, but doesn't hurt and is good practice
+    [adView release];
+    adView = nil;
+    // we could start a new ad request here, but in the interests of the user's battery life, let's not
+}
+
+
 - (void)updateResultList {
     MoneyCurrencyList *currencyList = [MoneyCurrencyList sharedManager];
     [renderer update];
@@ -497,7 +537,7 @@ typedef struct {
 	self.view = contentView;
     [contentView release];
 
-    MoneyTypePadView *typePad = [[MoneyTypePadView alloc] initWithFrame:CGRectMake(0,280,320,200-64)];
+    MoneyTypePadView *typePad = [[MoneyTypePadView alloc] initWithFrame:CGRectMake(0,280-48,320,200-64)];
     typePad.delegate = self;
     account.currency = typePad.currency;
     account.unit = typePad.unit;
@@ -518,7 +558,7 @@ typedef struct {
     [contentView addSubview:inputField];
 
     resultTable = [[UITableView alloc]
-                    initWithFrame:CGRectMake(0,50.0,320.0,230)
+                    initWithFrame:CGRectMake(0,50.0,320.0,230-48)
                     style:UITableViewStylePlain];
     resultTable.backgroundColor = [UIColor whiteColor];
     resultTable.delegate = self;
@@ -526,6 +566,9 @@ typedef struct {
     resultTable.rowHeight = (isAccountMode)? 24 : 44;
     [resultTable reloadData];
     [contentView addSubview:resultTable];
+
+    adView = [AdMobView requestAdWithDelegate:self]; // start a new ad request
+    [adView retain];
 
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc]
                                                   initWithTitle:NSLocalizedString(@"Settings", nil)
@@ -547,6 +590,7 @@ typedef struct {
 
 -(void) dealloc {
 	// add any further clean-up here
+    [adView release];
     [renderer release];
     [resultList release];
     [resultTable release];
