@@ -58,6 +58,54 @@
 		60F033E11262AA57009E2DFD /* Indonesia.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F033E01262AA57009E2DFD /* Indonesia.png */; };
 		60F03512126330FE009E2DFD /* MoneyUnitConverterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F03511126330FE009E2DFD /* MoneyUnitConverterController.m */; };
 		60F0352812633BEA009E2DFD /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F0352712633BEA009E2DFD /* SettingsViewController.m */; };
+		60FE3862126B1DFC0083C134 /* Brazil.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE3854126B1DFC0083C134 /* Brazil.png */; };
+		60FE3863126B1DFD0083C134 /* Croatia.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE3855126B1DFC0083C134 /* Croatia.png */; };
+		60FE3864126B1DFD0083C134 /* Malaysia.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE3856126B1DFC0083C134 /* Malaysia.png */; };
+		60FE3865126B1DFD0083C134 /* Mexico.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE3857126B1DFC0083C134 /* Mexico.png */; };
+		60FE3866126B1DFD0083C134 /* Norway.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE3858126B1DFC0083C134 /* Norway.png */; };
+		60FE3867126B1DFD0083C134 /* Philippines.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE3859126B1DFC0083C134 /* Philippines.png */; };
+		60FE3868126B1DFD0083C134 /* Poland.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE385A126B1DFC0083C134 /* Poland.png */; };
+		60FE3869126B1DFD0083C134 /* Romania.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE385B126B1DFC0083C134 /* Romania.png */; };
+		60FE386A126B1DFD0083C134 /* Russia.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE385C126B1DFC0083C134 /* Russia.png */; };
+		60FE386B126B1DFD0083C134 /* Singapore.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE385D126B1DFC0083C134 /* Singapore.png */; };
+		60FE386C126B1DFD0083C134 /* South-Africa.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE385E126B1DFC0083C134 /* South-Africa.png */; };
+		60FE386D126B1DFD0083C134 /* Sweden.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE385F126B1DFC0083C134 /* Sweden.png */; };
+		60FE386E126B1DFD0083C134 /* Thailand.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE3860126B1DFC0083C134 /* Thailand.png */; };
+		60FE386F126B1DFD0083C134 /* Turkey.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE3861126B1DFC0083C134 /* Turkey.png */; };
+		60FE387C126B20250083C134 /* Japan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE387B126B20250083C134 /* Japan@2x.png */; };
+		60FE38E5126B23270083C134 /* Australia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38C4126B23270083C134 /* Australia@2x.png */; };
+		60FE38E6126B23270083C134 /* Brazil@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38C5126B23270083C134 /* Brazil@2x.png */; };
+		60FE38E7126B23270083C134 /* Bulgaria@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38C6126B23270083C134 /* Bulgaria@2x.png */; };
+		60FE38E8126B23270083C134 /* Canada@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38C7126B23270083C134 /* Canada@2x.png */; };
+		60FE38E9126B23270083C134 /* China@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38C8126B23270083C134 /* China@2x.png */; };
+		60FE38EA126B23270083C134 /* Croatia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38C9126B23270083C134 /* Croatia@2x.png */; };
+		60FE38EB126B23270083C134 /* Czech-Republic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38CA126B23270083C134 /* Czech-Republic@2x.png */; };
+		60FE38EC126B23270083C134 /* Denmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38CB126B23270083C134 /* Denmark@2x.png */; };
+		60FE38ED126B23270083C134 /* Estonia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38CC126B23270083C134 /* Estonia@2x.png */; };
+		60FE38EE126B23270083C134 /* European-Union@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38CD126B23270083C134 /* European-Union@2x.png */; };
+		60FE38EF126B23270083C134 /* Hong-Kong@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38CE126B23270083C134 /* Hong-Kong@2x.png */; };
+		60FE38F0126B23270083C134 /* Hungary@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38CF126B23270083C134 /* Hungary@2x.png */; };
+		60FE38F1126B23270083C134 /* India@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38D0126B23270083C134 /* India@2x.png */; };
+		60FE38F2126B23270083C134 /* Indonesia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38D1126B23270083C134 /* Indonesia@2x.png */; };
+		60FE38F3126B23270083C134 /* Latvia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38D2126B23270083C134 /* Latvia@2x.png */; };
+		60FE38F4126B23270083C134 /* Lithuania@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38D3126B23270083C134 /* Lithuania@2x.png */; };
+		60FE38F5126B23270083C134 /* Malaysia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38D4126B23270083C134 /* Malaysia@2x.png */; };
+		60FE38F6126B23270083C134 /* Mexico@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38D5126B23270083C134 /* Mexico@2x.png */; };
+		60FE38F7126B23270083C134 /* New-Zealand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38D6126B23270083C134 /* New-Zealand@2x.png */; };
+		60FE38F8126B23270083C134 /* Norway@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38D7126B23270083C134 /* Norway@2x.png */; };
+		60FE38F9126B23270083C134 /* Philippines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38D8126B23270083C134 /* Philippines@2x.png */; };
+		60FE38FA126B23270083C134 /* Poland@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38D9126B23270083C134 /* Poland@2x.png */; };
+		60FE38FB126B23270083C134 /* Romania@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38DA126B23270083C134 /* Romania@2x.png */; };
+		60FE38FC126B23270083C134 /* Russia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38DB126B23270083C134 /* Russia@2x.png */; };
+		60FE38FD126B23270083C134 /* Singapore@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38DC126B23270083C134 /* Singapore@2x.png */; };
+		60FE38FE126B23270083C134 /* South-Africa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38DD126B23270083C134 /* South-Africa@2x.png */; };
+		60FE38FF126B23270083C134 /* South-Korea@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38DE126B23270083C134 /* South-Korea@2x.png */; };
+		60FE3900126B23270083C134 /* Sweden@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38DF126B23270083C134 /* Sweden@2x.png */; };
+		60FE3901126B23270083C134 /* Switzerland@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38E0126B23270083C134 /* Switzerland@2x.png */; };
+		60FE3902126B23270083C134 /* Thailand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38E1126B23270083C134 /* Thailand@2x.png */; };
+		60FE3903126B23270083C134 /* Turkey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38E2126B23270083C134 /* Turkey@2x.png */; };
+		60FE3904126B23270083C134 /* United-Kindom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38E3126B23270083C134 /* United-Kindom@2x.png */; };
+		60FE3905126B23270083C134 /* United-States@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE38E4126B23270083C134 /* United-States@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -135,6 +183,54 @@
 		60F03511126330FE009E2DFD /* MoneyUnitConverterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoneyUnitConverterController.m; sourceTree = "<group>"; };
 		60F0352612633BEA009E2DFD /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		60F0352712633BEA009E2DFD /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		60FE3854126B1DFC0083C134 /* Brazil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Brazil.png; sourceTree = "<group>"; };
+		60FE3855126B1DFC0083C134 /* Croatia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Croatia.png; sourceTree = "<group>"; };
+		60FE3856126B1DFC0083C134 /* Malaysia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Malaysia.png; sourceTree = "<group>"; };
+		60FE3857126B1DFC0083C134 /* Mexico.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mexico.png; sourceTree = "<group>"; };
+		60FE3858126B1DFC0083C134 /* Norway.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Norway.png; sourceTree = "<group>"; };
+		60FE3859126B1DFC0083C134 /* Philippines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Philippines.png; sourceTree = "<group>"; };
+		60FE385A126B1DFC0083C134 /* Poland.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Poland.png; sourceTree = "<group>"; };
+		60FE385B126B1DFC0083C134 /* Romania.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Romania.png; sourceTree = "<group>"; };
+		60FE385C126B1DFC0083C134 /* Russia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Russia.png; sourceTree = "<group>"; };
+		60FE385D126B1DFC0083C134 /* Singapore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Singapore.png; sourceTree = "<group>"; };
+		60FE385E126B1DFC0083C134 /* South-Africa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "South-Africa.png"; sourceTree = "<group>"; };
+		60FE385F126B1DFC0083C134 /* Sweden.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sweden.png; sourceTree = "<group>"; };
+		60FE3860126B1DFC0083C134 /* Thailand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thailand.png; sourceTree = "<group>"; };
+		60FE3861126B1DFC0083C134 /* Turkey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turkey.png; sourceTree = "<group>"; };
+		60FE387B126B20250083C134 /* Japan@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Japan@2x.png"; sourceTree = "<group>"; };
+		60FE38C4126B23270083C134 /* Australia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Australia@2x.png"; sourceTree = "<group>"; };
+		60FE38C5126B23270083C134 /* Brazil@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Brazil@2x.png"; sourceTree = "<group>"; };
+		60FE38C6126B23270083C134 /* Bulgaria@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bulgaria@2x.png"; sourceTree = "<group>"; };
+		60FE38C7126B23270083C134 /* Canada@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Canada@2x.png"; sourceTree = "<group>"; };
+		60FE38C8126B23270083C134 /* China@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "China@2x.png"; sourceTree = "<group>"; };
+		60FE38C9126B23270083C134 /* Croatia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Croatia@2x.png"; sourceTree = "<group>"; };
+		60FE38CA126B23270083C134 /* Czech-Republic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Czech-Republic@2x.png"; sourceTree = "<group>"; };
+		60FE38CB126B23270083C134 /* Denmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Denmark@2x.png"; sourceTree = "<group>"; };
+		60FE38CC126B23270083C134 /* Estonia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Estonia@2x.png"; sourceTree = "<group>"; };
+		60FE38CD126B23270083C134 /* European-Union@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "European-Union@2x.png"; sourceTree = "<group>"; };
+		60FE38CE126B23270083C134 /* Hong-Kong@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Hong-Kong@2x.png"; sourceTree = "<group>"; };
+		60FE38CF126B23270083C134 /* Hungary@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Hungary@2x.png"; sourceTree = "<group>"; };
+		60FE38D0126B23270083C134 /* India@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "India@2x.png"; sourceTree = "<group>"; };
+		60FE38D1126B23270083C134 /* Indonesia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Indonesia@2x.png"; sourceTree = "<group>"; };
+		60FE38D2126B23270083C134 /* Latvia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Latvia@2x.png"; sourceTree = "<group>"; };
+		60FE38D3126B23270083C134 /* Lithuania@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Lithuania@2x.png"; sourceTree = "<group>"; };
+		60FE38D4126B23270083C134 /* Malaysia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Malaysia@2x.png"; sourceTree = "<group>"; };
+		60FE38D5126B23270083C134 /* Mexico@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Mexico@2x.png"; sourceTree = "<group>"; };
+		60FE38D6126B23270083C134 /* New-Zealand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "New-Zealand@2x.png"; sourceTree = "<group>"; };
+		60FE38D7126B23270083C134 /* Norway@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Norway@2x.png"; sourceTree = "<group>"; };
+		60FE38D8126B23270083C134 /* Philippines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Philippines@2x.png"; sourceTree = "<group>"; };
+		60FE38D9126B23270083C134 /* Poland@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Poland@2x.png"; sourceTree = "<group>"; };
+		60FE38DA126B23270083C134 /* Romania@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Romania@2x.png"; sourceTree = "<group>"; };
+		60FE38DB126B23270083C134 /* Russia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Russia@2x.png"; sourceTree = "<group>"; };
+		60FE38DC126B23270083C134 /* Singapore@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Singapore@2x.png"; sourceTree = "<group>"; };
+		60FE38DD126B23270083C134 /* South-Africa@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "South-Africa@2x.png"; sourceTree = "<group>"; };
+		60FE38DE126B23270083C134 /* South-Korea@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "South-Korea@2x.png"; sourceTree = "<group>"; };
+		60FE38DF126B23270083C134 /* Sweden@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sweden@2x.png"; sourceTree = "<group>"; };
+		60FE38E0126B23270083C134 /* Switzerland@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Switzerland@2x.png"; sourceTree = "<group>"; };
+		60FE38E1126B23270083C134 /* Thailand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Thailand@2x.png"; sourceTree = "<group>"; };
+		60FE38E2126B23270083C134 /* Turkey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Turkey@2x.png"; sourceTree = "<group>"; };
+		60FE38E3126B23270083C134 /* United-Kindom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "United-Kindom@2x.png"; sourceTree = "<group>"; };
+		60FE38E4126B23270083C134 /* United-States@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "United-States@2x.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MoneyUnitConverter-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MoneyUnitConverter-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -210,6 +306,53 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				60FE38C4126B23270083C134 /* Australia@2x.png */,
+				60FE38C5126B23270083C134 /* Brazil@2x.png */,
+				60FE38C6126B23270083C134 /* Bulgaria@2x.png */,
+				60FE38C7126B23270083C134 /* Canada@2x.png */,
+				60FE38C8126B23270083C134 /* China@2x.png */,
+				60FE38C9126B23270083C134 /* Croatia@2x.png */,
+				60FE38CA126B23270083C134 /* Czech-Republic@2x.png */,
+				60FE38CB126B23270083C134 /* Denmark@2x.png */,
+				60FE38CC126B23270083C134 /* Estonia@2x.png */,
+				60FE38CD126B23270083C134 /* European-Union@2x.png */,
+				60FE38CE126B23270083C134 /* Hong-Kong@2x.png */,
+				60FE38CF126B23270083C134 /* Hungary@2x.png */,
+				60FE38D0126B23270083C134 /* India@2x.png */,
+				60FE38D1126B23270083C134 /* Indonesia@2x.png */,
+				60FE38D2126B23270083C134 /* Latvia@2x.png */,
+				60FE38D3126B23270083C134 /* Lithuania@2x.png */,
+				60FE38D4126B23270083C134 /* Malaysia@2x.png */,
+				60FE38D5126B23270083C134 /* Mexico@2x.png */,
+				60FE38D6126B23270083C134 /* New-Zealand@2x.png */,
+				60FE38D7126B23270083C134 /* Norway@2x.png */,
+				60FE38D8126B23270083C134 /* Philippines@2x.png */,
+				60FE38D9126B23270083C134 /* Poland@2x.png */,
+				60FE38DA126B23270083C134 /* Romania@2x.png */,
+				60FE38DB126B23270083C134 /* Russia@2x.png */,
+				60FE38DC126B23270083C134 /* Singapore@2x.png */,
+				60FE38DD126B23270083C134 /* South-Africa@2x.png */,
+				60FE38DE126B23270083C134 /* South-Korea@2x.png */,
+				60FE38DF126B23270083C134 /* Sweden@2x.png */,
+				60FE38E0126B23270083C134 /* Switzerland@2x.png */,
+				60FE38E1126B23270083C134 /* Thailand@2x.png */,
+				60FE38E2126B23270083C134 /* Turkey@2x.png */,
+				60FE38E3126B23270083C134 /* United-Kindom@2x.png */,
+				60FE38E4126B23270083C134 /* United-States@2x.png */,
+				60FE3854126B1DFC0083C134 /* Brazil.png */,
+				60FE3855126B1DFC0083C134 /* Croatia.png */,
+				60FE3856126B1DFC0083C134 /* Malaysia.png */,
+				60FE3857126B1DFC0083C134 /* Mexico.png */,
+				60FE3858126B1DFC0083C134 /* Norway.png */,
+				60FE3859126B1DFC0083C134 /* Philippines.png */,
+				60FE385A126B1DFC0083C134 /* Poland.png */,
+				60FE385B126B1DFC0083C134 /* Romania.png */,
+				60FE385C126B1DFC0083C134 /* Russia.png */,
+				60FE385D126B1DFC0083C134 /* Singapore.png */,
+				60FE385E126B1DFC0083C134 /* South-Africa.png */,
+				60FE385F126B1DFC0083C134 /* Sweden.png */,
+				60FE3860126B1DFC0083C134 /* Thailand.png */,
+				60FE3861126B1DFC0083C134 /* Turkey.png */,
 				60F033E01262AA57009E2DFD /* Indonesia.png */,
 				60F033D41262A804009E2DFD /* Latvia.png */,
 				60F033D21262A79F009E2DFD /* Lithuania.png */,
@@ -225,6 +368,7 @@
 				601C43CE1260A2F000DF5482 /* Hong-Kong.png */,
 				601C43CF1260A2F000DF5482 /* India.png */,
 				601C43D01260A2F000DF5482 /* Japan.png */,
+				60FE387B126B20250083C134 /* Japan@2x.png */,
 				601C43D11260A2F000DF5482 /* New-Zealand.png */,
 				601C43D21260A2F000DF5482 /* South-Korea.png */,
 				601C43D31260A2F000DF5482 /* Switzerland.png */,
@@ -385,6 +529,54 @@
 				60F033D31262A79F009E2DFD /* Lithuania.png in Resources */,
 				60F033D51262A804009E2DFD /* Latvia.png in Resources */,
 				60F033E11262AA57009E2DFD /* Indonesia.png in Resources */,
+				60FE3862126B1DFC0083C134 /* Brazil.png in Resources */,
+				60FE3863126B1DFD0083C134 /* Croatia.png in Resources */,
+				60FE3864126B1DFD0083C134 /* Malaysia.png in Resources */,
+				60FE3865126B1DFD0083C134 /* Mexico.png in Resources */,
+				60FE3866126B1DFD0083C134 /* Norway.png in Resources */,
+				60FE3867126B1DFD0083C134 /* Philippines.png in Resources */,
+				60FE3868126B1DFD0083C134 /* Poland.png in Resources */,
+				60FE3869126B1DFD0083C134 /* Romania.png in Resources */,
+				60FE386A126B1DFD0083C134 /* Russia.png in Resources */,
+				60FE386B126B1DFD0083C134 /* Singapore.png in Resources */,
+				60FE386C126B1DFD0083C134 /* South-Africa.png in Resources */,
+				60FE386D126B1DFD0083C134 /* Sweden.png in Resources */,
+				60FE386E126B1DFD0083C134 /* Thailand.png in Resources */,
+				60FE386F126B1DFD0083C134 /* Turkey.png in Resources */,
+				60FE387C126B20250083C134 /* Japan@2x.png in Resources */,
+				60FE38E5126B23270083C134 /* Australia@2x.png in Resources */,
+				60FE38E6126B23270083C134 /* Brazil@2x.png in Resources */,
+				60FE38E7126B23270083C134 /* Bulgaria@2x.png in Resources */,
+				60FE38E8126B23270083C134 /* Canada@2x.png in Resources */,
+				60FE38E9126B23270083C134 /* China@2x.png in Resources */,
+				60FE38EA126B23270083C134 /* Croatia@2x.png in Resources */,
+				60FE38EB126B23270083C134 /* Czech-Republic@2x.png in Resources */,
+				60FE38EC126B23270083C134 /* Denmark@2x.png in Resources */,
+				60FE38ED126B23270083C134 /* Estonia@2x.png in Resources */,
+				60FE38EE126B23270083C134 /* European-Union@2x.png in Resources */,
+				60FE38EF126B23270083C134 /* Hong-Kong@2x.png in Resources */,
+				60FE38F0126B23270083C134 /* Hungary@2x.png in Resources */,
+				60FE38F1126B23270083C134 /* India@2x.png in Resources */,
+				60FE38F2126B23270083C134 /* Indonesia@2x.png in Resources */,
+				60FE38F3126B23270083C134 /* Latvia@2x.png in Resources */,
+				60FE38F4126B23270083C134 /* Lithuania@2x.png in Resources */,
+				60FE38F5126B23270083C134 /* Malaysia@2x.png in Resources */,
+				60FE38F6126B23270083C134 /* Mexico@2x.png in Resources */,
+				60FE38F7126B23270083C134 /* New-Zealand@2x.png in Resources */,
+				60FE38F8126B23270083C134 /* Norway@2x.png in Resources */,
+				60FE38F9126B23270083C134 /* Philippines@2x.png in Resources */,
+				60FE38FA126B23270083C134 /* Poland@2x.png in Resources */,
+				60FE38FB126B23270083C134 /* Romania@2x.png in Resources */,
+				60FE38FC126B23270083C134 /* Russia@2x.png in Resources */,
+				60FE38FD126B23270083C134 /* Singapore@2x.png in Resources */,
+				60FE38FE126B23270083C134 /* South-Africa@2x.png in Resources */,
+				60FE38FF126B23270083C134 /* South-Korea@2x.png in Resources */,
+				60FE3900126B23270083C134 /* Sweden@2x.png in Resources */,
+				60FE3901126B23270083C134 /* Switzerland@2x.png in Resources */,
+				60FE3902126B23270083C134 /* Thailand@2x.png in Resources */,
+				60FE3903126B23270083C134 /* Turkey@2x.png in Resources */,
+				60FE3904126B23270083C134 /* United-Kindom@2x.png in Resources */,
+				60FE3905126B23270083C134 /* United-States@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

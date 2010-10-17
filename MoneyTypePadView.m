@@ -63,6 +63,7 @@ const ButtonTable buttons[] = {
 }
 @property (nonatomic, assign) id <UITableViewDataSource> dataSource;
 @property (nonatomic, assign) id <PopupMenuDelegate> delegate;
+- (void)update;
 @end
 
 @implementation PopupMenu
@@ -93,6 +94,10 @@ const ButtonTable buttons[] = {
     [super dealloc];
 }
 
+- (void)update {
+    [table reloadData];
+}
+
 - (id <UITableViewDataSource>)dataSource {
     return table.dataSource;
 }
@@ -118,7 +123,7 @@ const ButtonTable buttons[] = {
 @synthesize delegate;
 - (void)keyAction:(id)sender {
     NSString *inputText = ((UIButton*)sender).titleLabel.text;
-    NSLog(@"%@",inputText);
+    //NSLog(@"%@",inputText);
     if ([inputText compare:@"C"] == 0) {
         if ([delegate respondsToSelector:@selector(moneyTypePadShouldClear:)]) {
             [delegate moneyTypePadShouldClear:self];
@@ -205,6 +210,7 @@ const ButtonTable buttons[] = {
 }
 
 - (void)handleTimer:(NSTimer*)timer {
+    [currencySelectMenu update];
     currencySelectMenu.frame = CGRectMake(currencySelector.frame.origin.x, 0, 
                                           currencySelectMenu.frame.size.width,
                                           currencySelectMenu.frame.size.height);
@@ -371,8 +377,10 @@ const ButtonTable buttons[] = {
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	// Use re-usable cells to minimize the memory load
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"any-cell"];
-	if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:/*UITableViewCellStyleValue2*/UITableViewCellStyleSubtitle reuseIdentifier:@"any-cell"] autorelease];
-	
+	if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                         reuseIdentifier:@"any-cell"] autorelease];
+	}
 	// Set up the cell's text
     MoneyCurrencyList *currencyList = [MoneyCurrencyList sharedManager];
     cell.textLabel.text = [currencyList currencyAtIndex:indexPath.row].longName;

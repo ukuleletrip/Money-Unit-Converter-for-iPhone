@@ -5,8 +5,10 @@
    Created by Ukulele Trip on 10/03/06.
    Copyright 2010 __MyCompanyName__. All rights reserved.
  */
-"MainTitle" = "DenomMaster";
+"MainTitle" = "Currency";
 "Settings" = "Settings";
+"Currencies" = "Currencies to use";
+"AboutThisApp" = "About This App";
 "USD" = "US Dollars";
 "JPY" = "Japan Yen";
 "EUR" = "Euro";
@@ -28,6 +30,24 @@
 "HUF" = "Hungarian forint";
 "LTL" = "Lithuanian litas";
 "LVL" = "Latvian lats";
+"PLN" = "Polish złoty";
+"RON" = "Romanian leu";
+"SEK" = "Swedish krona";
+"NOK" = "Norwegian krone";
+"HRK" = "Croatian kuna";
+"RUB" = "Russian ruble";
+"TRY" = "Turkish lira";
+"BRL" = "Brazilian real";
 "IDR" = "Indonesian rupiah";
+"MXN" = "Mexican peso";
+"MYR" = "Malaysian ringgit";
+"PHP" = "Philippine peso";
+"SGD" = "Singapore dollar";
+"THB" = "Thai baht";
+"ZAR" = "South African rand";
+
+
+
+
 
 

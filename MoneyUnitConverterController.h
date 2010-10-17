@@ -18,12 +18,14 @@
 @class MoneyDisplay;
 @class ResultRenderer;
 @class AdMobView;
+@class MoneyTypePadView;
 
 @interface MoneyUnitConverterController : UIViewController <UITableViewDataSource, UITableViewDelegate, MoneyTypePadViewDelegate, AdMobDelegate> {
 @private
     MoneyDisplay *inputField;
     MoneyAccount *account;
     UITableView *resultTable;
+    MoneyTypePadView *typePad;
     AdMobView *adView;
     NSMutableArray *resultList;
     ResultRenderer *renderer;

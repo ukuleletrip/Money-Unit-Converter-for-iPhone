@@ -64,11 +64,19 @@
 @interface MoneyCurrencyList : NSObject {
 @private
     NSMutableArray *_list;
+    NSMutableArray *_enabledList;
 }
 + (MoneyCurrencyList*)sharedManager;
+- (void)moveCurrency:(NSUInteger)fromIndex to:(NSUInteger)toIndex;
+- (MoneyCurrency*)currencyAtAllIndex:(NSUInteger)index;
 - (MoneyCurrency*)currencyAtIndex:(NSUInteger)index;
+- (NSUInteger)countAll;
 - (NSUInteger)count;
-- (MoneyCurrency*)searchForShortName:(NSString*)sn;
+- (MoneyCurrency*)searchForName:(NSString*)name;
+- (BOOL)isEnabled:(MoneyCurrency*)currency;
+- (void)enable:(MoneyCurrency*)currency;
+- (void)disable:(MoneyCurrency*)currency;
+- (void)saveList;
 @end
 
 @interface MoneyAccount : NSObject {

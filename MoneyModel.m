@@ -17,7 +17,9 @@
 #define kOnlyFinancialUnit
 #define kMaxDigits	(12)
 
-#define kExchangePrefKey	@"moneymodel.exchange.decimal.%@"
+#define kExchangePrefKey		@"moneymodel.exchange.nsstring.%@"
+#define kCurAllListPrefKey		@"moneymodel.currency.all.array"
+#define kCurEnabledListPrefKey	@"moneymodel.currency.enabled.array"
 
 @implementation MoneyUnit
 @synthesize name,shortName,value,attribute;
@@ -231,13 +233,15 @@ const MoneyUnitInit units[] = {
 - (NSDecimalNumber*)exchangeForDollar {
     NSDecimalNumber *v = [[CurrencyExchange sharedManager] convert:[NSDecimalNumber decimalNumberWithString:@"1"] From:@"USD" To:name];
     if (v == nil) {
-        v = (NSDecimalNumber*)[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:kExchangePrefKey,name]];
-        if (v == nil) {
+        NSString *s = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:kExchangePrefKey,name]];
+        if (s == nil || (v = [NSDecimalNumber decimalNumberWithString:s]) == nil) {
             v = [NSDecimalNumber decimalNumberWithString:@"0"];
         }
     } else {
-        [[NSUserDefaults standardUserDefaults] setObject:v
-                                  forKey:[NSString stringWithFormat:kExchangePrefKey,name]];
+        NSDictionary *dic= [[NSDictionary alloc] initWithObjectsAndKeys:@".",@"NSDecimalSeparator",nil];
+        NSString *s = [v descriptionWithLocale:dic];
+        [[NSUserDefaults standardUserDefaults] setObject:s
+                                               forKey:[NSString stringWithFormat:kExchangePrefKey,name]];
     }
     return v;
 }
@@ -275,19 +279,61 @@ const MoneyCurrencyInit currencies[] = {
     { @"HUF", @"Ft",	@"Hungary"			},
     { @"LTL", @"Lt",	@"Lithuania"		},
     { @"LVL", @"Ls",	@"Latvia"			},
+    { @"PLN", @"zł",	@"Poland"			},
+    { @"RON", @"lei",	@"Romania"			},
+    { @"SEK", @"kr",	@"Sweden"			},
+    { @"NOK", @"kr",	@"Norway"			},
+    { @"HRK", @"kn",	@"Croatia"			},
+    { @"RUB", @"руб", @"Russia"			},
+	{ @"TRY", @"TL",	@"Turkey"			},
+    { @"BRL", @"R$",	@"Brazil"			},
     { @"IDR", @"Rp",	@"Indonesia"		},
+    { @"MXN", @"$",		@"Mexico"			},
+    { @"MYR", @"RM",	@"Malaysia"			},
+    { @"PHP", @"₱",		@"Philippines"		},
+    { @"SGD", @"S$",	@"Singapore"		},
+    { @"THB", @"฿",		@"Thailand"			},
+    { @"ZAR", @"R",		@"South-Africa"		},
 };
+
+- (MoneyCurrency*)createCurrencyFromTable:(int)i {
+    return [[MoneyCurrency alloc] initWithName:currencies[i].name
+                                  shortName:currencies[i].shortName
+                                  imageName:currencies[i].imageName];
+}
 
 - (id)init {
     if ((self = [super init]) != nil) {
-        _list = [[NSMutableArray alloc] init];
         [[CurrencyExchange sharedManager] update];
+
+        _list = [[NSMutableArray alloc] init];
+        _enabledList = [[NSMutableArray alloc] init];
+
+        NSArray *all = [[NSUserDefaults standardUserDefaults] objectForKey:kCurAllListPrefKey];
+        NSArray *en = [[NSUserDefaults standardUserDefaults] objectForKey:kCurEnabledListPrefKey];
+        //NSLog(@"readConf %@\n%@", [all description], [en description]);
+        for (NSString *key in all) {
+            for (int i=0; i < sizeof(currencies)/sizeof(currencies[0]); i++) {
+                if ([key compare:currencies[i].name] == NSOrderedSame) {
+                    MoneyCurrency *currency = [self createCurrencyFromTable:i];
+                    [_list addObject:currency];
+                    [currency release];
+                }
+            }
+        }
+        for (NSString *key in en) {
+            MoneyCurrency *c = [self searchForName:key];
+            if (c != nil) {
+                [_enabledList addObject:c];
+            }
+        }
         for (int i=0; i < sizeof(currencies)/sizeof(currencies[0]); i++) {
-            MoneyCurrency *currency = [[MoneyCurrency alloc] initWithName:currencies[i].name
-                                                             shortName:currencies[i].shortName
-                                                             imageName:currencies[i].imageName];
-            [_list addObject:currency];
-            [currency release];
+            if ([self searchForName:currencies[i].name] == nil) {
+                MoneyCurrency *currency = [self createCurrencyFromTable:i];
+                [_list addObject:currency];
+                [_enabledList addObject:currency];
+                [currency release];
+            }
         }
     }
     return self;
@@ -295,25 +341,79 @@ const MoneyCurrencyInit currencies[] = {
 
 - (void)dealloc {
     [_list release];
+    [_enabledList release];
     [super dealloc];
 }
 
-- (MoneyCurrency*)currencyAtIndex:(NSUInteger)index {
+- (void)moveCurrency:(NSUInteger)fromIndex to:(NSUInteger)toIndex {
+    MoneyCurrency *currency = [[_list objectAtIndex:fromIndex] retain];
+    [_list removeObject:currency];
+    [_list insertObject:currency atIndex:toIndex];
+    [currency release];
+
+    NSMutableArray *newEnabledList = [[NSMutableArray alloc] init];
+    for (id c in _list) {
+        if ([self isEnabled:c]) {
+            [newEnabledList addObject:c];
+        }
+    }
+    [_enabledList release];
+    _enabledList = newEnabledList;
+}
+
+- (void)saveList {
+    NSMutableArray *all = [[NSMutableArray alloc] init];
+    for (MoneyCurrency *c in _list) {
+        [all addObject:c.name];
+    }
+    //NSLog(@"allList %@", [all description]);
+    [[NSUserDefaults standardUserDefaults] setObject:all forKey:kCurAllListPrefKey];
+    [all release];
+
+    NSMutableArray *en = [[NSMutableArray alloc] init];
+    for (MoneyCurrency *c in _enabledList) {
+        [en addObject:c.name];
+    }
+    //NSLog(@"enList %@", [en description]);
+    [[NSUserDefaults standardUserDefaults] setObject:en forKey:kCurEnabledListPrefKey];
+    [en release];
+}
+
+- (MoneyCurrency*)currencyAtAllIndex:(NSUInteger)index {
     return [_list objectAtIndex:index];
 }
 
-- (NSUInteger)count {
+- (MoneyCurrency*)currencyAtIndex:(NSUInteger)index {
+    return [_enabledList objectAtIndex:index];
+}
+
+- (NSUInteger)countAll {
     return _list.count;
 }
 
-- (MoneyCurrency*)searchForShortName:(NSString*)sn {
-    for (int i=0; i < _list.count; i++) {
-        MoneyCurrency *currency = [_list objectAtIndex:i];
-        if ([currency.shortName compare:sn] == NSOrderedSame) {
+- (NSUInteger)count {
+    return _enabledList.count;
+}
+
+- (MoneyCurrency*)searchForName:(NSString*)name {
+    for (MoneyCurrency *currency in _list) {
+        if ([currency.name compare:name] == NSOrderedSame) {
             return currency;
         }
     }
     return nil;
+}
+
+- (BOOL)isEnabled:(MoneyCurrency*)currency {
+    return ([_enabledList indexOfObject:currency] != NSNotFound);
+}
+
+- (void)enable:(MoneyCurrency*)currency {
+    [_enabledList addObject:currency];
+}
+
+- (void)disable:(MoneyCurrency*)currency {
+    [_enabledList removeObject:currency];
 }
 
 + (MoneyCurrencyList*)sharedManager {
@@ -387,13 +487,7 @@ const MoneyCurrencyInit currencies[] = {
     }
     [value release];
     value = [[NSDecimalNumber decimalNumberWithString:buf] retain];
-    //value = [buf doubleValue];
-    //NSLog(@"value: %0.16f",value);
 }
-
-//- (void)setValue:(double)v {
-//    value = v;
-//}
 
 - (NSDecimalNumber*)netValue {
     if (unit != nil) {

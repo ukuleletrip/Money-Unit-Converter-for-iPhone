@@ -20,6 +20,7 @@
 #import "AdMobView.h"
 
 #define kModePrefKey	@"main.accountmode"
+#define kAdViewHeight	(48)
 
 @interface MoneyResult : NSObject {
     MoneyCurrency *currency;
@@ -174,15 +175,20 @@
         if (!unit.isFinancial) {
             continue;
         }
-        NSDecimalNumber *unitRate =
-            [currency.exchangeForDollar 
-                     decimalNumberByDividingBy:account.currency.exchangeForDollar];
-        NSDecimalNumber *result =
-            [[[account netValue] decimalNumberByMultiplyingBy:unitRate]
-                decimalNumberByDividingBy:unit.value];
-        double resultDouble = [result doubleValue];
+        NSDecimalNumber *result = nil;
+        double resultDouble = 0;
+        @try {
+            NSDecimalNumber *unitRate =
+                [currency.exchangeForDollar 
+                         decimalNumberByDividingBy:account.currency.exchangeForDollar];
+            result = [[[account netValue] decimalNumberByMultiplyingBy:unitRate]
+                         decimalNumberByDividingBy:unit.value];
+            resultDouble = [result doubleValue];
+        } @catch (NSException *e) {
+            continue;
+        }
         if ((currency != account.currency || unit != account.unit) &&
-            /*resultDouble < 10000 && */ resultDouble >= 0.1) {
+            resultDouble < 100000 && resultDouble >= 0.1) {
             NSString *resultText = [[[self valueOfWithComma:result] stringByAppendingString:unit.shortName] stringByAppendingString:currency.shortName];
             [resultInCurrency addObject:resultText];
         }
@@ -264,8 +270,12 @@ typedef struct {
 - (void)setResultForCurrency:(MoneyCurrency*)currency {
     ConvertRendererResult *renderResult = [[ConvertRendererResult alloc] init];
     MoneyUnitList *unitList = [MoneyUnitList sharedManager];
-    NSDecimalNumber *unitRate =
-        [currency.exchangeForDollar decimalNumberByDividingBy:account.currency.exchangeForDollar];
+    NSDecimalNumber *unitRate = nil;
+    @try {
+        unitRate = [currency.exchangeForDollar decimalNumberByDividingBy:account.currency.exchangeForDollar];
+    } @catch (NSException *e) {
+        return;
+    }
     for (int i=0; i < [unitList count]; i++) {
         MoneyUnit *unit = [unitList unitAtIndex:i];
         if (!unit.isNatural) {
@@ -276,10 +286,15 @@ typedef struct {
             continue;
         }
         */
-        NSDecimalNumber *result =
-            [[[account netValue] decimalNumberByMultiplyingBy:unitRate]
-                decimalNumberByDividingBy:unit.value];
-        double resultDouble = [result doubleValue];
+        NSDecimalNumber *result = nil;
+        double resultDouble = 0;
+        @try {
+            result = [[[account netValue] decimalNumberByMultiplyingBy:unitRate]
+                         decimalNumberByDividingBy:unit.value];
+            resultDouble = [result doubleValue];
+        } @catch (NSException *e) {
+            continue;
+        }
         NSString *resultText = nil;
         if (unit.isEnglish) {
             if ((unit.isMax || resultDouble < 1000) && (unit.isMin || resultDouble >= 1)) {
@@ -378,17 +393,23 @@ typedef struct {
     CGRect frame = self.view.frame;
 
     // put the ad at the bottom of the screen
-    adView.frame = CGRectMake(0, frame.size.height - 48, frame.size.width, 48);
+    adView.frame = CGRectMake(0, frame.size.height - kAdViewHeight, frame.size.width, kAdViewHeight);
     [self.view addSubview:adView];
 }
 
 // Sent when an ad request failed to load an ad
 - (void)didFailToReceiveAd:(AdMobView *)adMobView {
-    NSLog(@"AdMob: Did fail to receive ad");
+    //NSLog(@"AdMob: Did fail to receive ad");
     [adView removeFromSuperview];  // Not necessary since never added to a view, but doesn't hurt and is good practice
     [adView release];
     adView = nil;
     // we could start a new ad request here, but in the interests of the user's battery life, let's not
+    CGRect frame;
+    frame = resultTable.frame;
+    resultTable.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height + kAdViewHeight);
+
+    frame = typePad.frame;
+    typePad.frame = CGRectMake(frame.origin.x, frame.origin.y + kAdViewHeight, frame.size.width, frame.size.height);
 }
 
 
@@ -533,16 +554,15 @@ typedef struct {
 - (void)loadView {
 	CGRect apprect = [[UIScreen mainScreen] applicationFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:apprect];
-	contentView.backgroundColor = [UIColor whiteColor];
+	contentView.backgroundColor = [UIColor darkGrayColor];
 	self.view = contentView;
     [contentView release];
 
-    MoneyTypePadView *typePad = [[MoneyTypePadView alloc] initWithFrame:CGRectMake(0,280-48,320,200-64)];
+    typePad = [[MoneyTypePadView alloc] initWithFrame:CGRectMake(0,280-kAdViewHeight,320,200-64)];
     typePad.delegate = self;
     account.currency = typePad.currency;
     account.unit = typePad.unit;
     [contentView addSubview:typePad];
-    [typePad release];
 
     inputField = [[MoneyDisplay alloc] initWithFrame:CGRectMake(0,0,320.0,50.0)];
     inputField.textColor = [UIColor blackColor];
@@ -558,7 +578,7 @@ typedef struct {
     [contentView addSubview:inputField];
 
     resultTable = [[UITableView alloc]
-                    initWithFrame:CGRectMake(0,50.0,320.0,230-48)
+                    initWithFrame:CGRectMake(0, 50, 320, 230-kAdViewHeight)
                     style:UITableViewStylePlain];
     resultTable.backgroundColor = [UIColor whiteColor];
     resultTable.delegate = self;
@@ -592,6 +612,7 @@ typedef struct {
 	// add any further clean-up here
     [adView release];
     [renderer release];
+    [typePad release];
     [resultList release];
     [resultTable release];
     [account release];
