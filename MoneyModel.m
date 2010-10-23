@@ -252,6 +252,32 @@ const MoneyUnitInit units[] = {
 
 @end
 
+// private class
+@interface MoneyCurrencyItem : NSObject {
+@private
+    MoneyCurrency *currency;
+    BOOL isEnabled;
+}
+@property (nonatomic, retain) MoneyCurrency *currency;
+@property (nonatomic, assign) BOOL isEnabled;
+@end
+
+@implementation MoneyCurrencyItem
+@synthesize currency, isEnabled;
+- (id)initWithCurrency:(MoneyCurrency*)c {
+    if ((self = [super init]) != nil) {
+        self.currency = c;
+        self.isEnabled = NO;
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [currency release];
+    [super dealloc];
+}
+@end
+
 @implementation MoneyCurrencyList
 static MoneyCurrencyList *sharedMoneyCurrencyList = nil; // for singleton
 typedef struct {
@@ -296,45 +322,86 @@ const MoneyCurrencyInit currencies[] = {
     { @"ZAR", @"R",		@"South-Africa"		},
 };
 
-- (MoneyCurrency*)createCurrencyFromTable:(int)i {
-    return [[MoneyCurrency alloc] initWithName:currencies[i].name
-                                  shortName:currencies[i].shortName
-                                  imageName:currencies[i].imageName];
+// private methods
+- (MoneyCurrencyItem*)createCurrencyItemFromTable:(int)i {
+    MoneyCurrency *c = [[MoneyCurrency alloc] initWithName:currencies[i].name
+                                              shortName:currencies[i].shortName
+                                              imageName:currencies[i].imageName];
+    return [[MoneyCurrencyItem alloc] initWithCurrency:c];
 }
 
+- (void)updateEnabledList {
+    NSMutableArray *newEnabledList = [[NSMutableArray alloc] init];
+    for (MoneyCurrencyItem *item in _list) {
+        if (item.isEnabled) {
+            [newEnabledList addObject:item.currency];
+        }
+    }
+    [_enabledList release];
+    _enabledList = newEnabledList;
+}
+
+- (void)moveCurrency:(NSUInteger)fromIndex to:(NSUInteger)toIndex {
+    MoneyCurrency *currency = [[_list objectAtIndex:fromIndex] retain];
+    [_list removeObject:currency];
+    [_list insertObject:currency atIndex:toIndex];
+    [currency release];
+
+    [self updateEnabledList];
+}
+
+- (MoneyCurrencyItem*)searchItemForName:(NSString*)name {
+    for (MoneyCurrencyItem *item in _list) {
+        if ([item.currency.name compare:name] == NSOrderedSame) {
+            return item;
+        }
+    }
+    return nil;
+}
+
+- (MoneyCurrencyItem*)searchItemForCurrency:(MoneyCurrency*)currency {
+    for (MoneyCurrencyItem *item in _list) {
+        if (item.currency == currency) {
+            return item;
+        }
+    }
+    return nil;
+}
+
+// public methods
 - (id)init {
     if ((self = [super init]) != nil) {
         [[CurrencyExchange sharedManager] update];
 
         _list = [[NSMutableArray alloc] init];
-        _enabledList = [[NSMutableArray alloc] init];
 
         NSArray *all = [[NSUserDefaults standardUserDefaults] objectForKey:kCurAllListPrefKey];
         NSArray *en = [[NSUserDefaults standardUserDefaults] objectForKey:kCurEnabledListPrefKey];
-        //NSLog(@"readConf %@\n%@", [all description], [en description]);
+        NSLog(@"readConf %@\n%@", [all description], [en description]);
         for (NSString *key in all) {
             for (int i=0; i < sizeof(currencies)/sizeof(currencies[0]); i++) {
                 if ([key compare:currencies[i].name] == NSOrderedSame) {
-                    MoneyCurrency *currency = [self createCurrencyFromTable:i];
-                    [_list addObject:currency];
-                    [currency release];
+                    MoneyCurrencyItem *item = [self createCurrencyItemFromTable:i];
+                    [_list addObject:item];
+                    [item release];
                 }
             }
         }
         for (NSString *key in en) {
-            MoneyCurrency *c = [self searchForName:key];
-            if (c != nil) {
-                [_enabledList addObject:c];
+            MoneyCurrencyItem *item = [self searchItemForName:key];
+            if (item != nil) {
+                item.isEnabled = YES;
             }
         }
         for (int i=0; i < sizeof(currencies)/sizeof(currencies[0]); i++) {
             if ([self searchForName:currencies[i].name] == nil) {
-                MoneyCurrency *currency = [self createCurrencyFromTable:i];
-                [_list addObject:currency];
-                [_enabledList addObject:currency];
-                [currency release];
+                MoneyCurrencyItem *item = [self createCurrencyItemFromTable:i];
+                item.isEnabled = YES;
+                [_list addObject:item];
+                [item release];
             }
         }
+        [self updateEnabledList];
     }
     return self;
 }
@@ -345,26 +412,10 @@ const MoneyCurrencyInit currencies[] = {
     [super dealloc];
 }
 
-- (void)moveCurrency:(NSUInteger)fromIndex to:(NSUInteger)toIndex {
-    MoneyCurrency *currency = [[_list objectAtIndex:fromIndex] retain];
-    [_list removeObject:currency];
-    [_list insertObject:currency atIndex:toIndex];
-    [currency release];
-
-    NSMutableArray *newEnabledList = [[NSMutableArray alloc] init];
-    for (id c in _list) {
-        if ([self isEnabled:c]) {
-            [newEnabledList addObject:c];
-        }
-    }
-    [_enabledList release];
-    _enabledList = newEnabledList;
-}
-
 - (void)saveList {
     NSMutableArray *all = [[NSMutableArray alloc] init];
-    for (MoneyCurrency *c in _list) {
-        [all addObject:c.name];
+    for (MoneyCurrencyItem *item in _list) {
+        [all addObject:item.currency.name];
     }
     //NSLog(@"allList %@", [all description]);
     [[NSUserDefaults standardUserDefaults] setObject:all forKey:kCurAllListPrefKey];
@@ -380,7 +431,8 @@ const MoneyCurrencyInit currencies[] = {
 }
 
 - (MoneyCurrency*)currencyAtAllIndex:(NSUInteger)index {
-    return [_list objectAtIndex:index];
+    MoneyCurrencyItem *item = [_list objectAtIndex:index];
+    return (item != nil)? item.currency : nil;
 }
 
 - (MoneyCurrency*)currencyAtIndex:(NSUInteger)index {
@@ -396,24 +448,29 @@ const MoneyCurrencyInit currencies[] = {
 }
 
 - (MoneyCurrency*)searchForName:(NSString*)name {
-    for (MoneyCurrency *currency in _list) {
-        if ([currency.name compare:name] == NSOrderedSame) {
-            return currency;
-        }
-    }
-    return nil;
+    MoneyCurrencyItem *item = [self searchItemForName:name];
+    return (item != nil)? item.currency : nil;
 }
 
 - (BOOL)isEnabled:(MoneyCurrency*)currency {
-    return ([_enabledList indexOfObject:currency] != NSNotFound);
+    MoneyCurrencyItem *item = [self searchItemForCurrency:currency];
+    return (item != nil)? ([_enabledList indexOfObject:currency] != NSNotFound) : NO;
 }
 
 - (void)enable:(MoneyCurrency*)currency {
-    [_enabledList addObject:currency];
+    MoneyCurrencyItem *item = [self searchItemForCurrency:currency];
+    if (item != nil) {
+        item.isEnabled = YES;
+        [self updateEnabledList];
+    }
 }
 
 - (void)disable:(MoneyCurrency*)currency {
-    [_enabledList removeObject:currency];
+    MoneyCurrencyItem *item = [self searchItemForCurrency:currency];
+    if (item != nil) {
+        item.isEnabled = NO;
+        [self updateEnabledList];
+    }
 }
 
 + (MoneyCurrencyList*)sharedManager {
