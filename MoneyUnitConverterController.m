@@ -378,11 +378,13 @@ typedef struct {
     return self;
 }
 
+/*
 - (NSArray*)testDevices {
     return [NSArray arrayWithObjects:ADMOB_SIMULATOR_ID,                             // Simulator
                     @"85ba7295761afdc470f8f572b74a9fea293a5c71",
                     nil];
 }
+*/
 
 // Sent when an ad request loaded an ad; this is a good opportunity to attach
 // the ad view to the hierachy.

@@ -25,9 +25,7 @@
 		601C43E01260A2F000DF5482 /* United-Kindom.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43D41260A2F000DF5482 /* United-Kindom.png */; };
 		601C43E11260A2F000DF5482 /* United-States.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43D51260A2F000DF5482 /* United-States.png */; };
 		602439F711422FBA00B0DB34 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 602439F611422FBA00B0DB34 /* icon.png */; };
-		60243A0811423B0400B0DB34 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 60243A0711423B0400B0DB34 /* InfoPlist.strings */; };
 		60243A1111423C7900B0DB34 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 60243A1011423C7900B0DB34 /* Localizable.strings */; };
-		602A01B1114276B800BA767C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 602A01B0114276B800BA767C /* Default.png */; };
 		60471C841269619600CD4573 /* libAdMob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60471C831269619600CD4573 /* libAdMob.a */; };
 		60471C86126961D900CD4573 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60471C85126961D900CD4573 /* AudioToolbox.framework */; };
 		60471C88126961D900CD4573 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60471C87126961D900CD4573 /* MediaPlayer.framework */; };
@@ -48,6 +46,9 @@
 		60D2741D10E9CD9B00F95EB7 /* blueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 60D2741B10E9CD9B00F95EB7 /* blueButton.png */; };
 		60D2741E10E9CD9B00F95EB7 /* whiteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 60D2741C10E9CD9B00F95EB7 /* whiteButton.png */; };
 		60D274BE10ED836F00F95EB7 /* MoneyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D274BD10ED836F00F95EB7 /* MoneyModel.m */; };
+		60DF37F71272C41100A502D4 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 60DF37F61272C41100A502D4 /* Default.png */; };
+		60DF38011272C53900A502D4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60DF38001272C53900A502D4 /* Default@2x.png */; };
+		60E0259F1272C81400903432 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 60E0259E1272C81400903432 /* InfoPlist.strings */; };
 		60F033C91262A379009E2DFD /* Bulgaria.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F033C81262A379009E2DFD /* Bulgaria.png */; };
 		60F033CB1262A476009E2DFD /* Czech-Republic.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F033CA1262A476009E2DFD /* Czech-Republic.png */; };
 		60F033CD1262A5A1009E2DFD /* Denmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F033CC1262A5A1009E2DFD /* Denmark.png */; };
@@ -130,10 +131,8 @@
 		601C43D51260A2F000DF5482 /* United-States.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "United-States.png"; sourceTree = "<group>"; };
 		602439F611422FBA00B0DB34 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		60243A011142399E00B0DB34 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		60243A0911423B2900B0DB34 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		60243A0E11423C7200B0DB34 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		60243A1211423C8700B0DB34 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
-		602A01B0114276B800BA767C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		60471C7F1269619600CD4573 /* AdMobDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMobDelegateProtocol.h; sourceTree = "<group>"; };
 		60471C801269619600CD4573 /* AdMobInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMobInterstitialAd.h; sourceTree = "<group>"; };
 		60471C811269619600CD4573 /* AdMobInterstitialDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMobInterstitialDelegateProtocol.h; sourceTree = "<group>"; };
@@ -171,6 +170,9 @@
 		60D2741C10E9CD9B00F95EB7 /* whiteButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteButton.png; sourceTree = "<group>"; };
 		60D274BC10ED836F00F95EB7 /* MoneyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoneyModel.h; sourceTree = "<group>"; };
 		60D274BD10ED836F00F95EB7 /* MoneyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoneyModel.m; sourceTree = "<group>"; };
+		60DF37F61272C41100A502D4 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		60DF38001272C53900A502D4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		60E025A01272C82400903432 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		60F033C81262A379009E2DFD /* Bulgaria.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bulgaria.png; sourceTree = "<group>"; };
 		60F033CA1262A476009E2DFD /* Czech-Republic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Czech-Republic.png"; sourceTree = "<group>"; };
 		60F033CC1262A5A1009E2DFD /* Denmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Denmark.png; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				60DF38001272C53900A502D4 /* Default@2x.png */,
 				60FE38C4126B23270083C134 /* Australia@2x.png */,
 				60FE38C5126B23270083C134 /* Brazil@2x.png */,
 				60FE38C6126B23270083C134 /* Bulgaria@2x.png */,
@@ -377,9 +380,9 @@
 				60D2741B10E9CD9B00F95EB7 /* blueButton.png */,
 				60D2741C10E9CD9B00F95EB7 /* whiteButton.png */,
 				8D1107310486CEB800E47090 /* MoneyUnitConverter-Info.plist */,
-				60243A0711423B0400B0DB34 /* InfoPlist.strings */,
+				60E0259E1272C81400903432 /* InfoPlist.strings */,
 				60243A1011423C7900B0DB34 /* Localizable.strings */,
-				602A01B0114276B800BA767C /* Default.png */,
+				60DF37F61272C41100A502D4 /* Default.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -506,9 +509,8 @@
 				60D2741E10E9CD9B00F95EB7 /* whiteButton.png in Resources */,
 				601589BB111EF0D900F955DF /* UnitCalcBack.png in Resources */,
 				602439F711422FBA00B0DB34 /* icon.png in Resources */,
-				60243A0811423B0400B0DB34 /* InfoPlist.strings in Resources */,
+				60E0259F1272C81400903432 /* InfoPlist.strings in Resources */,
 				60243A1111423C7900B0DB34 /* Localizable.strings in Resources */,
-				602A01B1114276B800BA767C /* Default.png in Resources */,
 				601C43D61260A2F000DF5482 /* Australia.png in Resources */,
 				601C43D71260A2F000DF5482 /* Canada.png in Resources */,
 				601C43D81260A2F000DF5482 /* China.png in Resources */,
@@ -577,6 +579,8 @@
 				60FE3903126B23270083C134 /* Turkey@2x.png in Resources */,
 				60FE3904126B23270083C134 /* United-Kindom@2x.png in Resources */,
 				60FE3905126B23270083C134 /* United-States@2x.png in Resources */,
+				60DF37F71272C41100A502D4 /* Default.png in Resources */,
+				60DF38011272C53900A502D4 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,15 +613,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		60243A0711423B0400B0DB34 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				60243A011142399E00B0DB34 /* English */,
-				60243A0911423B2900B0DB34 /* Japanese */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		60243A1011423C7900B0DB34 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -625,6 +620,15 @@
 				60243A1211423C8700B0DB34 /* Japanese */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		60E0259E1272C81400903432 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				60243A011142399E00B0DB34 /* English */,
+				60E025A01272C82400903432 /* Japanese */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

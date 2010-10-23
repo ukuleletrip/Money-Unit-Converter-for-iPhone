@@ -324,9 +324,10 @@ const MoneyCurrencyInit currencies[] = {
 
 // private methods
 - (MoneyCurrencyItem*)createCurrencyItemFromTable:(int)i {
-    MoneyCurrency *c = [[MoneyCurrency alloc] initWithName:currencies[i].name
-                                              shortName:currencies[i].shortName
-                                              imageName:currencies[i].imageName];
+    MoneyCurrency *c = [[MoneyCurrency alloc] 
+                           initWithName:currencies[i].name
+                           shortName:NSLocalizedString(currencies[i].shortName, nil)
+                           imageName:currencies[i].imageName];
     return [[MoneyCurrencyItem alloc] initWithCurrency:c];
 }
 

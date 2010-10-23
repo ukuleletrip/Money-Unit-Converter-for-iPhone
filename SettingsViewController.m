@@ -40,6 +40,20 @@
     return 2;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    BOOL answer = YES;
+    switch (indexPath.section) {
+    case 0:
+        break;
+    case 1:
+        answer = NO;
+        break;
+    default:
+        break;
+    }
+    return answer;
+}
+
 // Return how many rows in the table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger rows = 0;
@@ -72,14 +86,17 @@
 
 // Return a cell for the ith row
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *currencyCellID = @"currency-cell";
+    static NSString *aboutCellID = @"about-cell";
+    UITableViewCell *cell;
 	// Use re-usable cells to minimize the memory load
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"any-cell"];
-	if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"any-cell"] autorelease];
-        //cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
     switch (indexPath.section) {
     case 0:
+        cell = [tableView dequeueReusableCellWithIdentifier:currencyCellID];
+        if (cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:currencyCellID] autorelease];
+            //cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
         //cell.showsReorderControl = YES;
         //cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.textLabel.adjustsFontSizeToFitWidth = YES;
@@ -91,9 +108,17 @@
         cell.accessoryType = ([currencyList isEnabled:currency]) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
         break;
     case 1:
-        cell.imageView.image = nil;
-        cell.textLabel.text = NSLocalizedString(@"AboutThisApp", nil);
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell = [tableView dequeueReusableCellWithIdentifier:aboutCellID];
+        if (cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:aboutCellID] autorelease];
+            //cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.text = NSLocalizedString(@"AboutThisApp", nil);
+            cell.textLabel.font = [UIFont systemFontOfSize:14];
+            cell.textLabel.numberOfLines = 0;
+            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            //cell.textLabel.lineBreakMode = ;
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
         break;
     default:
         return nil;
@@ -155,6 +180,21 @@
         return proposedDestinationIndexPath;
     }
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.section) {
+    case 0:
+        return tableView.rowHeight;
+        break;
+    case 1:
+        return 100;
+        break;
+    default:
+        return 0;
+        break;
+    }
+}
+
 
 @end
 
