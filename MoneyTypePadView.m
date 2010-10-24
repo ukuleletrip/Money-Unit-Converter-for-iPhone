@@ -12,6 +12,7 @@
 ***********************************************************************/
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "MyUtil.h"
 #import "MoneyTypePadView.h"
 #import "MoneyModel.h"
 
@@ -123,7 +124,7 @@ const ButtonTable buttons[] = {
 @synthesize delegate;
 - (void)keyAction:(id)sender {
     NSString *inputText = ((UIButton*)sender).titleLabel.text;
-    //NSLog(@"%@",inputText);
+    NSLOG(@"%@",inputText);
     if ([inputText compare:@"C"] == 0) {
         if ([delegate respondsToSelector:@selector(moneyTypePadShouldClear:)]) {
             [delegate moneyTypePadShouldClear:self];

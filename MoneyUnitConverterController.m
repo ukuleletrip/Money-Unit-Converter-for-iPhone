@@ -11,6 +11,7 @@
 
 ***********************************************************************/
 #import <UIKit/UIKit.h>
+#import "MyUtil.h"
 #import "MoneyUnitConverterController.h"
 #import "MoneyTypePadView.h"
 #import "MoneyModel.h"
@@ -138,14 +139,14 @@
 - (UIImage*)imageForRow:(NSInteger)section row:(NSInteger)row { return nil; }
 
 - (NSString*) valueOf:(NSDecimalNumber*)decimal {
-    NSDictionary *dic= [[NSDictionary alloc] initWithObjectsAndKeys:@".",@"NSDecimalSeparator",nil];
+    NSDictionary *dic= [[[NSDictionary alloc] initWithObjectsAndKeys:@".",@"NSDecimalSeparator",nil] autorelease];
     return [[decimal decimalNumberByRoundingAccordingToBehavior:self] descriptionWithLocale:dic];
 }
 
 - (NSString*) valueOfWithComma:(NSDecimalNumber*)decimal {
-    NSDictionary *dic= [[NSDictionary alloc]
-                           initWithObjectsAndKeys:
-                               @".",@"NSDecimalSeparator",@",",@"NSThousandsSeparator",nil];
+    NSDictionary *dic= [[[NSDictionary alloc]
+                            initWithObjectsAndKeys:
+                                @".",@"NSDecimalSeparator",@",",@"NSThousandsSeparator",nil] autorelease];
     return [[decimal decimalNumberByRoundingAccordingToBehavior:self] descriptionWithLocale:dic];
 }
 
@@ -324,8 +325,8 @@ typedef struct {
                                        account.currency.shortName];
         renderResult.image = currency.image;
         [resultList addObject:renderResult];
-        [renderResult release];
     }
+    [renderResult release];
 }
 
 - (NSInteger)numberOfSections {
@@ -390,7 +391,7 @@ typedef struct {
 // Sent when an ad request loaded an ad; this is a good opportunity to attach
 // the ad view to the hierachy.
 - (void)didReceiveAd:(AdMobView *)adMobView {
-    //NSLog(@"AdMob: Did receive ad");
+    NSLOG(@"AdMob: Did receive ad");
 
     // get the view frame
     CGRect frame = self.view.frame;
@@ -402,7 +403,7 @@ typedef struct {
 
 // Sent when an ad request failed to load an ad
 - (void)didFailToReceiveAd:(AdMobView *)adMobView {
-    //NSLog(@"AdMob: Did fail to receive ad");
+    NSLOG(@"AdMob: Did fail to receive ad");
     [adView removeFromSuperview];  // Not necessary since never added to a view, but doesn't hurt and is good practice
     [adView release];
     adView = nil;
@@ -608,7 +609,7 @@ typedef struct {
 
 // Allow the view to respond to iPhone Orientation changes
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return YES;
+	return NO;
 }
 
 -(void) dealloc {

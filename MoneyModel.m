@@ -11,6 +11,7 @@
 
 ***********************************************************************/
 #import <UIKit/UIKit.h>
+#import "MyUtil.h"
 #import "MoneyModel.h"
 #import "CurrencyExchange.h"
 
@@ -25,8 +26,8 @@
 @synthesize name,shortName,value,attribute;
 - (id)initWithName:(NSString*)n shortName:(NSString*)sn value:(NSString*)v attribute:(int)a {
     if ((self = [super init]) != nil) {
-        name = n;
-        shortName = sn;
+        name = [n retain];
+        shortName = [sn retain];
         value = [[NSDecimalNumber decimalNumberWithString:v] retain];
         attribute = a;
     }
@@ -35,8 +36,8 @@
 
 - (id)initWithName:(NSString*)n shortName:(NSString*)sn decimal:(NSDecimalNumber*)v attribute:(int)a {
     if ((self = [super init]) != nil) {
-        name = n;
-        shortName = sn;
+        name = [n retain];
+        shortName = [sn retain];
         value = [v retain];
         attribute = a;
     }
@@ -203,9 +204,9 @@ const MoneyUnitInit units[] = {
 @dynamic longName;
 - (id)initWithName:(NSString*)n shortName:(NSString*)sn imageName:(NSString*)imgName  {
     if ((self = [super init]) != nil) {
-        name = n;
-        shortName = sn;
-        imageName = imgName;
+        name = [n retain];
+        shortName = [sn retain];
+        imageName = [imgName retain];
     }
     return self;
 }
@@ -238,7 +239,7 @@ const MoneyUnitInit units[] = {
             v = [NSDecimalNumber decimalNumberWithString:@"0"];
         }
     } else {
-        NSDictionary *dic= [[NSDictionary alloc] initWithObjectsAndKeys:@".",@"NSDecimalSeparator",nil];
+        NSDictionary *dic= [[[NSDictionary alloc] initWithObjectsAndKeys:@".",@"NSDecimalSeparator",nil] autorelease];
         NSString *s = [v descriptionWithLocale:dic];
         [[NSUserDefaults standardUserDefaults] setObject:s
                                                forKey:[NSString stringWithFormat:kExchangePrefKey,name]];
@@ -378,7 +379,7 @@ const MoneyCurrencyInit currencies[] = {
 
         NSArray *all = [[NSUserDefaults standardUserDefaults] objectForKey:kCurAllListPrefKey];
         NSArray *en = [[NSUserDefaults standardUserDefaults] objectForKey:kCurEnabledListPrefKey];
-        NSLog(@"readConf %@\n%@", [all description], [en description]);
+        NSLOG(@"readConf %@\n%@", [all description], [en description]);
         for (NSString *key in all) {
             for (int i=0; i < sizeof(currencies)/sizeof(currencies[0]); i++) {
                 if ([key compare:currencies[i].name] == NSOrderedSame) {
@@ -418,7 +419,7 @@ const MoneyCurrencyInit currencies[] = {
     for (MoneyCurrencyItem *item in _list) {
         [all addObject:item.currency.name];
     }
-    //NSLog(@"allList %@", [all description]);
+    NSLOG(@"allList %@", [all description]);
     [[NSUserDefaults standardUserDefaults] setObject:all forKey:kCurAllListPrefKey];
     [all release];
 
@@ -426,7 +427,7 @@ const MoneyCurrencyInit currencies[] = {
     for (MoneyCurrency *c in _enabledList) {
         [en addObject:c.name];
     }
-    //NSLog(@"enList %@", [en description]);
+    NSLOG(@"enList %@", [en description]);
     [[NSUserDefaults standardUserDefaults] setObject:en forKey:kCurEnabledListPrefKey];
     [en release];
 }
@@ -508,7 +509,7 @@ const MoneyCurrencyInit currencies[] = {
 @end
 
 @implementation MoneyAccount
-@synthesize unit,currency;
+@synthesize unit,currency,value;
 - (id)init {
     if ((self = [super init]) != nil) {
         buf = [[NSMutableString alloc] initWithCapacity:kMaxDigits];
@@ -523,7 +524,7 @@ const MoneyCurrencyInit currencies[] = {
 
 - (void)clear {
     [buf setString:@"0"];
-    value = nil;
+    self.value = nil;
 }
 
 - (void)appendText:(NSString*)s {
@@ -543,8 +544,7 @@ const MoneyCurrencyInit currencies[] = {
     }else{
         [buf appendString:s];
     }
-    [value release];
-    value = [[NSDecimalNumber decimalNumberWithString:buf] retain];
+    self.value = [NSDecimalNumber decimalNumberWithString:buf];
 }
 
 - (NSDecimalNumber*)netValue {
@@ -556,6 +556,9 @@ const MoneyCurrencyInit currencies[] = {
 }
 
 - (void)dealloc {
+    [buf release];
+    [currency release];
+    [value release];
     [unit release];
     [super dealloc];
 }

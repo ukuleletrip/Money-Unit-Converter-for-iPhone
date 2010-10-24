@@ -20,13 +20,14 @@
 #define CMIN		(0x10)
 
 @interface MoneyUnit : NSObject<NSCopying> {
+@private
     NSString *name;
     NSString *shortName;
     NSDecimalNumber *value;
     int attribute;
 }
-@property (nonatomic, readonly, retain) NSString *name;
-@property (nonatomic, readonly, retain) NSString *shortName;
+@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly) NSString *shortName;
 @property (nonatomic, readonly) NSDecimalNumber *value;
 @property (nonatomic, readonly) BOOL isFinancial;
 @property (nonatomic, readonly) BOOL isNatural;
@@ -54,8 +55,8 @@
     UIImage *image;
     NSString *imageName;
 }
-@property (nonatomic, readonly, retain) NSString *name;
-@property (nonatomic, readonly, retain) NSString *shortName;
+@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly) NSString *shortName;
 @property (nonatomic, readonly) NSDecimalNumber *exchangeForDollar;
 @property (nonatomic, readonly) NSString *longName;
 @property (nonatomic, readonly) UIImage *image;
@@ -80,11 +81,13 @@
 @end
 
 @interface MoneyAccount : NSObject {
+@private
     NSDecimalNumber *value;
     MoneyUnit *unit;
     MoneyCurrency *currency;
     NSMutableString *buf;
 }
+@property (nonatomic, retain) NSDecimalNumber *value;
 @property (nonatomic, retain) MoneyUnit *unit;
 @property (nonatomic, retain) MoneyCurrency *currency;
 - (NSString*)text;

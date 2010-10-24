@@ -59,6 +59,7 @@
 		60F033E11262AA57009E2DFD /* Indonesia.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F033E01262AA57009E2DFD /* Indonesia.png */; };
 		60F03512126330FE009E2DFD /* MoneyUnitConverterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F03511126330FE009E2DFD /* MoneyUnitConverterController.m */; };
 		60F0352812633BEA009E2DFD /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F0352712633BEA009E2DFD /* SettingsViewController.m */; };
+		60F6FA201274477C00D4E1C3 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60F6FA1F1274477C00D4E1C3 /* icon@2x.png */; };
 		60FE3862126B1DFC0083C134 /* Brazil.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE3854126B1DFC0083C134 /* Brazil.png */; };
 		60FE3863126B1DFD0083C134 /* Croatia.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE3855126B1DFC0083C134 /* Croatia.png */; };
 		60FE3864126B1DFD0083C134 /* Malaysia.png in Resources */ = {isa = PBXBuildFile; fileRef = 60FE3856126B1DFC0083C134 /* Malaysia.png */; };
@@ -185,6 +186,7 @@
 		60F03511126330FE009E2DFD /* MoneyUnitConverterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoneyUnitConverterController.m; sourceTree = "<group>"; };
 		60F0352612633BEA009E2DFD /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		60F0352712633BEA009E2DFD /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		60F6FA1F1274477C00D4E1C3 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		60FE3854126B1DFC0083C134 /* Brazil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Brazil.png; sourceTree = "<group>"; };
 		60FE3855126B1DFC0083C134 /* Croatia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Croatia.png; sourceTree = "<group>"; };
 		60FE3856126B1DFC0083C134 /* Malaysia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Malaysia.png; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				60F6FA1F1274477C00D4E1C3 /* icon@2x.png */,
 				60471C951269621E00CD4573 /* TouchJSON */,
 				60471C7E1269619600CD4573 /* AdMob */,
 				60F0352612633BEA009E2DFD /* SettingsViewController.h */,
@@ -581,6 +584,7 @@
 				60FE3905126B23270083C134 /* United-States@2x.png in Resources */,
 				60DF37F71272C41100A502D4 /* Default.png in Resources */,
 				60DF38011272C53900A502D4 /* Default@2x.png in Resources */,
+				60F6FA201274477C00D4E1C3 /* icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -672,13 +676,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Satoru Miyamoto";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CF6A049C-EA0C-45C7-A0CF-B8CEC21C0B43";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos4.1;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Distribution;
 		};
@@ -702,12 +707,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Satoru Miyamoto";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_CFLAGS = "-DDEBUG";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CF6A049C-EA0C-45C7-A0CF-B8CEC21C0B43";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos4.1;
 			};
 			name = Debug;
@@ -716,12 +722,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Satoru Miyamoto";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CF6A049C-EA0C-45C7-A0CF-B8CEC21C0B43";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos4.1;
 			};
 			name = Release;

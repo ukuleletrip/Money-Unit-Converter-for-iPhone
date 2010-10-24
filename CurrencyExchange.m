@@ -10,6 +10,7 @@
 
 ***********************************************************************/
 #import "CurrencyExchange.h"
+#import "MyUtil.h"
 
 @implementation CurrencyExchange
 static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
@@ -68,13 +69,10 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
         loader = nil;
     }
     if (result == YES) {
-        //NSLog(@"loaded %d bytes", [xmlData length]);
         NSXMLParser *parser = [[NSXMLParser alloc] initWithData:xmlData];
         parser.delegate = self;
         [parser parse];
-
-        // add EUR virtually
-        [table setValue:@"1" forKey:@"EUR"];
+        [parser release];
     }
     [xmlData release];
     xmlData = nil;
@@ -116,12 +114,12 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
         NSString *currency = [attributeDict valueForKey:@"currency"];
         NSString *rate = [attributeDict valueForKey:@"rate"];
         [table setValue:rate forKey:currency];
-        //NSLog(@"this is it! %@ %@", currency, rate);
+        NSLOG(@"this is it! %@ %@", currency, rate);
     }
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {     
-    //NSLog(@"endelement %@, %@, %@", elementName, namespaceURI, qName);
+    NSLOG(@"endelement %@, %@, %@", elementName, namespaceURI, qName);
 }
 
 - (id)init {
