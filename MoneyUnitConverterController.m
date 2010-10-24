@@ -21,6 +21,7 @@
 
 #define kModePrefKey	@"main.accountmode"
 #define kAdViewHeight	(48)
+//#define kAdViewHeight	(0)
 
 @interface MoneyResult : NSObject {
     MoneyCurrency *currency;
@@ -588,10 +589,10 @@ typedef struct {
     resultTable.rowHeight = (isAccountMode)? 24 : 44;
     [resultTable reloadData];
     [contentView addSubview:resultTable];
-
+#if kAdViewHeight > 0
     adView = [AdMobView requestAdWithDelegate:self]; // start a new ad request
     [adView retain];
-
+#endif
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc]
                                                   initWithTitle:NSLocalizedString(@"Settings", nil)
                                                   style:UIBarButtonItemStylePlain
