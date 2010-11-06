@@ -78,6 +78,7 @@
 - (void)enable:(MoneyCurrency*)currency;
 - (void)disable:(MoneyCurrency*)currency;
 - (void)saveList;
+- (void)update;
 @end
 
 @interface MoneyAccount : NSObject {

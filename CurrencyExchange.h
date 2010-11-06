@@ -18,6 +18,7 @@
     NSInteger networkingCount;
     NSMutableData *xmlData;
     NSMutableDictionary *table;
+    NSDate *lastUpdate;
 }
 + (CurrencyExchange*)sharedManager;
 - (void)update;

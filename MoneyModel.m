@@ -22,6 +22,14 @@
 #define kCurAllListPrefKey		@"moneymodel.currency.all.array"
 #define kCurEnabledListPrefKey	@"moneymodel.currency.enabled.array"
 
+/*
+@interface MoneyUnit (private)
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *shortName;
+@property (nonatomic, retain) NSDecimalNumber *value;
+@end
+*/
+
 @implementation MoneyUnit
 @synthesize name,shortName,value,attribute;
 - (id)initWithName:(NSString*)n shortName:(NSString*)sn value:(NSString*)v attribute:(int)a {
@@ -414,6 +422,10 @@ const MoneyCurrencyInit currencies[] = {
     [super dealloc];
 }
 
+- (void)update {
+    [[CurrencyExchange sharedManager] update];
+}
+
 - (void)saveList {
     NSMutableArray *all = [[NSMutableArray alloc] init];
     for (MoneyCurrencyItem *item in _list) {
@@ -438,7 +450,13 @@ const MoneyCurrencyInit currencies[] = {
 }
 
 - (MoneyCurrency*)currencyAtIndex:(NSUInteger)index {
-    return [_enabledList objectAtIndex:index];
+    MoneyCurrency *c = nil;
+    @try {
+        c = [_enabledList objectAtIndex:index];
+    } @catch (NSException *e) {
+        c = [_enabledList objectAtIndex:0];
+    }
+    return c;
 }
 
 - (NSUInteger)countAll {

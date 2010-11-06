@@ -22,6 +22,7 @@
 #define kMarginY	(4)
 #define kButtonWidth	(50)
 #define kButtonHeight	(30)
+#define kPopupItemHeight (28)
 #define kButtonSpace (2)
 
 // should store shortname instead of index of UISegment...
@@ -64,6 +65,7 @@ const ButtonTable buttons[] = {
 }
 @property (nonatomic, assign) id <UITableViewDataSource> dataSource;
 @property (nonatomic, assign) id <PopupMenuDelegate> delegate;
+@property (nonatomic) CGRect menuRect;
 - (void)update;
 @end
 
@@ -72,9 +74,10 @@ const ButtonTable buttons[] = {
 - (id)initWithFrame:(CGRect)rect {
     self = [super initWithFrame:rect];
     if (self != nil) {
-        table = [[UITableView alloc] initWithFrame:rect style:UITableViewStylePlain];
+        //table = [[UITableView alloc] initWithFrame:rect style:UITableViewStylePlain];
+        table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 160, 200) style:UITableViewStylePlain];
         table.delegate = self;
-        table.rowHeight = 28;
+        table.rowHeight = kPopupItemHeight;
         table.backgroundColor = [UIColor colorWithRed:132.0/255.0 green:132.0/255.0 blue:142.0/255.0 alpha:1.0];
         //table.separatorStyle = UITableViewCellSeparatorStyleSingleLineEtched;
         table.separatorColor = [UIColor darkGrayColor];
@@ -82,9 +85,9 @@ const ButtonTable buttons[] = {
         [table release];
 
         [self setClipsToBounds:YES];
-        [self layer].cornerRadius = 10.0;
-        [self layer].borderColor = [[UIColor lightGrayColor] CGColor];
-        [self layer].borderWidth = 1.0;
+        //[self layer].cornerRadius = 10.0;
+        //[self layer].borderColor = [[UIColor lightGrayColor] CGColor];
+        //[self layer].borderWidth = 1.0;
         //[self layer].shadowOpacity = 0.5;
         //[self layer].shadowOffset = CGSizeMake(-10,10);
     }
@@ -93,6 +96,21 @@ const ButtonTable buttons[] = {
 
 - (void)dealloc {
     [super dealloc];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLOG(@"touches");
+    self.hidden = YES;
+}
+
+- (void)setMenuRect:(CGRect)rect {
+    NSLOG(@"set table rect");
+    table.frame = rect;
+}
+
+- (CGRect)menuRect {
+    NSLOG(@"read table rect");
+    return table.frame;
 }
 
 - (void)update {
@@ -212,9 +230,17 @@ const ButtonTable buttons[] = {
 
 - (void)handleTimer:(NSTimer*)timer {
     [currencySelectMenu update];
-    currencySelectMenu.frame = CGRectMake(currencySelector.frame.origin.x, 0, 
-                                          currencySelectMenu.frame.size.width,
-                                          currencySelectMenu.frame.size.height);
+
+    // change coordinate from MoneyTypePadView to PopupMenu View.
+    CGPoint pos = [self convertPoint:CGPointMake(currencySelector.frame.origin.x, currencySelector.frame.origin.y) toView:currencySelectMenu];
+    CGRect appFrame = [[UIScreen mainScreen] applicationFrame];
+    int numOfItem = MIN(appFrame.size.height/kPopupItemHeight,
+                        [[MoneyCurrencyList sharedManager] count]);
+    pos.y -= MAX(0, (pos.y+numOfItem*kPopupItemHeight)-currencySelectMenu.frame.size.height);
+    currencySelectMenu.menuRect =
+        CGRectMake(pos.x, pos.y, 
+                   currencySelector.frame.size.width, numOfItem*kPopupItemHeight);
+
     currencySelectMenu.hidden = NO;
     [currencySelector cancelTrackingWithEvent:nil];
 }
@@ -324,7 +350,7 @@ const ButtonTable buttons[] = {
                 initWithItems:[NSArray arrayWithObjects:@"", @"h", nil]];
         //initWithItems:[NSArray arrayWithObjects:@"", @"h", @"K", nil]];
         eUnit1Selector.segmentedControlStyle = UISegmentedControlStyleBordered;
-        eUnit1Selector.frame = [self logicalPosToRect:3 row:2 width:2];
+        eUnit1Selector.frame = [self logicalPosToRect:4 row:2 width:2];
         eUnit1Selector.selectedSegmentIndex = 0;
         [eUnit1Selector addTarget:self action:@selector(changedUnit:)
                           forControlEvents:UIControlEventValueChanged];
@@ -342,11 +368,12 @@ const ButtonTable buttons[] = {
 
         [self changedLanguage:languageSelector];
 
-        currencySelectMenu = [[PopupMenu alloc] initWithFrame:CGRectMake(0, 0, 160, rect.size.height)];
+        currencySelectMenu = [[PopupMenu alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
+        currencySelectMenu.opaque = NO;
         currencySelectMenu.dataSource = self;
         currencySelectMenu.delegate = self;
         currencySelectMenu.hidden = YES;
-        [self addSubview:currencySelectMenu];
+        [[UIApplication sharedApplication].keyWindow addSubview:currencySelectMenu];
     }
     return self;
 }

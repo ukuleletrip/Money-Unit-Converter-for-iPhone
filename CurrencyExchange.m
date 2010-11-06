@@ -73,6 +73,14 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
         parser.delegate = self;
         [parser parse];
         [parser release];
+        // add EUR virtually.
+        // because the XML has rate for EUR, that is, EUR is not included.
+        @synchronized(table) {
+            [table setValue:@"1" forKey:@"EUR"];
+        }
+        // remember last time that I could get XML correctly.
+        [lastUpdate release];
+        lastUpdate = [[NSDate date] retain];
     }
     [xmlData release];
     xmlData = nil;
@@ -113,7 +121,9 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
     if ([elementName isEqualToString:@"Cube"] && [attributeDict count] >= 2) {
         NSString *currency = [attributeDict valueForKey:@"currency"];
         NSString *rate = [attributeDict valueForKey:@"rate"];
-        [table setValue:rate forKey:currency];
+        @synchronized(table) {
+            [table setValue:rate forKey:currency];
+        }
         NSLOG(@"this is it! %@ %@", currency, rate);
     }
 }
@@ -131,12 +141,24 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
 }
 
 - (void)update {
+    if ([table count] > 0 && lastUpdate != nil) {
+        NSTimeInterval interval = -[lastUpdate timeIntervalSinceNow];	// seconds
+        if (interval < 60*60*6) {
+            // 6 hours
+            return;
+        }
+    }
+    [table removeAllObjects];
     [self startLoadingXML];
 }
 
 - (NSDecimalNumber*)convert:(NSDecimalNumber*)value From:(NSString*)from To:(NSString*)to {
-    NSString *fromValue = (NSString*)[table valueForKey:from];
-    NSString *toValue = (NSString*)[table valueForKey:to];
+    NSString *fromValue;
+    NSString *toValue;
+    @synchronized(table) {
+        fromValue = (NSString*)[table valueForKey:from];
+        toValue = (NSString*)[table valueForKey:to];
+    }
     if (fromValue != nil && toValue != nil) {
         return [[value decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:toValue]] decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:fromValue]];
     } else {
@@ -145,6 +167,7 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
 }
 
 - (void)dealloc {
+    [lastUpdate release];
     [table release];
     [super dealloc];
 }

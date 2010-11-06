@@ -20,7 +20,7 @@
 @class AdMobView;
 @class MoneyTypePadView;
 
-@interface MoneyUnitConverterController : UIViewController <UITableViewDataSource, UITableViewDelegate, MoneyTypePadViewDelegate, AdMobDelegate> {
+@interface MoneyUnitConverterController : UIViewController <UITableViewDataSource, UITableViewDelegate, MoneyTypePadViewDelegate, AdMobDelegate, UINavigationControllerDelegate> {
 @private
     MoneyDisplay *inputField;
     MoneyAccount *account;
@@ -31,4 +31,5 @@
     ResultRenderer *renderer;
     BOOL isAccountMode;
 }
+- (void)update;
 @end

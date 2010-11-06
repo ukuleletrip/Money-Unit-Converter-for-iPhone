@@ -22,6 +22,7 @@
 
 #define kModePrefKey	@"main.accountmode"
 #define kAdViewHeight	(48)
+#define kResultTableHeight (230)
 //#define kAdViewHeight	(0)
 
 @interface MoneyResult : NSObject {
@@ -371,6 +372,49 @@ typedef struct {
 	return self;
 }
 
+- (void)adjustAdSpace:(BOOL)isAdd {
+    int moveY = (isAdd)? -kAdViewHeight : kAdViewHeight;
+
+    CGRect frame;
+    frame = resultTable.frame;
+    resultTable.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height + moveY);
+
+    frame = typePad.frame;
+    typePad.frame = CGRectMake(frame.origin.x, frame.origin.y + moveY, frame.size.width, frame.size.height);
+}
+
+- (void)requestNewAd {
+#if kAdViewHeight > 0
+    adView = [AdMobView requestAdWithDelegate:self]; // start a new ad request
+    [adView retain];
+#endif
+}
+
+- (void)refreshAd {
+    if (adView != nil) {
+        NSLOG(@"requestFreshAd");
+        [adView requestFreshAd];
+    } else {
+        NSLOG(@"requestNewAd");
+        [self requestNewAd];
+    }
+}
+
+- (void)update {
+    [self refreshAd];
+    [[MoneyCurrencyList sharedManager] update];
+}
+
+#pragma mark AdMobDelegate Methods
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    NSLOG(@"didShowViewController");
+}
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    NSLOG(@"willShowViewController");
+
+}
+
 #pragma mark AdMobDelegate Methods
 - (NSString*)publisherIdForAd:(AdMobView *)adMobView {
     return @"a14cb910f223f6a";
@@ -381,17 +425,23 @@ typedef struct {
 }
 
 /*
+#ifdef DEBUG
 - (NSArray*)testDevices {
     return [NSArray arrayWithObjects:ADMOB_SIMULATOR_ID,                             // Simulator
                     @"85ba7295761afdc470f8f572b74a9fea293a5c71",
                     nil];
 }
+#endif
 */
 
 // Sent when an ad request loaded an ad; this is a good opportunity to attach
 // the ad view to the hierachy.
 - (void)didReceiveAd:(AdMobView *)adMobView {
     NSLOG(@"AdMob: Did receive ad");
+
+    if (resultTable.frame.size.height == kResultTableHeight) {
+        [self adjustAdSpace:YES];
+    }
 
     // get the view frame
     CGRect frame = self.view.frame;
@@ -408,12 +458,10 @@ typedef struct {
     [adView release];
     adView = nil;
     // we could start a new ad request here, but in the interests of the user's battery life, let's not
-    CGRect frame;
-    frame = resultTable.frame;
-    resultTable.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height + kAdViewHeight);
-
-    frame = typePad.frame;
-    typePad.frame = CGRectMake(frame.origin.x, frame.origin.y + kAdViewHeight, frame.size.width, frame.size.height);
+    if (resultTable.frame.size.height == kResultTableHeight) {
+        return;
+    }
+    [self adjustAdSpace:NO];
 }
 
 
@@ -523,7 +571,7 @@ typedef struct {
 // Respond to user selection
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)newIndexPath {
     UIPasteboard *gpBoard = [UIPasteboard generalPasteboard];
-    gpBoard.string = [renderer text1ForRow:newIndexPath.section row:newIndexPath.row];
+    gpBoard.string = [renderer textForRow:newIndexPath.section row:newIndexPath.row];
 	[resultTable deselectRowAtIndexPath:[resultTable indexPathForSelectedRow] animated:YES];
 }
 
@@ -582,7 +630,7 @@ typedef struct {
     [contentView addSubview:inputField];
 
     resultTable = [[UITableView alloc]
-                    initWithFrame:CGRectMake(0, 50, 320, 230-kAdViewHeight)
+                    initWithFrame:CGRectMake(0, 50, 320, kResultTableHeight-kAdViewHeight)
                     style:UITableViewStylePlain];
     resultTable.backgroundColor = [UIColor whiteColor];
     resultTable.delegate = self;
@@ -590,10 +638,7 @@ typedef struct {
     resultTable.rowHeight = (isAccountMode)? 24 : 44;
     [resultTable reloadData];
     [contentView addSubview:resultTable];
-#if kAdViewHeight > 0
-    adView = [AdMobView requestAdWithDelegate:self]; // start a new ad request
-    [adView retain];
-#endif
+    [self requestNewAd];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc]
                                                   initWithTitle:NSLocalizedString(@"Settings", nil)
                                                   style:UIBarButtonItemStylePlain
