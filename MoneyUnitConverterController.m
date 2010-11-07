@@ -21,8 +21,8 @@
 #import "AdMobView.h"
 
 #define kModePrefKey	@"main.accountmode"
-#define kAdViewHeight	(48)
 #define kResultTableHeight (230)
+#define kAdViewHeight	(48)
 //#define kAdViewHeight	(0)
 
 @interface MoneyResult : NSObject {
@@ -391,6 +391,7 @@ typedef struct {
 }
 
 - (void)refreshAd {
+#if kAdViewHeight > 0
     if (adView != nil) {
         NSLOG(@"requestFreshAd");
         [adView requestFreshAd];
@@ -398,6 +399,7 @@ typedef struct {
         NSLOG(@"requestNewAd");
         [self requestNewAd];
     }
+#endif
 }
 
 - (void)update {
@@ -405,7 +407,7 @@ typedef struct {
     [[MoneyCurrencyList sharedManager] update];
 }
 
-#pragma mark AdMobDelegate Methods
+#pragma mark UINavigationControllerDelegate Methods
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     NSLOG(@"didShowViewController");
 }
