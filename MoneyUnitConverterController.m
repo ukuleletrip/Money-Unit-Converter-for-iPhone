@@ -16,14 +16,10 @@
 #import "MoneyTypePadView.h"
 #import "MoneyModel.h"
 #import "SettingsViewController.h"
-#import "AdMobInterstitialDelegateProtocol.h"
-#import "AdMobInterstitialAd.h"
-#import "AdMobView.h"
+#import "GADBannerView.h"
 
 #define kModePrefKey	@"main.accountmode"
 #define kResultTableHeight (230)
-#define kAdViewHeight	(48)
-//#define kAdViewHeight	(0)
 
 @interface MoneyResult : NSObject {
     MoneyCurrency *currency;
@@ -320,10 +316,12 @@ typedef struct {
         }
     }
     if (renderResult.text1 != nil || renderResult.text2 != nil) {
-        renderResult.text3 = [NSString stringWithFormat:@"%@ (%@%@)", 
+        renderResult.text3 = [NSString stringWithFormat:@"%@ (%@%@: %@)", 
                                        currency.longName,
                                        [self valueOf:unitRate],
-                                       account.currency.shortName];
+                                       account.currency.shortName,
+                                       (currency.updated != nil)?
+                                       currency.updated : account.currency.updated];
         renderResult.image = currency.image;
         [resultList addObject:renderResult];
     }
@@ -373,7 +371,7 @@ typedef struct {
 }
 
 - (void)adjustAdSpace:(BOOL)isAdd {
-    int moveY = (isAdd)? -kAdViewHeight : kAdViewHeight;
+    int moveY = (isAdd)? -GAD_SIZE_320x50.height : GAD_SIZE_320x50.height;
 
     CGRect frame;
     frame = resultTable.frame;
@@ -384,22 +382,24 @@ typedef struct {
 }
 
 - (void)requestNewAd {
-#if kAdViewHeight > 0
-    adView = [AdMobView requestAdWithDelegate:self]; // start a new ad request
-    [adView retain];
-#endif
+    adView = [[GADBannerView alloc]
+                 initWithFrame:CGRectMake(0.0, 0.0,
+                                          GAD_SIZE_320x50.width, GAD_SIZE_320x50.height)];
+    adView.delegate = self;
+    adView.adUnitID = @"a14cb910f223f6a";
+    adView.rootViewController = self;
+    [adView loadRequest:[GADRequest request]];
 }
 
 - (void)refreshAd {
-#if kAdViewHeight > 0
     if (adView != nil) {
+        // now adview will be updated automatically..
         NSLOG(@"requestFreshAd");
-        [adView requestFreshAd];
+        //[adView requestFreshAd];
     } else {
         NSLOG(@"requestNewAd");
         [self requestNewAd];
     }
-#endif
 }
 
 - (void)update {
@@ -417,15 +417,7 @@ typedef struct {
 
 }
 
-#pragma mark AdMobDelegate Methods
-- (NSString*)publisherIdForAd:(AdMobView *)adMobView {
-    return @"a14cb910f223f6a";
-}
-
-- (UIViewController*)currentViewControllerForAd:(AdMobView *)adMobView {
-    return self;
-}
-
+#pragma mark GADBannerViewDelegate Methods
 /*
 #ifdef DEBUG
 - (NSArray*)testDevices {
@@ -438,24 +430,21 @@ typedef struct {
 
 // Sent when an ad request loaded an ad; this is a good opportunity to attach
 // the ad view to the hierachy.
-- (void)didReceiveAd:(AdMobView *)adMobView {
-    NSLOG(@"AdMob: Did receive ad");
+- (void)adViewDidReceiveAd:(GADBannerView *)_adView {
+    NSLOG(@"GADBannerView: Did receive ad");
 
     if (resultTable.frame.size.height == kResultTableHeight) {
         [self adjustAdSpace:YES];
     }
-
-    // get the view frame
     CGRect frame = self.view.frame;
-
-    // put the ad at the bottom of the screen
-    adView.frame = CGRectMake(0, frame.size.height - kAdViewHeight, frame.size.width, kAdViewHeight);
+    adView.frame = CGRectMake(0.0, frame.size.height - GAD_SIZE_320x50.height,
+                              GAD_SIZE_320x50.width, GAD_SIZE_320x50.height);
     [self.view addSubview:adView];
 }
 
 // Sent when an ad request failed to load an ad
-- (void)didFailToReceiveAd:(AdMobView *)adMobView {
-    NSLOG(@"AdMob: Did fail to receive ad");
+- (void)adView:(GADBannerView*)_adView didFailToReceiveAdWithError:(GADRequestError *)error {
+    NSLOG(@"GADBannerView: Did fail to receive ad");
     [adView removeFromSuperview];  // Not necessary since never added to a view, but doesn't hurt and is good practice
     [adView release];
     adView = nil;
@@ -612,7 +601,7 @@ typedef struct {
 	self.view = contentView;
     [contentView release];
 
-    typePad = [[MoneyTypePadView alloc] initWithFrame:CGRectMake(0,280-kAdViewHeight,320,200-64)];
+    typePad = [[MoneyTypePadView alloc] initWithFrame:CGRectMake(0,280-GAD_SIZE_320x50.height,320,200-64)];
     typePad.delegate = self;
     account.currency = typePad.currency;
     account.unit = typePad.unit;
@@ -632,7 +621,7 @@ typedef struct {
     [contentView addSubview:inputField];
 
     resultTable = [[UITableView alloc]
-                    initWithFrame:CGRectMake(0, 50, 320, kResultTableHeight-kAdViewHeight)
+                    initWithFrame:CGRectMake(0, 50, 320, kResultTableHeight-GAD_SIZE_320x50.height)
                     style:UITableViewStylePlain];
     resultTable.backgroundColor = [UIColor whiteColor];
     resultTable.delegate = self;

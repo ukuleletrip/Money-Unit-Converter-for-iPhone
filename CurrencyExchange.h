@@ -23,5 +23,6 @@
 + (CurrencyExchange*)sharedManager;
 - (void)update;
 - (NSDecimalNumber*)convert:(NSDecimalNumber*)value From:(NSString*)from To:(NSString*)to;
+- (NSString*)updated:(NSString*)name;
 @end
 

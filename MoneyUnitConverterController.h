@@ -13,20 +13,20 @@
 #import <UIKit/UIKit.h>
 #import "MoneyTypePadView.h"
 #import "MoneyModel.h"
-#import "AdMobDelegateProtocol.h"
+#import "GADBannerViewDelegate.h"
 
 @class MoneyDisplay;
 @class ResultRenderer;
-@class AdMobView;
+@class GADBannerView;
 @class MoneyTypePadView;
 
-@interface MoneyUnitConverterController : UIViewController <UITableViewDataSource, UITableViewDelegate, MoneyTypePadViewDelegate, AdMobDelegate, UINavigationControllerDelegate> {
+@interface MoneyUnitConverterController : UIViewController <UITableViewDataSource, UITableViewDelegate, MoneyTypePadViewDelegate, GADBannerViewDelegate, UINavigationControllerDelegate> {
 @private
     MoneyDisplay *inputField;
     MoneyAccount *account;
     UITableView *resultTable;
     MoneyTypePadView *typePad;
-    AdMobView *adView;
+    GADBannerView *adView;
     NSMutableArray *resultList;
     ResultRenderer *renderer;
     BOOL isAccountMode;

@@ -26,21 +26,13 @@
 		601C43E11260A2F000DF5482 /* United-States.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43D51260A2F000DF5482 /* United-States.png */; };
 		602439F711422FBA00B0DB34 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 602439F611422FBA00B0DB34 /* icon.png */; };
 		60243A1111423C7900B0DB34 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 60243A1011423C7900B0DB34 /* Localizable.strings */; };
-		60471C841269619600CD4573 /* libAdMob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60471C831269619600CD4573 /* libAdMob.a */; };
 		60471C86126961D900CD4573 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60471C85126961D900CD4573 /* AudioToolbox.framework */; };
-		60471C88126961D900CD4573 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60471C87126961D900CD4573 /* MediaPlayer.framework */; };
 		60471C8A126961D900CD4573 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60471C89126961D900CD4573 /* MessageUI.framework */; };
 		60471C8C126961D900CD4573 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60471C8B126961D900CD4573 /* QuartzCore.framework */; };
-		60471CAC1269621E00CD4573 /* CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 60471C971269621E00CD4573 /* CDataScanner.m */; };
-		60471CAD1269621E00CD4573 /* CDataScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 60471C9A1269621E00CD4573 /* CDataScanner_Extensions.m */; };
-		60471CAE1269621E00CD4573 /* NSCharacterSet_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 60471C9C1269621E00CD4573 /* NSCharacterSet_Extensions.m */; };
-		60471CAF1269621E00CD4573 /* NSDictionary_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 60471C9E1269621E00CD4573 /* NSDictionary_JSONExtensions.m */; };
-		60471CB01269621E00CD4573 /* NSScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 60471CA01269621E00CD4573 /* NSScanner_Extensions.m */; };
-		60471CB11269621E00CD4573 /* CJSONDataSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 60471CA31269621E00CD4573 /* CJSONDataSerializer.m */; };
-		60471CB21269621E00CD4573 /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 60471CA51269621E00CD4573 /* CJSONDeserializer.m */; };
-		60471CB31269621E00CD4573 /* CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 60471CA71269621E00CD4573 /* CJSONScanner.m */; };
-		60471CB41269621E00CD4573 /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 60471CA91269621E00CD4573 /* CJSONSerializer.m */; };
-		60471CB51269621E00CD4573 /* CSerializedJSONData.m in Sources */ = {isa = PBXBuildFile; fileRef = 60471CAB1269621E00CD4573 /* CSerializedJSONData.m */; };
+		6063080013DBA81A00E877B0 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 606307FF13DBA81A00E877B0 /* libGoogleAdMobAds.a */; };
+		6063080213DBA8B700E877B0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6063080113DBA8B700E877B0 /* SystemConfiguration.framework */; };
+		6063080513DBFB0900E877B0 /* Taiwan.png in Resources */ = {isa = PBXBuildFile; fileRef = 6063080313DBFB0900E877B0 /* Taiwan.png */; };
+		6063080613DBFB0900E877B0 /* Taiwan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6063080413DBFB0900E877B0 /* Taiwan@2x.png */; };
 		607C8A4F113AA04D00233C7E /* CurrencyExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 607C8A4D113AA04C00233C7E /* CurrencyExchange.m */; };
 		60D2733C10E9B49C00F95EB7 /* MoneyTypePadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D2733B10E9B49C00F95EB7 /* MoneyTypePadView.m */; };
 		60D2741D10E9CD9B00F95EB7 /* blueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 60D2741B10E9CD9B00F95EB7 /* blueButton.png */; };
@@ -134,35 +126,19 @@
 		60243A011142399E00B0DB34 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		60243A0E11423C7200B0DB34 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		60243A1211423C8700B0DB34 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
-		60471C7F1269619600CD4573 /* AdMobDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMobDelegateProtocol.h; sourceTree = "<group>"; };
-		60471C801269619600CD4573 /* AdMobInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMobInterstitialAd.h; sourceTree = "<group>"; };
-		60471C811269619600CD4573 /* AdMobInterstitialDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMobInterstitialDelegateProtocol.h; sourceTree = "<group>"; };
-		60471C821269619600CD4573 /* AdMobView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMobView.h; sourceTree = "<group>"; };
-		60471C831269619600CD4573 /* libAdMob.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdMob.a; sourceTree = "<group>"; };
 		60471C85126961D900CD4573 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		60471C87126961D900CD4573 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		60471C89126961D900CD4573 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		60471C8B126961D900CD4573 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		60471C961269621E00CD4573 /* CDataScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDataScanner.h; sourceTree = "<group>"; };
-		60471C971269621E00CD4573 /* CDataScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDataScanner.m; sourceTree = "<group>"; };
-		60471C991269621E00CD4573 /* CDataScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDataScanner_Extensions.h; sourceTree = "<group>"; };
-		60471C9A1269621E00CD4573 /* CDataScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDataScanner_Extensions.m; sourceTree = "<group>"; };
-		60471C9B1269621E00CD4573 /* NSCharacterSet_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCharacterSet_Extensions.h; sourceTree = "<group>"; };
-		60471C9C1269621E00CD4573 /* NSCharacterSet_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCharacterSet_Extensions.m; sourceTree = "<group>"; };
-		60471C9D1269621E00CD4573 /* NSDictionary_JSONExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDictionary_JSONExtensions.h; sourceTree = "<group>"; };
-		60471C9E1269621E00CD4573 /* NSDictionary_JSONExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDictionary_JSONExtensions.m; sourceTree = "<group>"; };
-		60471C9F1269621E00CD4573 /* NSScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSScanner_Extensions.h; sourceTree = "<group>"; };
-		60471CA01269621E00CD4573 /* NSScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScanner_Extensions.m; sourceTree = "<group>"; };
-		60471CA21269621E00CD4573 /* CJSONDataSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDataSerializer.h; sourceTree = "<group>"; };
-		60471CA31269621E00CD4573 /* CJSONDataSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONDataSerializer.m; sourceTree = "<group>"; };
-		60471CA41269621E00CD4573 /* CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDeserializer.h; sourceTree = "<group>"; };
-		60471CA51269621E00CD4573 /* CJSONDeserializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONDeserializer.m; sourceTree = "<group>"; };
-		60471CA61269621E00CD4573 /* CJSONScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONScanner.h; sourceTree = "<group>"; };
-		60471CA71269621E00CD4573 /* CJSONScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONScanner.m; sourceTree = "<group>"; };
-		60471CA81269621E00CD4573 /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONSerializer.h; sourceTree = "<group>"; };
-		60471CA91269621E00CD4573 /* CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONSerializer.m; sourceTree = "<group>"; };
-		60471CAA1269621E00CD4573 /* CSerializedJSONData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSerializedJSONData.h; sourceTree = "<group>"; };
-		60471CAB1269621E00CD4573 /* CSerializedJSONData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSerializedJSONData.m; sourceTree = "<group>"; };
+		606307F913DBA81A00E877B0 /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
+		606307FA13DBA81A00E877B0 /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
+		606307FB13DBA81A00E877B0 /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
+		606307FC13DBA81A00E877B0 /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
+		606307FD13DBA81A00E877B0 /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
+		606307FE13DBA81A00E877B0 /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
+		606307FF13DBA81A00E877B0 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
+		6063080113DBA8B700E877B0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6063080313DBFB0900E877B0 /* Taiwan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Taiwan.png; sourceTree = "<group>"; };
+		6063080413DBFB0900E877B0 /* Taiwan@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Taiwan@2x.png"; sourceTree = "<group>"; };
 		607C8A4D113AA04C00233C7E /* CurrencyExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrencyExchange.m; sourceTree = "<group>"; };
 		607C8A4E113AA04D00233C7E /* CurrencyExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrencyExchange.h; sourceTree = "<group>"; };
 		60D2733A10E9B49C00F95EB7 /* MoneyTypePadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoneyTypePadView.h; sourceTree = "<group>"; };
@@ -243,14 +219,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6063080213DBA8B700E877B0 /* SystemConfiguration.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
-				60471C841269619600CD4573 /* libAdMob.a in Frameworks */,
 				60471C86126961D900CD4573 /* AudioToolbox.framework in Frameworks */,
-				60471C88126961D900CD4573 /* MediaPlayer.framework in Frameworks */,
 				60471C8A126961D900CD4573 /* MessageUI.framework in Frameworks */,
 				60471C8C126961D900CD4573 /* QuartzCore.framework in Frameworks */,
+				6063080013DBA81A00E877B0 /* libGoogleAdMobAds.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,9 +251,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				606307F813DBA7F900E877B0 /* GoogleAdMob */,
 				60F6FA1F1274477C00D4E1C3 /* icon@2x.png */,
-				60471C951269621E00CD4573 /* TouchJSON */,
-				60471C7E1269619600CD4573 /* AdMob */,
 				60F0352612633BEA009E2DFD /* SettingsViewController.h */,
 				60F0352712633BEA009E2DFD /* SettingsViewController.m */,
 				60F03510126330FE009E2DFD /* MoneyUnitConverterController.h */,
@@ -311,6 +286,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6063080313DBFB0900E877B0 /* Taiwan.png */,
+				6063080413DBFB0900E877B0 /* Taiwan@2x.png */,
 				60DF38001272C53900A502D4 /* Default@2x.png */,
 				60FE38C4126B23270083C134 /* Australia@2x.png */,
 				60FE38C5126B23270083C134 /* Brazil@2x.png */,
@@ -393,70 +370,29 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6063080113DBA8B700E877B0 /* SystemConfiguration.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
 				60471C85126961D900CD4573 /* AudioToolbox.framework */,
-				60471C87126961D900CD4573 /* MediaPlayer.framework */,
 				60471C89126961D900CD4573 /* MessageUI.framework */,
 				60471C8B126961D900CD4573 /* QuartzCore.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		60471C7E1269619600CD4573 /* AdMob */ = {
+		606307F813DBA7F900E877B0 /* GoogleAdMob */ = {
 			isa = PBXGroup;
 			children = (
-				60471C7F1269619600CD4573 /* AdMobDelegateProtocol.h */,
-				60471C801269619600CD4573 /* AdMobInterstitialAd.h */,
-				60471C811269619600CD4573 /* AdMobInterstitialDelegateProtocol.h */,
-				60471C821269619600CD4573 /* AdMobView.h */,
-				60471C831269619600CD4573 /* libAdMob.a */,
+				606307F913DBA81A00E877B0 /* GADBannerView.h */,
+				606307FA13DBA81A00E877B0 /* GADBannerViewDelegate.h */,
+				606307FB13DBA81A00E877B0 /* GADInterstitial.h */,
+				606307FC13DBA81A00E877B0 /* GADInterstitialDelegate.h */,
+				606307FD13DBA81A00E877B0 /* GADRequest.h */,
+				606307FE13DBA81A00E877B0 /* GADRequestError.h */,
+				606307FF13DBA81A00E877B0 /* libGoogleAdMobAds.a */,
 			);
-			path = AdMob;
-			sourceTree = "<group>";
-		};
-		60471C951269621E00CD4573 /* TouchJSON */ = {
-			isa = PBXGroup;
-			children = (
-				60471C961269621E00CD4573 /* CDataScanner.h */,
-				60471C971269621E00CD4573 /* CDataScanner.m */,
-				60471C981269621E00CD4573 /* Extensions */,
-				60471CA11269621E00CD4573 /* JSON */,
-			);
-			path = TouchJSON;
-			sourceTree = "<group>";
-		};
-		60471C981269621E00CD4573 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				60471C991269621E00CD4573 /* CDataScanner_Extensions.h */,
-				60471C9A1269621E00CD4573 /* CDataScanner_Extensions.m */,
-				60471C9B1269621E00CD4573 /* NSCharacterSet_Extensions.h */,
-				60471C9C1269621E00CD4573 /* NSCharacterSet_Extensions.m */,
-				60471C9D1269621E00CD4573 /* NSDictionary_JSONExtensions.h */,
-				60471C9E1269621E00CD4573 /* NSDictionary_JSONExtensions.m */,
-				60471C9F1269621E00CD4573 /* NSScanner_Extensions.h */,
-				60471CA01269621E00CD4573 /* NSScanner_Extensions.m */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		60471CA11269621E00CD4573 /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				60471CA21269621E00CD4573 /* CJSONDataSerializer.h */,
-				60471CA31269621E00CD4573 /* CJSONDataSerializer.m */,
-				60471CA41269621E00CD4573 /* CJSONDeserializer.h */,
-				60471CA51269621E00CD4573 /* CJSONDeserializer.m */,
-				60471CA61269621E00CD4573 /* CJSONScanner.h */,
-				60471CA71269621E00CD4573 /* CJSONScanner.m */,
-				60471CA81269621E00CD4573 /* CJSONSerializer.h */,
-				60471CA91269621E00CD4573 /* CJSONSerializer.m */,
-				60471CAA1269621E00CD4573 /* CSerializedJSONData.h */,
-				60471CAB1269621E00CD4573 /* CSerializedJSONData.m */,
-			);
-			path = JSON;
+			name = GoogleAdMob;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -585,6 +521,8 @@
 				60DF37F71272C41100A502D4 /* Default.png in Resources */,
 				60DF38011272C53900A502D4 /* Default@2x.png in Resources */,
 				60F6FA201274477C00D4E1C3 /* icon@2x.png in Resources */,
+				6063080513DBFB0900E877B0 /* Taiwan.png in Resources */,
+				6063080613DBFB0900E877B0 /* Taiwan@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,16 +539,6 @@
 				607C8A4F113AA04D00233C7E /* CurrencyExchange.m in Sources */,
 				60F03512126330FE009E2DFD /* MoneyUnitConverterController.m in Sources */,
 				60F0352812633BEA009E2DFD /* SettingsViewController.m in Sources */,
-				60471CAC1269621E00CD4573 /* CDataScanner.m in Sources */,
-				60471CAD1269621E00CD4573 /* CDataScanner_Extensions.m in Sources */,
-				60471CAE1269621E00CD4573 /* NSCharacterSet_Extensions.m in Sources */,
-				60471CAF1269621E00CD4573 /* NSDictionary_JSONExtensions.m in Sources */,
-				60471CB01269621E00CD4573 /* NSScanner_Extensions.m in Sources */,
-				60471CB11269621E00CD4573 /* CJSONDataSerializer.m in Sources */,
-				60471CB21269621E00CD4573 /* CJSONDeserializer.m in Sources */,
-				60471CB31269621E00CD4573 /* CJSONScanner.m in Sources */,
-				60471CB41269621E00CD4573 /* CJSONSerializer.m in Sources */,
-				60471CB51269621E00CD4573 /* CSerializedJSONData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -651,6 +579,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AdMob\"",
+					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = MoneyUnitConverter;
 			};
@@ -667,8 +596,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AdMob\"",
+					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = MoneyUnitConverter;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
@@ -676,13 +607,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Distribution;
@@ -698,6 +632,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AdMob\"",
+					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = MoneyUnitConverter;
 			};
@@ -707,14 +642,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_CFLAGS = "-DDEBUG";
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -722,13 +660,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};

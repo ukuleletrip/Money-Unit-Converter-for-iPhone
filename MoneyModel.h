@@ -54,12 +54,14 @@
     NSString *shortName;
     UIImage *image;
     NSString *imageName;
+    NSString *updated;
 }
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *shortName;
 @property (nonatomic, readonly) NSDecimalNumber *exchangeForDollar;
 @property (nonatomic, readonly) NSString *longName;
 @property (nonatomic, readonly) UIImage *image;
+@property (nonatomic, copy) NSString *updated;
 @end
 
 @interface MoneyCurrencyList : NSObject {

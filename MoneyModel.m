@@ -197,7 +197,7 @@ const MoneyUnitInit units[] = {
     return NSUIntegerMax;  //denotes an object that cannot be released
 }
  
-- (void)release {
+- (oneway void)release {
     //do nothing
 }
  
@@ -208,13 +208,14 @@ const MoneyUnitInit units[] = {
 @end
 
 @implementation MoneyCurrency
-@synthesize name,shortName,image;
+@synthesize name,shortName,image,updated;
 @dynamic longName;
 - (id)initWithName:(NSString*)n shortName:(NSString*)sn imageName:(NSString*)imgName  {
     if ((self = [super init]) != nil) {
         name = [n retain];
         shortName = [sn retain];
         imageName = [imgName retain];
+        updated = @"";
     }
     return self;
 }
@@ -224,6 +225,7 @@ const MoneyUnitInit units[] = {
     [shortName release];
     [imageName release];
     [image release];
+    [updated release];
     [super dealloc];
 }
 
@@ -241,6 +243,10 @@ const MoneyUnitInit units[] = {
 
 - (NSDecimalNumber*)exchangeForDollar {
     NSDecimalNumber *v = [[CurrencyExchange sharedManager] convert:[NSDecimalNumber decimalNumberWithString:@"1"] From:@"USD" To:name];
+    NSString *ud = [[CurrencyExchange sharedManager] updated:name];
+    if (ud != nil) {
+        self.updated = ([name compare:@"EUR"] == NSOrderedSame)? nil : ud;
+    }
     if (v == nil) {
         NSString *s = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:kExchangePrefKey,name]];
         if (s == nil || (v = [NSDecimalNumber decimalNumberWithString:s]) == nil) {
@@ -307,10 +313,11 @@ const MoneyCurrencyInit currencies[] = {
     { @"INR", @"₨", 	@"India"			},
     { @"KRW", @"￦", 	@"South-Korea"		},
     { @"CNY", @"元", 	@"China"			},
+    { @"TWD", @"$", 	@"Taiwan"			},
     { @"BGN", @"лв",	@"Bulgaria"			},
     { @"CZK", @"Kč",	@"Czech-Republic"	},
     { @"DKK", @"kr",	@"Denmark"			},
-    { @"EEK", @"krooni",@"Estonia"			},
+    //{ @"EEK", @"krooni",@"Estonia"			},
     { @"HUF", @"Ft",	@"Hungary"			},
     { @"LTL", @"Lt",	@"Lithuania"		},
     { @"LVL", @"Ls",	@"Latvia"			},
@@ -327,7 +334,7 @@ const MoneyCurrencyInit currencies[] = {
     { @"MYR", @"RM",	@"Malaysia"			},
     { @"PHP", @"₱",		@"Philippines"		},
     { @"SGD", @"S$",	@"Singapore"		},
-    { @"THB", @"฿",		@"Thailand"			},
+    { @"THB", @"฿",	@"Thailand"			},
     { @"ZAR", @"R",		@"South-Africa"		},
 };
 
@@ -516,7 +523,7 @@ const MoneyCurrencyInit currencies[] = {
     return NSUIntegerMax;  //denotes an object that cannot be released
 }
  
-- (void)release {
+- (oneway void)release {
     //do nothing
 }
  
