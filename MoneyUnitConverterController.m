@@ -217,7 +217,7 @@
         return [NSString stringWithFormat:@"%@ (%@%@)", 
                          regionDic.currency.longName,
                          [self valueOf:unitRate],
-                         account.currency.shortName
+                         regionDic.currency.shortName
                 ];
     }
 	return regionDic.currency.longName;
@@ -252,6 +252,7 @@
 }
 @end
 
+// ConverterRenderer is main renderer
 @interface ConvertRenderer : ResultRenderer {
 @private
 }
@@ -316,12 +317,14 @@ typedef struct {
         }
     }
     if (renderResult.text1 != nil || renderResult.text2 != nil) {
-        renderResult.text3 = [NSString stringWithFormat:@"%@ (%@%@: %@)", 
+        renderResult.text3 = [NSString stringWithFormat:@"%@ (%@%@ %@%@)", 
                                        currency.longName,
                                        [self valueOf:unitRate],
-                                       account.currency.shortName,
+                                       currency.shortName,
                                        (currency.updated != nil)?
-                                       currency.updated : account.currency.updated];
+                                       currency.updated : account.currency.updated,
+                                       NSLocalizedString(@"Updated", @"")
+                              ];
         renderResult.image = currency.image;
         [resultList addObject:renderResult];
     }

@@ -8,7 +8,7 @@
 "MainTitle" = "Currency";
 "Settings" = "Settings";
 "Currencies" = "Currencies to use";
-"AboutThisApp" = "Currency Converter Ver2.1\nCopyright © 2010, Ukulele Trip\n\nFlag Icons © 2010 Go Squared Ltd.\nAll rights reserved.";
+"AboutThisApp" = "Currency Converter Ver2.2\nCopyright © 2011, Ukulele Trip\n\nFlag Icons © 2010 Go Squared Ltd.\nAll rights reserved.";
 "USD" = "US Dollars";
 "JPY" = "Japan Yen";
 "EUR" = "Euro";
@@ -47,6 +47,7 @@
 "ZAR" = "South African rand";
 "円" = "￥";
 "元" = "￥";
+"Updated" = "updated";
 
 
 
