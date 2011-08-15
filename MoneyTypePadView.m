@@ -15,6 +15,7 @@
 #import "MyUtil.h"
 #import "MoneyTypePadView.h"
 #import "MoneyModel.h"
+#import "UkllPopupMenu.h"
 
 #define kCompactLayout
 
@@ -22,7 +23,6 @@
 #define kMarginY	(4)
 #define kButtonWidth	(50)
 #define kButtonHeight	(30)
-#define kPopupItemHeight (28)
 #define kButtonSpace (2)
 
 // should store shortname instead of index of UISegment...
@@ -57,86 +57,6 @@ const ButtonTable buttons[] = {
     { @".",3,1,1 },
 #endif
 };
-
-@interface PopupMenu : UIView <UITableViewDelegate> {
-@private
-    UITableView *table;
-    id <PopupMenuDelegate> delegate;
-}
-@property (nonatomic, assign) id <UITableViewDataSource> dataSource;
-@property (nonatomic, assign) id <PopupMenuDelegate> delegate;
-@property (nonatomic) CGRect menuRect;
-- (void)update;
-@end
-
-@implementation PopupMenu
-@synthesize delegate;
-- (id)initWithFrame:(CGRect)rect {
-    self = [super initWithFrame:rect];
-    if (self != nil) {
-        //table = [[UITableView alloc] initWithFrame:rect style:UITableViewStylePlain];
-        table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 160, 200) style:UITableViewStylePlain];
-        table.delegate = self;
-        table.rowHeight = kPopupItemHeight;
-        table.backgroundColor = [UIColor colorWithRed:132.0/255.0 green:132.0/255.0 blue:142.0/255.0 alpha:1.0];
-        //table.separatorStyle = UITableViewCellSeparatorStyleSingleLineEtched;
-        table.separatorColor = [UIColor darkGrayColor];
-        [self addSubview:table];
-        [table release];
-
-        [self setClipsToBounds:YES];
-        //[self layer].cornerRadius = 10.0;
-        //[self layer].borderColor = [[UIColor lightGrayColor] CGColor];
-        //[self layer].borderWidth = 1.0;
-        //[self layer].shadowOpacity = 0.5;
-        //[self layer].shadowOffset = CGSizeMake(-10,10);
-    }
-    return self;
-}
-
-- (void)dealloc {
-    [super dealloc];
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLOG(@"touches");
-    self.hidden = YES;
-}
-
-- (void)setMenuRect:(CGRect)rect {
-    NSLOG(@"set table rect");
-    table.frame = rect;
-}
-
-- (CGRect)menuRect {
-    NSLOG(@"read table rect");
-    return table.frame;
-}
-
-- (void)update {
-    [table reloadData];
-}
-
-- (id <UITableViewDataSource>)dataSource {
-    return table.dataSource;
-}
-
-- (void)setDataSource:(id <UITableViewDataSource>)s {
-    table.dataSource = s;
-    [table reloadData];
-}
-
-#pragma mark UITableViewDelegateMethods
-
-// Respond to user selection
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)newIndexPath {
-	[tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
-    if ([delegate respondsToSelector:@selector(popupMenu:didItemSelected:)]) {
-        [delegate popupMenu:self didItemSelected:newIndexPath.row];
-    }
-    self.hidden = YES;
-}
-@end
 
 @implementation MoneyTypePadView
 @synthesize delegate;
@@ -368,7 +288,7 @@ const ButtonTable buttons[] = {
 
         [self changedLanguage:languageSelector];
 
-        currencySelectMenu = [[PopupMenu alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
+        currencySelectMenu = [[UkllPopupMenu alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
         currencySelectMenu.opaque = NO;
         currencySelectMenu.dataSource = self;
         currencySelectMenu.delegate = self;
@@ -419,7 +339,7 @@ const ButtonTable buttons[] = {
 	return cell;
 }
 
-- (void)popupMenu:(PopupMenu*)popupMenu didItemSelected:(NSInteger)index {
+- (void)popupMenu:(UkllPopupMenu*)popupMenu didItemSelected:(NSInteger)index {
     [self changeCurrency:index];
 }
 

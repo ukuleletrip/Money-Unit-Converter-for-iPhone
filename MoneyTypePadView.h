@@ -11,18 +11,13 @@
 
 ***********************************************************************/
 #import <UIKit/UIKit.h>
+#import "UkllPopupMenu.h"
 
 @protocol MoneyTypePadViewDelegate;
 @class MoneyUnit;
 @class MoneyCurrency;
-@class PopupMenu;
 
-@protocol PopupMenuDelegate <NSObject>
-@optional
-- (void)popupMenu:(PopupMenu*)popupMenu didItemSelected:(NSInteger)index;
-@end
-
-@interface MoneyTypePadView : UIView <UIPickerViewDelegate, UITableViewDataSource, PopupMenuDelegate> {
+@interface MoneyTypePadView : UIView <UIPickerViewDelegate, UITableViewDataSource, UkllPopupMenuDelegate> {
     UIImage *buttonBackground;
     UIImage *buttonBackgroundPressed;
     id <MoneyTypePadViewDelegate> delegate;
@@ -33,7 +28,7 @@
     UISegmentedControl *jUnit2Selector;
     UISegmentedControl *eUnit1Selector;
     UISegmentedControl *eUnit2Selector;
-    PopupMenu *currencySelectMenu;
+    UkllPopupMenu *currencySelectMenu;
     NSInteger currencyIndex;
     NSTimer *timer;
 }

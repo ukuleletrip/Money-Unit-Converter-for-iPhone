@@ -34,6 +34,7 @@
 		6063080513DBFB0900E877B0 /* Taiwan.png in Resources */ = {isa = PBXBuildFile; fileRef = 6063080313DBFB0900E877B0 /* Taiwan.png */; };
 		6063080613DBFB0900E877B0 /* Taiwan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6063080413DBFB0900E877B0 /* Taiwan@2x.png */; };
 		607C8A4F113AA04D00233C7E /* CurrencyExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 607C8A4D113AA04C00233C7E /* CurrencyExchange.m */; };
+		6092537C13F76C94002DA3B4 /* UkllPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 6092537B13F76C94002DA3B4 /* UkllPopupMenu.m */; };
 		60D2733C10E9B49C00F95EB7 /* MoneyTypePadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D2733B10E9B49C00F95EB7 /* MoneyTypePadView.m */; };
 		60D2741D10E9CD9B00F95EB7 /* blueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 60D2741B10E9CD9B00F95EB7 /* blueButton.png */; };
 		60D2741E10E9CD9B00F95EB7 /* whiteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 60D2741C10E9CD9B00F95EB7 /* whiteButton.png */; };
@@ -141,6 +142,8 @@
 		6063080413DBFB0900E877B0 /* Taiwan@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Taiwan@2x.png"; sourceTree = "<group>"; };
 		607C8A4D113AA04C00233C7E /* CurrencyExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrencyExchange.m; sourceTree = "<group>"; };
 		607C8A4E113AA04D00233C7E /* CurrencyExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrencyExchange.h; sourceTree = "<group>"; };
+		6092537A13F76C94002DA3B4 /* UkllPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UkllPopupMenu.h; sourceTree = "<group>"; };
+		6092537B13F76C94002DA3B4 /* UkllPopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UkllPopupMenu.m; sourceTree = "<group>"; };
 		60D2733A10E9B49C00F95EB7 /* MoneyTypePadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoneyTypePadView.h; sourceTree = "<group>"; };
 		60D2733B10E9B49C00F95EB7 /* MoneyTypePadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoneyTypePadView.m; sourceTree = "<group>"; };
 		60D2741B10E9CD9B00F95EB7 /* blueButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueButton.png; sourceTree = "<group>"; };
@@ -251,6 +254,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				6092537A13F76C94002DA3B4 /* UkllPopupMenu.h */,
+				6092537B13F76C94002DA3B4 /* UkllPopupMenu.m */,
 				606307F813DBA7F900E877B0 /* GoogleAdMob */,
 				60F6FA1F1274477C00D4E1C3 /* icon@2x.png */,
 				60F0352612633BEA009E2DFD /* SettingsViewController.h */,
@@ -539,6 +544,7 @@
 				607C8A4F113AA04D00233C7E /* CurrencyExchange.m in Sources */,
 				60F03512126330FE009E2DFD /* MoneyUnitConverterController.m in Sources */,
 				60F0352812633BEA009E2DFD /* SettingsViewController.m in Sources */,
+				6092537C13F76C94002DA3B4 /* UkllPopupMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,7 +584,6 @@
 				INFOPLIST_FILE = "MoneyUnitConverter-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/AdMob\"",
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = MoneyUnitConverter;
@@ -595,7 +600,6 @@
 				INFOPLIST_FILE = "MoneyUnitConverter-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/AdMob\"",
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = MoneyUnitConverter;
@@ -633,7 +637,6 @@
 				INFOPLIST_FILE = "MoneyUnitConverter-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/AdMob\"",
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = MoneyUnitConverter;

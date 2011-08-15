@@ -55,6 +55,7 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
 }
 
 - (void)startLoadingXML {
+    xmlData = nil;
     [self didStartNetworking];
     NSURLRequest *request =
         // [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml"]];

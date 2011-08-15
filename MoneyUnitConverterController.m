@@ -323,7 +323,8 @@ typedef struct {
                                        currency.shortName,
                                        (currency.updated != nil)?
                                        currency.updated : account.currency.updated,
-                                       NSLocalizedString(@"Updated", @"")
+                                       (currency.updated != nil && [currency.updated length] > 0)?
+                                       NSLocalizedString(@"Updated", @"") : @""
                               ];
         renderResult.image = currency.image;
         [resultList addObject:renderResult];
@@ -399,6 +400,8 @@ typedef struct {
         // now adview will be updated automatically..
         NSLOG(@"requestFreshAd");
         //[adView requestFreshAd];
+        // for AdMob SDK bug? we reuse adview.
+        [adView loadRequest:[GADRequest request]];
     } else {
         NSLOG(@"requestNewAd");
         [self requestNewAd];
@@ -448,10 +451,10 @@ typedef struct {
 // Sent when an ad request failed to load an ad
 - (void)adView:(GADBannerView*)_adView didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLOG(@"GADBannerView: Did fail to receive ad");
+    // see http://goo.gl/zFSoo
     [adView removeFromSuperview];  // Not necessary since never added to a view, but doesn't hurt and is good practice
-    [adView release];
-    adView = nil;
-    // we could start a new ad request here, but in the interests of the user's battery life, let's not
+    //[adView release];
+    //adView = nil;
     if (resultTable.frame.size.height == kResultTableHeight) {
         return;
     }
