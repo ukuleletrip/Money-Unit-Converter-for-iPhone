@@ -18,6 +18,7 @@
 "INR" = "India Rupees";
 "NZD" = "New Zealand Dollars";
 "CHF" = "Switzerland Francs";
+"CHF_" = "CHF";
 "CNY" = "China Yuan";
 "HKD" = "Hong Kong Dollars";
 "KRW" = "Korea Won";

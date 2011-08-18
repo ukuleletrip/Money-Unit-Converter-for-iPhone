@@ -15,7 +15,6 @@
 #import "MyUtil.h"
 #import "MoneyTypePadView.h"
 #import "MoneyModel.h"
-#import "UkllPopupMenu.h"
 
 #define kCompactLayout
 
@@ -26,7 +25,6 @@
 #define kButtonSpace (2)
 
 // should store shortname instead of index of UISegment...
-#define kCurrencyPrefKey	@"moneypad.currency"
 #define kLanguagePrefKey	@"moneypad.language"
 
 typedef struct {
@@ -121,64 +119,7 @@ const ButtonTable buttons[] = {
     [[NSUserDefaults standardUserDefaults] setInteger:languageSelector.selectedSegmentIndex forKey:kLanguagePrefKey];
 }
 
-- (MoneyCurrency*)currency {
-    return [[MoneyCurrencyList sharedManager] currencyAtIndex:currencyIndex];
-}
-
-- (void)updateCurrencySelector {
-    [currencySelector setTitle:self.currency.longName forState:UIControlStateNormal];
-    [currencySelector setImage:self.currency.image forState:UIControlStateNormal];
-}
-
-- (void)changeCurrency:(NSInteger)newCurrencyIndex {
-    currencyIndex = newCurrencyIndex;
-    MoneyCurrency *newCurrency = self.currency;
-    [self updateCurrencySelector];
-    if (newCurrency != nil &&
-        [delegate respondsToSelector:@selector(moneyTypePadView:shouldChangeCurrency:)]) {
-        [[NSUserDefaults standardUserDefaults] setInteger:currencyIndex forKey:kCurrencyPrefKey];
-        [delegate moneyTypePadView:self shouldChangeCurrency:newCurrency];
-    }
-}
-
-- (void)currencySelectorClicked:(id)sender {
-    [timer invalidate];
-    [timer release];
-    NSInteger currencyCount = [[MoneyCurrencyList sharedManager] count];
-    [self changeCurrency:(currencyIndex+1)%currencyCount];
-}
-
-- (void)handleTimer:(NSTimer*)timer {
-    [currencySelectMenu update];
-
-    // change coordinate from MoneyTypePadView to PopupMenu View.
-    CGPoint pos = [self convertPoint:CGPointMake(currencySelector.frame.origin.x, currencySelector.frame.origin.y) toView:currencySelectMenu];
-    CGRect appFrame = [[UIScreen mainScreen] applicationFrame];
-    int numOfItem = MIN(appFrame.size.height/kPopupItemHeight,
-                        [[MoneyCurrencyList sharedManager] count]);
-    pos.y -= MAX(0, (pos.y+numOfItem*kPopupItemHeight)-currencySelectMenu.frame.size.height);
-    currencySelectMenu.menuRect =
-        CGRectMake(pos.x, pos.y, 
-                   currencySelector.frame.size.width, numOfItem*kPopupItemHeight);
-
-    currencySelectMenu.hidden = NO;
-    [currencySelector cancelTrackingWithEvent:nil];
-}
-
-- (void)currencySelectorPressed:(id)sender {
-    timer = [[NSTimer scheduledTimerWithTimeInterval:0.4
-                      target:self
-                      selector:@selector(handleTimer:)
-                      userInfo:nil
-                      repeats:NO] retain];
-}
-
-- (void)currencySelectorCanceled:(id)sender {
-    [timer invalidate];
-    [timer release];
-}
-
-- (CGRect)logicalPosToRect:(int)column row:(int)row width:(int)width{
+- (CGRect)logicalPosToRect:(CGFloat)column row:(CGFloat)row width:(CGFloat)width{
     return CGRectMake(kMarginX+column*(kButtonWidth+kButtonSpace),
                       kMarginY+row*(kButtonHeight+kButtonSpace),
                       kButtonWidth+(kButtonWidth+kButtonSpace)*(width-1),kButtonHeight);
@@ -220,25 +161,12 @@ const ButtonTable buttons[] = {
             [btn release];
         }
 
-        currencySelector = [self createButtonWithTitle:self.currency.longName column:3 row:0 width:3];
-        [currencySelector addTarget:self action:@selector(currencySelectorClicked:)
-                          forControlEvents:UIControlEventTouchUpInside];
-        [currencySelector addTarget:self action:@selector(currencySelectorPressed:)
-                          forControlEvents:UIControlEventTouchDown];
-        [currencySelector addTarget:self action:@selector(currencySelectorCanceled:)
-                          forControlEvents:UIControlEventTouchUpOutside|UIControlEventTouchCancel];
-        [self addSubview:currencySelector];
-
-        currencyIndex = [[NSUserDefaults standardUserDefaults] integerForKey:kCurrencyPrefKey];
-        [self updateCurrencySelector];
-
         languageSelector = 
             [[UISegmentedControl alloc]
                 initWithItems:[NSArray arrayWithObjects:[UIImage imageNamed:@"Japan"],
                                        [UIImage imageNamed:@"United-States"], nil]];
-        		//initWithItems:[NSArray arrayWithObjects:@"日", @"英", nil]];
         languageSelector.segmentedControlStyle = UISegmentedControlStyleBordered;
-        languageSelector.frame = [self logicalPosToRect:4 row:1 width:2];
+        languageSelector.frame = [self logicalPosToRect:3 row:0 width:3];
         languageSelector.selectedSegmentIndex = 
             [[NSUserDefaults standardUserDefaults] integerForKey:kLanguagePrefKey];
         [languageSelector addTarget:self action:@selector(changedLanguage:)
@@ -249,7 +177,7 @@ const ButtonTable buttons[] = {
             [[UISegmentedControl alloc]
                 initWithItems:[NSArray arrayWithObjects:@"", /*@"十",*/ @"百", @"千", nil]];
         jUnit1Selector.segmentedControlStyle = UISegmentedControlStyleBordered;
-        jUnit1Selector.frame = [self logicalPosToRect:3 row:2 width:3];
+        jUnit1Selector.frame = [self logicalPosToRect:3 row:1.5 width:3];
         jUnit1Selector.selectedSegmentIndex = 0;
         [jUnit1Selector addTarget:self action:@selector(changedUnit:)
                           forControlEvents:UIControlEventValueChanged];
@@ -268,9 +196,8 @@ const ButtonTable buttons[] = {
         eUnit1Selector = 
             [[UISegmentedControl alloc]
                 initWithItems:[NSArray arrayWithObjects:@"", @"h", nil]];
-        //initWithItems:[NSArray arrayWithObjects:@"", @"h", @"K", nil]];
         eUnit1Selector.segmentedControlStyle = UISegmentedControlStyleBordered;
-        eUnit1Selector.frame = [self logicalPosToRect:4 row:2 width:2];
+        eUnit1Selector.frame = [self logicalPosToRect:4 row:1.5 width:2];
         eUnit1Selector.selectedSegmentIndex = 0;
         [eUnit1Selector addTarget:self action:@selector(changedUnit:)
                           forControlEvents:UIControlEventValueChanged];
@@ -278,7 +205,7 @@ const ButtonTable buttons[] = {
 
         eUnit2Selector = 
             [[UISegmentedControl alloc]
-                initWithItems:[NSArray arrayWithObjects:@"", @"M", @"B", @"T", nil]];
+                initWithItems:[NSArray arrayWithObjects:@"", @"K", @"M", @"B", @"T", nil]];
         eUnit2Selector.segmentedControlStyle = UISegmentedControlStyleBordered;
         eUnit2Selector.frame = [self logicalPosToRect:3 row:3 width:3];
         eUnit2Selector.selectedSegmentIndex = 0;
@@ -287,19 +214,11 @@ const ButtonTable buttons[] = {
         [self addSubview:eUnit2Selector];
 
         [self changedLanguage:languageSelector];
-
-        currencySelectMenu = [[UkllPopupMenu alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
-        currencySelectMenu.opaque = NO;
-        currencySelectMenu.dataSource = self;
-        currencySelectMenu.delegate = self;
-        currencySelectMenu.hidden = YES;
-        [[UIApplication sharedApplication].keyWindow addSubview:currencySelectMenu];
     }
     return self;
 }
 
 - (void)dealloc {
-    [currencySelector release];
     [eUnit2Selector release];
     [eUnit1Selector release];
     [jUnit2Selector release];
@@ -308,39 +227,6 @@ const ButtonTable buttons[] = {
     [buttonBackground release];
     [buttonBackgroundPressed release];
     [super dealloc];
-}
-
-#pragma mark UITableViewDataSource Methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 1;
-}
-
-// Return how many rows in the table
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    MoneyCurrencyList *currencyList = [MoneyCurrencyList sharedManager];
-    return [currencyList count];
-}
-
-// Return a cell for the ith row
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	// Use re-usable cells to minimize the memory load
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"any-cell"];
-	if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                         reuseIdentifier:@"any-cell"] autorelease];
-	}
-	// Set up the cell's text
-    MoneyCurrencyList *currencyList = [MoneyCurrencyList sharedManager];
-    cell.textLabel.text = [currencyList currencyAtIndex:indexPath.row].longName;
-    //cell.textLabel.font = [UIFont systemFontOfSize:16];
-    cell.textLabel.textColor = [UIColor whiteColor];
-    cell.textLabel.adjustsFontSizeToFitWidth = YES;
-    cell.imageView.image = [currencyList currencyAtIndex:indexPath.row].image;
-	return cell;
-}
-
-- (void)popupMenu:(UkllPopupMenu*)popupMenu didItemSelected:(NSInteger)index {
-    [self changeCurrency:index];
 }
 
 /*

@@ -19,7 +19,45 @@
 #import "GADBannerView.h"
 
 #define kModePrefKey	@"main.accountmode"
+#define kCurrencyPrefKey	@"moneypad.currency"
 #define kResultTableHeight (230)
+#define kMoneyDisplayWidth (40)
+#define kMoneyDisplayHeight (50)
+#define kCurrencyPopupWidth (200)
+#define kCurrencyLabelHeight (14)
+
+@interface CurrencyDataSource : NSObject <UITableViewDataSource> {
+
+}
+@end
+
+@implementation CurrencyDataSource
+#pragma mark UITableViewDataSource Methods
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	return 1;
+}
+
+// Return how many rows in the table
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    MoneyCurrencyList *currencyList = [MoneyCurrencyList sharedManager];
+    return [currencyList count];
+}
+
+// Return a cell for the ith row
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"any-cell"];
+	if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                         reuseIdentifier:@"any-cell"] autorelease];
+	}
+    MoneyCurrencyList *currencyList = [MoneyCurrencyList sharedManager];
+    cell.textLabel.text = [currencyList currencyAtIndex:indexPath.row].longName;
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.adjustsFontSizeToFitWidth = YES;
+    cell.imageView.image = [currencyList currencyAtIndex:indexPath.row].image;
+	return cell;
+}
+@end
 
 @interface MoneyResult : NSObject {
     MoneyCurrency *currency;
@@ -486,12 +524,6 @@ typedef struct {
     [self updateResultList];
 }
 
-- (void)moneyTypePadView:(MoneyTypePadView*)view shouldChangeCurrency:(MoneyCurrency*)currency {
-    account.currency = currency;
-    inputField.text = [account text];
-    [self updateResultList];
-}
-
 - (void)moneyTypePadShouldClear:(MoneyTypePadView*)view {
     [account clear];
     inputField.text = [account text];
@@ -519,42 +551,8 @@ typedef struct {
 	// Use re-usable cells to minimize the memory load
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"any-cell"];
 	if (cell == nil) {
-        //cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"any-cell"] autorelease];
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"any-cell"] autorelease];
     }
-    /*
-    CGRect imageFrame = CGRectMake(0, 0, 30, 44);
-    CGRect label1Frame = CGRectMake(30, 0, 145, 24);
-    CGRect label2Frame = CGRectMake(175, 0, 145, 24);
-    CGRect label3Frame = CGRectMake(30, 24, 290, 20);
-
-    UIImageView *tmpImg = [[UIImageView alloc] initWithImage:[renderer imageForRow:indexPath.section row:indexPath.row]];
-    [cell.contentView addSubview:tmpImg];
-    tmpImg.center = CGPointMake(10, 10);
-    [tmpImg release];
-
-    UILabel *tmpLabel = [[UILabel alloc] initWithFrame:label1Frame];
-    tmpLabel.font = [UIFont systemFontOfSize:18];
-    tmpLabel.adjustsFontSizeToFitWidth = YES;
-    tmpLabel.text = [renderer text1ForRow:indexPath.section row:indexPath.row];
-    [cell.contentView addSubview:tmpLabel];
-    [tmpLabel release];
-
-    tmpLabel = [[UILabel alloc] initWithFrame:label2Frame];
-    tmpLabel.font = [UIFont systemFontOfSize:18];
-    tmpLabel.adjustsFontSizeToFitWidth = YES;
-    tmpLabel.text = [renderer text2ForRow:indexPath.section row:indexPath.row];
-    [cell.contentView addSubview:tmpLabel];
-    [tmpLabel release];
-
-    tmpLabel = [[UILabel alloc] initWithFrame:label3Frame];
-    tmpLabel.font = [UIFont systemFontOfSize:16];
-    tmpLabel.textColor = [UIColor grayColor];
-    tmpLabel.adjustsFontSizeToFitWidth = YES;
-    tmpLabel.text = [renderer detailTextForRow:indexPath.section row:indexPath.row];
-    [cell.contentView addSubview:tmpLabel];
-    [tmpLabel release];
-    */
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.text = [renderer textForRow:indexPath.section row:indexPath.row];
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
@@ -600,6 +598,72 @@ typedef struct {
     [self updateResultList];
 }
 
+- (MoneyCurrency*)currency {
+    NSLOG(@"self.currency %d",currencyIndex);
+    return [[MoneyCurrencyList sharedManager] currencyAtIndex:currencyIndex];
+}
+
+- (void)updateCurrencySelector {
+    self.title = account.currency.longName;
+    currencyLabel.text = account.currency.longName;
+    [currencySelector setImage:account.currency.image forState:UIControlStateNormal];
+    [currencySelector setTitle:@"▼" forState:UIControlStateNormal];
+    //currencySelector.imageEdgeInsets = UIEdgeInsetsMake(18, 25, 0, 0);
+}
+
+- (void)changeCurrency:(NSInteger)newCurrencyIndex {
+    currencyIndex = newCurrencyIndex;
+    MoneyCurrency *newCurrency = self.currency;
+    account.currency = newCurrency;
+    inputField.text = [account text];
+    [self updateResultList];
+    [self updateCurrencySelector];
+    if (newCurrency != nil) {
+        [[NSUserDefaults standardUserDefaults] setInteger:currencyIndex forKey:kCurrencyPrefKey];
+    }
+}
+
+- (void)currencySelectorClicked:(id)sender {
+    [timer invalidate];
+    [timer release];
+    NSInteger currencyCount = [[MoneyCurrencyList sharedManager] count];
+    [self changeCurrency:(currencyIndex+1)%currencyCount];
+}
+
+- (void)handleTimer:(NSTimer*)timer {
+    [currencySelectMenu update];
+
+    // change coordinate from MoneyTypePadView to PopupMenu View.
+    CGPoint pos = [self.view convertPoint:CGPointMake(currencySelector.frame.origin.x, currencySelector.frame.origin.y) toView:currencySelectMenu];
+    CGRect appFrame = [[UIScreen mainScreen] applicationFrame];
+    int numOfItem = MIN(appFrame.size.height/kPopupItemHeight,
+                        [[MoneyCurrencyList sharedManager] count]);
+    pos.y -= MAX(0, (pos.y+numOfItem*kPopupItemHeight)-currencySelectMenu.frame.size.height);
+    currencySelectMenu.menuRect =
+        CGRectMake(pos.x, pos.y, 
+                   kCurrencyPopupWidth, numOfItem*kPopupItemHeight);
+
+    currencySelectMenu.hidden = NO;
+    [currencySelector cancelTrackingWithEvent:nil];
+}
+
+- (void)currencySelectorPressed:(id)sender {
+    timer = [[NSTimer scheduledTimerWithTimeInterval:0.3
+                      target:self
+                      selector:@selector(handleTimer:)
+                      userInfo:nil
+                      repeats:NO] retain];
+}
+
+- (void)currencySelectorCanceled:(id)sender {
+    [timer invalidate];
+    [timer release];
+}
+
+- (void)popupMenu:(UkllPopupMenu*)popupMenu didItemSelected:(NSInteger)index {
+    [self changeCurrency:index];
+}
+
 - (void)loadView {
 	CGRect apprect = [[UIScreen mainScreen] applicationFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:apprect];
@@ -607,27 +671,59 @@ typedef struct {
 	self.view = contentView;
     [contentView release];
 
+    currencyIndex =  [[NSUserDefaults standardUserDefaults] integerForKey:kCurrencyPrefKey];
+
     typePad = [[MoneyTypePadView alloc] initWithFrame:CGRectMake(0,280-GAD_SIZE_320x50.height,320,200-64)];
     typePad.delegate = self;
-    account.currency = typePad.currency;
+    account.currency = [[MoneyCurrencyList sharedManager] currencyAtIndex:currencyIndex];
     account.unit = typePad.unit;
     [contentView addSubview:typePad];
 
-    inputField = [[MoneyDisplay alloc] initWithFrame:CGRectMake(0,0,320.0,50.0)];
+    currencySelector = [[UIButton alloc] initWithFrame:CGRectMake(0, 0,
+                                                                  kMoneyDisplayWidth,
+                                                                  kMoneyDisplayHeight)];
+    currencySelector.titleLabel.font = [UIFont systemFontOfSize:8];
+    currencySelector.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    currencySelector.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    UIImage *bimg = [[UIImage imageNamed:@"whiteButton.png"]
+                        stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0];
+    UIImage *bpimg = [[UIImage imageNamed:@"blueButton.png"]
+                         stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0];
+    [currencySelector setBackgroundImage:bimg forState:UIControlStateNormal];
+    [currencySelector setBackgroundImage:bpimg forState:UIControlStateHighlighted];
+    [currencySelector setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [currencySelector addTarget:self action:@selector(currencySelectorClicked:)
+                      forControlEvents:UIControlEventTouchUpInside];
+    [currencySelector addTarget:self action:@selector(currencySelectorPressed:)
+                      forControlEvents:UIControlEventTouchDown];
+    [currencySelector addTarget:self action:@selector(currencySelectorCanceled:)
+                      forControlEvents:UIControlEventTouchUpOutside|UIControlEventTouchCancel];
+    [contentView addSubview:currencySelector];
+
+    inputField = [[MoneyDisplay alloc] initWithFrame:CGRectMake(kMoneyDisplayWidth, 0,
+                                                                320-kMoneyDisplayWidth,
+                                                                kMoneyDisplayHeight)];
     inputField.textColor = [UIColor blackColor];
     inputField.font = [UIFont systemFontOfSize:30.0];
     inputField.text = [account text];
     inputField.userInteractionEnabled = YES;
     inputField.textAlignment = UITextAlignmentRight;
-    //inputField.backgroundColor = [UIColor colorWithRed:241/255.0 green:250/255.0 blue:202/255.0 alpha:1.0];
+    inputField.baselineAdjustment = UIBaselineAdjustmentAlignBaselines;
+    inputField.adjustsFontSizeToFitWidth = YES;
     inputField.backgroundColor = [[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"UnitCalcBack.png"]] autorelease];
-    //inputField.backgroundColor = [UIColor whiteColor];
-    //inputField.layer.cornerRadius = 10;
-    //inputField.clipsToBounds = true;
     [contentView addSubview:inputField];
 
+    currencyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 45)];
+    currencyLabel.textColor = [UIColor whiteColor];
+    currencyLabel.font = [UIFont boldSystemFontOfSize:20.0];
+    currencyLabel.adjustsFontSizeToFitWidth = YES;
+    currencyLabel.textAlignment = UITextAlignmentCenter;
+    currencyLabel.backgroundColor = [UIColor clearColor];
+    [self navigationController].navigationBar.topItem.titleView = currencyLabel;
+
     resultTable = [[UITableView alloc]
-                    initWithFrame:CGRectMake(0, 50, 320, kResultTableHeight-GAD_SIZE_320x50.height)
+                    initWithFrame:CGRectMake(0, kMoneyDisplayHeight,
+                                             320, kResultTableHeight-GAD_SIZE_320x50.height)
                     style:UITableViewStylePlain];
     resultTable.backgroundColor = [UIColor whiteColor];
     resultTable.delegate = self;
@@ -647,6 +743,16 @@ typedef struct {
                                                  target:self
                                                  action:@selector(toggleResultMode)] autorelease];
     [self setResultMode:[[NSUserDefaults standardUserDefaults] boolForKey:kModePrefKey]];
+
+    currencyDs = [[CurrencyDataSource alloc] init];
+    currencySelectMenu = [[UkllPopupMenu alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
+    currencySelectMenu.opaque = NO;
+    currencySelectMenu.dataSource = currencyDs;
+    currencySelectMenu.delegate = self;
+    currencySelectMenu.hidden = YES;
+    [[UIApplication sharedApplication].keyWindow addSubview:currencySelectMenu];
+
+    [self updateCurrencySelector];
 }
 
 // Allow the view to respond to iPhone Orientation changes
@@ -656,6 +762,10 @@ typedef struct {
 
 -(void) dealloc {
 	// add any further clean-up here
+    [currencyLabel release];
+    [currencySelectMenu release];
+    [currencySelector release];
+    [currencyDs release];
     [adView release];
     [renderer release];
     [typePad release];
