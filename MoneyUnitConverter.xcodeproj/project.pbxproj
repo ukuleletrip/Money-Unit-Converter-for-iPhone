@@ -11,6 +11,10 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		60106456142590A300F65F28 /* JapanHeader.png in Resources */ = {isa = PBXBuildFile; fileRef = 60106452142590A300F65F28 /* JapanHeader.png */; };
+		60106457142590A300F65F28 /* JapanHeader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60106453142590A300F65F28 /* JapanHeader@2x.png */; };
+		60106458142590A300F65F28 /* United-StatesHeader.png in Resources */ = {isa = PBXBuildFile; fileRef = 60106454142590A300F65F28 /* United-StatesHeader.png */; };
+		60106459142590A300F65F28 /* United-StatesHeader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60106455142590A300F65F28 /* United-StatesHeader@2x.png */; };
 		601589BB111EF0D900F955DF /* UnitCalcBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 601589BA111EF0D900F955DF /* UnitCalcBack.png */; };
 		601C43D61260A2F000DF5482 /* Australia.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43CA1260A2F000DF5482 /* Australia.png */; };
 		601C43D71260A2F000DF5482 /* Canada.png in Resources */ = {isa = PBXBuildFile; fileRef = 601C43CB1260A2F000DF5482 /* Canada.png */; };
@@ -39,6 +43,8 @@
 		60D2741D10E9CD9B00F95EB7 /* blueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 60D2741B10E9CD9B00F95EB7 /* blueButton.png */; };
 		60D2741E10E9CD9B00F95EB7 /* whiteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 60D2741C10E9CD9B00F95EB7 /* whiteButton.png */; };
 		60D274BE10ED836F00F95EB7 /* MoneyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D274BD10ED836F00F95EB7 /* MoneyModel.m */; };
+		60D5483513FF7C4C0046D70C /* CurrencyResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D5483413FF7C4C0046D70C /* CurrencyResultsCell.m */; };
+		60D5483713FF7CB50046D70C /* CurrencyResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60D5483613FF7CB50046D70C /* CurrencyResultsCell.xib */; };
 		60DF37F71272C41100A502D4 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 60DF37F61272C41100A502D4 /* Default.png */; };
 		60DF38011272C53900A502D4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60DF38001272C53900A502D4 /* Default@2x.png */; };
 		60E0259F1272C81400903432 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 60E0259E1272C81400903432 /* InfoPlist.strings */; };
@@ -110,6 +116,10 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MoneyUnitConverter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoneyUnitConverter_Prefix.pch; sourceTree = "<group>"; };
+		60106452142590A300F65F28 /* JapanHeader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = JapanHeader.png; sourceTree = "<group>"; };
+		60106453142590A300F65F28 /* JapanHeader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "JapanHeader@2x.png"; sourceTree = "<group>"; };
+		60106454142590A300F65F28 /* United-StatesHeader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "United-StatesHeader.png"; sourceTree = "<group>"; };
+		60106455142590A300F65F28 /* United-StatesHeader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "United-StatesHeader@2x.png"; sourceTree = "<group>"; };
 		601589BA111EF0D900F955DF /* UnitCalcBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnitCalcBack.png; sourceTree = "<group>"; };
 		601C43CA1260A2F000DF5482 /* Australia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Australia.png; sourceTree = "<group>"; };
 		601C43CB1260A2F000DF5482 /* Canada.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Canada.png; sourceTree = "<group>"; };
@@ -150,6 +160,9 @@
 		60D2741C10E9CD9B00F95EB7 /* whiteButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteButton.png; sourceTree = "<group>"; };
 		60D274BC10ED836F00F95EB7 /* MoneyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoneyModel.h; sourceTree = "<group>"; };
 		60D274BD10ED836F00F95EB7 /* MoneyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoneyModel.m; sourceTree = "<group>"; };
+		60D5483313FF7C4B0046D70C /* CurrencyResultsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrencyResultsCell.h; sourceTree = "<group>"; };
+		60D5483413FF7C4C0046D70C /* CurrencyResultsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrencyResultsCell.m; sourceTree = "<group>"; };
+		60D5483613FF7CB50046D70C /* CurrencyResultsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrencyResultsCell.xib; sourceTree = "<group>"; };
 		60DF37F61272C41100A502D4 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		60DF38001272C53900A502D4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		60E025A01272C82400903432 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -239,6 +252,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				60D5483313FF7C4B0046D70C /* CurrencyResultsCell.h */,
+				60D5483413FF7C4C0046D70C /* CurrencyResultsCell.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -291,6 +306,11 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				60106452142590A300F65F28 /* JapanHeader.png */,
+				60106453142590A300F65F28 /* JapanHeader@2x.png */,
+				60106454142590A300F65F28 /* United-StatesHeader.png */,
+				60106455142590A300F65F28 /* United-StatesHeader@2x.png */,
+				60D5483613FF7CB50046D70C /* CurrencyResultsCell.xib */,
 				6063080313DBFB0900E877B0 /* Taiwan.png */,
 				6063080413DBFB0900E877B0 /* Taiwan@2x.png */,
 				60DF38001272C53900A502D4 /* Default@2x.png */,
@@ -528,6 +548,11 @@
 				60F6FA201274477C00D4E1C3 /* icon@2x.png in Resources */,
 				6063080513DBFB0900E877B0 /* Taiwan.png in Resources */,
 				6063080613DBFB0900E877B0 /* Taiwan@2x.png in Resources */,
+				60D5483713FF7CB50046D70C /* CurrencyResultsCell.xib in Resources */,
+				60106456142590A300F65F28 /* JapanHeader.png in Resources */,
+				60106457142590A300F65F28 /* JapanHeader@2x.png in Resources */,
+				60106458142590A300F65F28 /* United-StatesHeader.png in Resources */,
+				60106459142590A300F65F28 /* United-StatesHeader@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -545,6 +570,7 @@
 				60F03512126330FE009E2DFD /* MoneyUnitConverterController.m in Sources */,
 				60F0352812633BEA009E2DFD /* SettingsViewController.m in Sources */,
 				6092537C13F76C94002DA3B4 /* UkllPopupMenu.m in Sources */,
+				60D5483513FF7C4C0046D70C /* CurrencyResultsCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

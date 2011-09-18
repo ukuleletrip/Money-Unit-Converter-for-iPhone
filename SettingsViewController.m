@@ -29,29 +29,18 @@
     [super dealloc];
 }
 
-- (void)loadView {
-    [super loadView];
+- (void)viewDidLoad {
+    [super viewDidLoad];
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 #pragma mark UITableViewDataSource Methods
-// Only one section in this table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    BOOL answer = YES;
-    switch (indexPath.section) {
-    case 0:
-        break;
-    case 1:
-        answer = NO;
-        break;
-    default:
-        break;
-    }
-    return answer;
+    return (indexPath.section == 0);
 }
 
 // Return how many rows in the table
@@ -62,6 +51,11 @@
         rows = [[MoneyCurrencyList sharedManager] countAll];
         break;
     case 1:
+        /*
+        rows = 2;
+        break;
+    case 2:
+        */
         rows = 1;
         break;
     default:
@@ -77,6 +71,11 @@
         title = NSLocalizedString(@"Currencies", nil);
         break;
     case 1:
+        /*
+        title = NSLocalizedString(@"Settings", nil);
+        break;
+    case 2:
+        */
         break;
     default:
         break;
@@ -88,7 +87,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *currencyCellID = @"currency-cell";
     static NSString *aboutCellID = @"about-cell";
-    UITableViewCell *cell;
+    UITableViewCell *cell = nil;
 	// Use re-usable cells to minimize the memory load
     switch (indexPath.section) {
     case 0:
@@ -108,6 +107,10 @@
         cell.accessoryType = ([currencyList isEnabled:currency]) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
         break;
     case 1:
+        /*
+        break;
+    case 2:
+        */
         cell = [tableView dequeueReusableCellWithIdentifier:aboutCellID];
         if (cell == nil) {
             cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:aboutCellID] autorelease];
@@ -150,6 +153,8 @@
         break;
     case 1:
         break;
+    case 2:
+        break;
     default:
         break;
     }
@@ -187,6 +192,11 @@
         return tableView.rowHeight;
         break;
     case 1:
+        /*
+        return tableView.rowHeight;
+        break;
+    case 2:
+        */
         return 100;
         break;
     default:

@@ -21,6 +21,7 @@
 @class GADBannerView;
 @class MoneyTypePadView;
 @class CurrencyDataSource;
+@class ResultHeaderView;
 
 @interface MoneyUnitConverterController : UIViewController <UITableViewDataSource, UITableViewDelegate, MoneyTypePadViewDelegate, GADBannerViewDelegate, UINavigationControllerDelegate, UkllPopupMenuDelegate> {
 @private
@@ -28,7 +29,6 @@
     MoneyAccount *account;
     UITableView *resultTable;
     MoneyTypePadView *typePad;
-    GADBannerView *adView;
     NSMutableArray *resultList;
     ResultRenderer *renderer;
     BOOL isAccountMode;
@@ -39,6 +39,11 @@
     NSTimer *timer;
     CurrencyDataSource *currencyDs;
     UILabel *currencyLabel;
+    // for Ad
+    GADBannerView *adView;
+    CGFloat adHeight;
+    // header
+    ResultHeaderView *header;
 }
 @property (nonatomic, readonly) MoneyCurrency *currency;
 - (void)update;

@@ -16,15 +16,75 @@
 #import "MoneyTypePadView.h"
 #import "MoneyModel.h"
 #import "SettingsViewController.h"
+#import "CurrencyResultsCell.h"
 #import "GADBannerView.h"
 
 #define kModePrefKey	@"main.accountmode"
 #define kCurrencyPrefKey	@"moneypad.currency"
-#define kResultTableHeight (230)
 #define kMoneyDisplayWidth (40)
-#define kMoneyDisplayHeight (50)
+#define kMoneyDisplayHeight (38)
+#define kResultTableHeight (280-kMoneyDisplayHeight)
 #define kCurrencyPopupWidth (200)
-#define kCurrencyLabelHeight (14)
+#define kResultHeaderHeight (18)
+
+#define kResultImgWidth		(40)
+#define kResultTxtWidth		(135)
+
+// header view
+@interface ResultHeaderView : UIView {
+@private
+    bool japaneseFirst_;
+    UIImageView *img1;
+    UIImageView *img2;
+}
+@property (nonatomic) bool japaneseFirst;
+@end
+
+@implementation ResultHeaderView
+- (void)setImages {
+    UIImageView *jImg = (japaneseFirst_)? img1 : img2;
+    UIImageView *uImg = (japaneseFirst_)? img2 : img1;
+    jImg.image = [[UIImage imageNamed:@"JapanHeader.png"]
+                     stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0];
+    uImg.image = [[UIImage imageNamed:@"United-StatesHeader.png"]
+                     stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0];
+}
+
+- (bool)japaneseFirst {
+    return japaneseFirst_;
+}
+
+- (void)setJapaneseFirst:(bool)v {
+    japaneseFirst_ = v;
+    [self setImages];
+}
+
+- (id)initWithFrame:(CGRect)rect {
+    if ((self = [super initWithFrame:rect])) {
+        japaneseFirst_ = YES;
+        img1 = [[UIImageView alloc] 
+                   initWithFrame:CGRectMake(kResultImgWidth+2, 0, 
+                                            kResultTxtWidth, CGRectGetHeight(rect))];
+        img1.contentMode = UIViewContentModeLeft;
+        img2 = [[UIImageView alloc] 
+                   initWithFrame:CGRectMake(kResultImgWidth+kResultTxtWidth+4, 0,
+                                            kResultTxtWidth, CGRectGetHeight(rect))];
+        img2.contentMode = UIViewContentModeLeft;
+        [self setImages];
+        [self addSubview:img1];
+        [self addSubview:img2];
+        self.backgroundColor = [[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"UnitCalcBack.png"]] autorelease];
+    }
+    return self;
+}
+
+-(void) dealloc {
+    [img1 release];
+    [img2 release];
+	[super dealloc];
+}
+@end
+
 
 @interface CurrencyDataSource : NSObject <UITableViewDataSource> {
 
@@ -261,9 +321,13 @@
 	return regionDic.currency.longName;
 }
 
-- (NSString*)textForRow:(NSInteger)section row:(NSInteger)row {
+- (NSString*)text1ForRow:(NSInteger)section row:(NSInteger)row {
     MoneyResult *resultDic = [resultList objectAtIndex:section];
     return [resultDic.results objectAtIndex:row];
+}
+
+- (NSString*)textForRow:(NSInteger)section row:(NSInteger)row {
+    return [self text1ForRow:section row:row];
 }
 @end
 
@@ -405,22 +469,33 @@ typedef struct {
 - (id)init {
 	if (self = [super init]) {
         self.title = NSLocalizedString(@"MainTitle", @"");
-		//self.title = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
         account = [[MoneyAccount alloc] init];
         resultList = [[NSMutableArray alloc] init];
+        adHeight = GAD_SIZE_320x50.height;
 	}
 	return self;
 }
 
+- (CGRect)getTypePadRect {
+    return CGRectMake(0, kResultTableHeight+kMoneyDisplayHeight-adHeight,
+                      320, 200-64);
+}
+
+- (CGRect)getResultTableRect {
+    CGFloat headerHeight = (isAccountMode)? 0 : kResultHeaderHeight;
+    return CGRectMake(0, kMoneyDisplayHeight+headerHeight,
+                      320, kResultTableHeight-adHeight-headerHeight);
+}
+
 - (void)adjustAdSpace:(BOOL)isAdd {
-    int moveY = (isAdd)? -GAD_SIZE_320x50.height : GAD_SIZE_320x50.height;
+    adHeight = (isAdd)? GAD_SIZE_320x50.height : 0;
 
     CGRect frame;
     frame = resultTable.frame;
-    resultTable.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height + moveY);
+    resultTable.frame = [self getResultTableRect];
 
     frame = typePad.frame;
-    typePad.frame = CGRectMake(frame.origin.x, frame.origin.y + moveY, frame.size.width, frame.size.height);
+    typePad.frame = [self getTypePadRect];
 }
 
 - (void)requestNewAd {
@@ -477,11 +552,11 @@ typedef struct {
 - (void)adViewDidReceiveAd:(GADBannerView *)_adView {
     NSLOG(@"GADBannerView: Did receive ad");
 
-    if (resultTable.frame.size.height == kResultTableHeight) {
+    if (adHeight == 0) {
         [self adjustAdSpace:YES];
     }
     CGRect frame = self.view.frame;
-    adView.frame = CGRectMake(0.0, frame.size.height - GAD_SIZE_320x50.height,
+    adView.frame = CGRectMake(0.0, frame.size.height-GAD_SIZE_320x50.height,
                               GAD_SIZE_320x50.width, GAD_SIZE_320x50.height);
     [self.view addSubview:adView];
 }
@@ -493,7 +568,7 @@ typedef struct {
     [adView removeFromSuperview];  // Not necessary since never added to a view, but doesn't hurt and is good practice
     //[adView release];
     //adView = nil;
-    if (resultTable.frame.size.height == kResultTableHeight) {
+    if (adHeight == 0) {
         return;
     }
     [self adjustAdSpace:NO];
@@ -501,6 +576,8 @@ typedef struct {
 
 
 - (void)updateResultList {
+    header.japaneseFirst = account.unit.isEnglish;
+
     MoneyCurrencyList *currencyList = [MoneyCurrencyList sharedManager];
     [renderer update];
     for (int i=0; i < [currencyList count]; i++) {
@@ -548,6 +625,23 @@ typedef struct {
 
 // Return a cell for the ith row
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+#if 1
+    static NSString *cellIdentifier = @"CurrencyResultsCell";
+	CurrencyResultsCell *cell = (CurrencyResultsCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil) {
+        UIViewController *dummyUC = [[UIViewController alloc]
+                                        initWithNibName:cellIdentifier
+                                        bundle: nil];
+        cell = (CurrencyResultsCell*)dummyUC.view;
+        [dummyUC release];
+    }
+    //cell.l1Result.font = [UIFont systemFontOfSize:18];
+    cell.l1Result.text = [renderer text1ForRow:indexPath.section row:indexPath.row];
+    //cell.l2Result.font = [UIFont systemFontOfSize:18];
+    cell.l2Result.text = [renderer text2ForRow:indexPath.section row:indexPath.row];
+    cell.rateInfo.text = [renderer detailTextForRow:indexPath.section row:indexPath.row];
+    cell.flagImage.image = [renderer imageForRow:indexPath.section row:indexPath.row];
+#else
 	// Use re-usable cells to minimize the memory load
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"any-cell"];
 	if (cell == nil) {
@@ -558,6 +652,7 @@ typedef struct {
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
     cell.detailTextLabel.text = [renderer detailTextForRow:indexPath.section row:indexPath.row];
     cell.imageView.image = [renderer imageForRow:indexPath.section row:indexPath.row];
+#endif
 	return cell;
 }
 
@@ -571,6 +666,12 @@ typedef struct {
 }
 
 - (void)goSettings {
+    UIBarButtonItem *newBackButton = 
+        [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Back", nil)
+                                  style:UIBarButtonItemStyleBordered
+                                  target:nil action:nil] autorelease];
+    self.navigationItem.backBarButtonItem = newBackButton;
+
     SettingsViewController *settingsViewController = [[SettingsViewController alloc] init];
     [[self navigationController] pushViewController:settingsViewController animated:YES];
     [settingsViewController release];
@@ -583,10 +684,12 @@ typedef struct {
         renderer = [[BasicRenderer alloc] init];
         resultTable.rowHeight = 24;
         self.navigationItem.leftBarButtonItem.title = NSLocalizedString(@"Currency",nil);
+        resultTable.frame = [self getResultTableRect];
     } else {
         renderer = [[ConvertRenderer alloc] init];
         resultTable.rowHeight = 44;
         self.navigationItem.leftBarButtonItem.title = NSLocalizedString(@"Account",nil);
+        resultTable.frame = [self getResultTableRect];
     }
     renderer.account = account;
     renderer.resultList = resultList;
@@ -608,7 +711,6 @@ typedef struct {
     currencyLabel.text = account.currency.longName;
     [currencySelector setImage:account.currency.image forState:UIControlStateNormal];
     [currencySelector setTitle:@"▼" forState:UIControlStateNormal];
-    //currencySelector.imageEdgeInsets = UIEdgeInsetsMake(18, 25, 0, 0);
 }
 
 - (void)changeCurrency:(NSInteger)newCurrencyIndex {
@@ -664,7 +766,9 @@ typedef struct {
     [self changeCurrency:index];
 }
 
-- (void)loadView {
+//- (void)loadView {
+- (void)viewDidLoad {
+    [super viewDidLoad];
 	CGRect apprect = [[UIScreen mainScreen] applicationFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:apprect];
 	contentView.backgroundColor = [UIColor darkGrayColor];
@@ -673,7 +777,7 @@ typedef struct {
 
     currencyIndex =  [[NSUserDefaults standardUserDefaults] integerForKey:kCurrencyPrefKey];
 
-    typePad = [[MoneyTypePadView alloc] initWithFrame:CGRectMake(0,280-GAD_SIZE_320x50.height,320,200-64)];
+    typePad = [[MoneyTypePadView alloc] initWithFrame:[self getTypePadRect]];
     typePad.delegate = self;
     account.currency = [[MoneyCurrencyList sharedManager] currencyAtIndex:currencyIndex];
     account.unit = typePad.unit;
@@ -721,10 +825,12 @@ typedef struct {
     currencyLabel.backgroundColor = [UIColor clearColor];
     [self navigationController].navigationBar.topItem.titleView = currencyLabel;
 
-    resultTable = [[UITableView alloc]
-                    initWithFrame:CGRectMake(0, kMoneyDisplayHeight,
-                                             320, kResultTableHeight-GAD_SIZE_320x50.height)
-                    style:UITableViewStylePlain];
+    header = [[ResultHeaderView alloc] initWithFrame:CGRectMake(0, kMoneyDisplayHeight,
+                                                                320, kResultHeaderHeight)];
+    [contentView addSubview:header];
+
+    resultTable = [[UITableView alloc] initWithFrame:[self getResultTableRect]
+                                       style:UITableViewStylePlain];
     resultTable.backgroundColor = [UIColor whiteColor];
     resultTable.delegate = self;
     resultTable.dataSource = self;
@@ -762,6 +868,7 @@ typedef struct {
 
 -(void) dealloc {
 	// add any further clean-up here
+    [header release];
     [currencyLabel release];
     [currencySelectMenu release];
     [currencySelector release];
