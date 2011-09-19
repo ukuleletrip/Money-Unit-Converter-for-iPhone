@@ -55,6 +55,7 @@
     UIImage *image;
     NSString *imageName;
     NSString *updated;
+    NSDecimalNumber *rateCache;
 }
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *shortName;

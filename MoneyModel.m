@@ -211,17 +211,28 @@ const MoneyUnitInit units[] = {
 @implementation MoneyCurrency
 @synthesize name,shortName,image,updated;
 @dynamic longName;
+- (void)exchangeUpdated:(NSNotification*)notification {
+    NSLOG_ENTRY;
+    [rateCache release];
+    rateCache = nil;
+}
+
 - (id)initWithName:(NSString*)n shortName:(NSString*)sn imageName:(NSString*)imgName  {
     if ((self = [super init]) != nil) {
         name = [n retain];
         shortName = [sn retain];
         imageName = [imgName retain];
         updated = @"";
+        rateCache = nil;
+        [[NSNotificationCenter defaultCenter]
+            addObserver:self selector:@selector(exchangeUpdated:)
+            name:kCurrencyExchangeUpdated object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
+    [rateCache release];
     [name release];
     [shortName release];
     [imageName release];
@@ -243,6 +254,9 @@ const MoneyUnitInit units[] = {
 }
 
 - (NSDecimalNumber*)exchangeForDollar {
+    if (rateCache != nil) {
+        return rateCache;
+    }
     NSDecimalNumber *v = [[CurrencyExchange sharedManager] convert:[NSDecimalNumber decimalNumberWithString:@"1"] From:@"USD" To:name];
     NSString *ud = [[CurrencyExchange sharedManager] updated:name];
     if (ud != nil) {
@@ -259,13 +273,13 @@ const MoneyUnitInit units[] = {
         [[NSUserDefaults standardUserDefaults] setObject:s
                                                forKey:[NSString stringWithFormat:kExchangePrefKey,name]];
     }
+    rateCache = [v retain];
     return v;
 }
 
 - (NSString*)longName {
     return NSLocalizedString(name, nil);
 }
-
 @end
 
 // private class

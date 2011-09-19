@@ -151,6 +151,7 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
         }
     }
     [table removeAllObjects];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCurrencyExchangeUpdated object:self];
     [self startLoadingXML];
 }
 

@@ -26,3 +26,4 @@
 - (NSString*)updated:(NSString*)name;
 @end
 
+#define kCurrencyExchangeUpdated @"currency.exchange.update"
