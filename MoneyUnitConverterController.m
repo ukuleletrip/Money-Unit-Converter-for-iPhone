@@ -30,6 +30,8 @@
 #define kResultImgWidth		(40)
 #define kResultTxtWidth		(135)
 
+//#define DISABLE_AD	(1)
+
 // header view
 @interface ResultHeaderView : UIView {
 @private
@@ -471,7 +473,11 @@ typedef struct {
         self.title = NSLocalizedString(@"MainTitle", @"");
         account = [[MoneyAccount alloc] init];
         resultList = [[NSMutableArray alloc] init];
+#if defined(DISABLE_AD)
+        adHeight = 0;
+#else
         adHeight = GAD_SIZE_320x50.height;
+#endif
 	}
 	return self;
 }
@@ -837,7 +843,9 @@ typedef struct {
     resultTable.rowHeight = (isAccountMode)? 24 : 44;
     [resultTable reloadData];
     [contentView addSubview:resultTable];
+#if !defined(DISABLE_AD)
     [self requestNewAd];
+#endif
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc]
                                                   initWithTitle:NSLocalizedString(@"Settings", nil)
                                                   style:UIBarButtonItemStylePlain
