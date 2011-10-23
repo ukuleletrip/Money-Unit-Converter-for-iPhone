@@ -12,6 +12,8 @@
 ***********************************************************************/
 #import <UIKit/UIKit.h>
 
+#define kCurrencyListUpdated @"currency.list.updated"
+
 //typedef unsigned long long MoneyInteger;
 #define FINANCIAL	(0x01)
 #define ENGLISH		(0x02)
@@ -63,6 +65,7 @@
 @property (nonatomic, readonly) NSString *longName;
 @property (nonatomic, readonly) UIImage *image;
 @property (nonatomic, copy) NSString *updated;
+- (void)clearCache;
 @end
 
 @interface MoneyCurrencyList : NSObject {

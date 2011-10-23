@@ -211,8 +211,7 @@ const MoneyUnitInit units[] = {
 @implementation MoneyCurrency
 @synthesize name,shortName,image,updated;
 @dynamic longName;
-- (void)exchangeUpdated:(NSNotification*)notification {
-    NSLOG_ENTRY;
+- (void)clearCache {
     [rateCache release];
     rateCache = nil;
 }
@@ -224,9 +223,6 @@ const MoneyUnitInit units[] = {
         imageName = [imgName retain];
         updated = @"";
         rateCache = nil;
-        [[NSNotificationCenter defaultCenter]
-            addObserver:self selector:@selector(exchangeUpdated:)
-            name:kCurrencyExchangeUpdated object:nil];
     }
     return self;
 }
@@ -272,8 +268,9 @@ const MoneyUnitInit units[] = {
         NSString *s = [v descriptionWithLocale:dic];
         [[NSUserDefaults standardUserDefaults] setObject:s
                                                forKey:[NSString stringWithFormat:kExchangePrefKey,name]];
+        // cache it only when it was valid.
+        rateCache = [v retain];
     }
-    rateCache = [v retain];
     return v;
 }
 
@@ -400,6 +397,14 @@ const MoneyCurrencyInit currencies[] = {
     return nil;
 }
 
+- (void)exchangeUpdated:(NSNotification*)notification {
+    NSLOG_ENTRY;
+    for (MoneyCurrencyItem *item in _list) {
+        [item.currency clearCache];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCurrencyListUpdated object:self];
+}
+
 // public methods
 - (id)init {
     if ((self = [super init]) != nil) {
@@ -434,6 +439,10 @@ const MoneyCurrencyInit currencies[] = {
             }
         }
         [self updateEnabledList];
+
+        [[NSNotificationCenter defaultCenter]
+            addObserver:self selector:@selector(exchangeUpdated:)
+            name:kCurrencyExchangeUpdated object:nil];
     }
     return self;
 }

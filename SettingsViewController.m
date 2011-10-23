@@ -93,7 +93,7 @@
     case 0:
         cell = [tableView dequeueReusableCellWithIdentifier:currencyCellID];
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:currencyCellID] autorelease];
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:currencyCellID] autorelease];
             //cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         //cell.showsReorderControl = YES;
@@ -113,7 +113,7 @@
         */
         cell = [tableView dequeueReusableCellWithIdentifier:aboutCellID];
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:aboutCellID] autorelease];
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:aboutCellID] autorelease];
             //cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.text = NSLocalizedString(@"AboutThisApp", nil);
             cell.textLabel.font = [UIFont systemFontOfSize:14];

@@ -467,6 +467,10 @@ typedef struct {
 }
 @end
 
+@interface MoneyUnitConverterController()
+- (void)exchangeUpdated:(NSNotification*)notification;
+@end
+
 @implementation MoneyUnitConverterController
 - (id)init {
 	if (self = [super init]) {
@@ -478,6 +482,9 @@ typedef struct {
 #else
         adHeight = GAD_SIZE_320x50.height;
 #endif
+        [[NSNotificationCenter defaultCenter]
+            addObserver:self selector:@selector(exchangeUpdated:)
+            name:kCurrencyListUpdated object:nil];
 	}
 	return self;
 }
@@ -591,6 +598,10 @@ typedef struct {
         [renderer setResultForCurrency:currency];
     }
     [resultTable reloadData];
+}
+
+- (void)exchangeUpdated:(NSNotification*)notification {
+    [self updateResultList];
 }
 
 #pragma mark MoneyTypePadViewDelegate Methods

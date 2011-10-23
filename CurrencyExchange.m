@@ -36,7 +36,7 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
     return NSUIntegerMax;  //denotes an object that cannot be released
 }
  
-- (void)release {
+- (oneway void)release {
     //do nothing
 }
  
@@ -64,6 +64,8 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
 }
 
 - (void)stopLoadingXMLWithResult:(BOOL)result {
+    BOOL needsNotify = NO;
+
     [self didStopNetworking];
     if (loader != nil) {
         [loader cancel];
@@ -78,9 +80,14 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
 
         [lastUpdate release];
         lastUpdate = [[NSDate date] retain];
+        needsNotify = YES;
     }
     [xmlData release];
     xmlData = nil;
+
+    if (needsNotify) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kCurrencyExchangeUpdated object:self];
+    }
 }
 
 - (void)connection:(NSURLConnection*)theConnection didReceiveResponse:(NSURLResponse*)response {
@@ -124,9 +131,10 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
                                            updated, @"updated",
                                            nil];
         @synchronized(table) {
+            [table removeObjectForKey:currency];
             [table setValue:data forKey:currency];
         }
-        NSLOG(@"this is it! %@ %@ %@", currency, rate, updated);
+        //NSLOG(@"updated currency %@ %@", currency, [table description]);
     }
 }
 
@@ -150,8 +158,8 @@ static CurrencyExchange *sharedCurrencyExchange = nil; // for singleton
             return;
         }
     }
-    [table removeAllObjects];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCurrencyExchangeUpdated object:self];
+    //[table removeAllObjects];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCurrencyExchangeWillUpdate object:self];
     [self startLoadingXML];
 }
 
